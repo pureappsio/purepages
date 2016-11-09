@@ -1,0 +1,151 @@
+<template name="admin">
+
+{{#if isAdmin}}
+
+<div class='admin-panel'>
+
+<h2>Admin Panel</h2>
+
+<nav aria-label="...">
+  <ul class="pager">
+    <li><a class='section-selector' id="brand">Brands</a></li>
+    <li><a class='section-selector' id="pages">Pages</a></li>
+    <li><a class='section-selector' id="integrations">Integrations</a></li>
+  </ul>
+</nav>
+
+{{#if showSection 'brand'}}
+
+<h3>Brands</h3>
+
+<div class='row'>
+
+  <div class='col-md-2'>
+    <input id='brand-name' type='text' class='form-control' placeholder="Brand name ...">
+  </div>
+  <div class='col-md-2'>
+    <select id='email-list' type='text' class='form-control'>
+      
+    </select>
+  </div>
+  <div class='col-md-2'>
+    <select id='cart-id' type='text' class='form-control'>
+      
+    </select>
+  </div>
+  <div class='col-md-2'>
+    {{> uploadForm}}
+  </div>
+  <div class='col-md-3'>
+    <button id='create-brand' class='btn btn-block btn-primary'>Create Brand</button>
+  </div>
+
+</div>
+
+{{#each brands}}
+  {{> brandListing}}
+{{/each}}
+
+{{/if}}
+
+{{#if showSection 'pages'}}
+
+<h3>Pages</h3>
+
+<div class='row'>
+
+  <div class='col-md-2'>
+    <input class='form-control' id='page-name' placeholder="Page name ...">
+  </div>
+  
+  <div class='col-md-2'>
+    <input class='form-control' id='page-url' placeholder="Page url ...">
+  </div>
+
+  <div class='col-md-2'>
+    <select class='form-control' id='brand-id'>
+      {{#each brands}}
+        {{> brandSelect}}
+      {{/each}}
+    </select>
+  </div>
+
+  <div class='col-md-2'>
+    <select class='form-control' id='page-type'>
+      <option value='leadgen'>Lead Generation</option>
+      <option value='salespage'>Sales Page</option>
+    </select>
+  </div>
+
+  <div class='col-md-2'>
+    <select class='form-control' id='parameter-id'>
+    </select>
+  </div>
+  <div class='col-md-2'>
+    <button id='create-page' class='btn btn-block btn-primary'>Create New Page</button>
+  </div>
+
+</div>
+
+{{#each pages}}
+  {{> pageListing}}
+{{/each}}
+
+{{/if}}
+
+{{#if showSection 'integrations'}}
+
+<h3>API Key</h3>
+
+<div class='row'>
+
+  <div class='col-md-3'>
+    <button id='generate-key' class='btn btn-block btn-primary'>Generate API Key</button>
+  </div>
+
+  <div class='col-md-3'>
+    <span id='api-key'>{{key}}</span>
+  </div>
+
+</div>
+
+<h3>Add Integration</h3>
+
+<div class='row'>
+
+  <div class='col-md-1'>Type: </div>
+
+  <div class='col-md-2'>
+    <select class='form-control' id='integration-type'>
+      <option value='puremail'>PureMail</option>
+      <option value='purecart'>PureCart</option>
+    </select>
+  </div>
+
+  <div class='col-md-1'>URL: </div>
+
+  <div class='col-md-3'><input class='form-control' id='integration-url'></div>
+
+  <div class='col-md-1'>Key: </div>
+
+  <div class='col-md-2'><input class='form-control' id='integration-key'></div>
+
+  <div class='col-md-2'>
+    <button id='add-integration' class='btn btn-block btn-primary'>Link</button>
+  </div>
+
+</div>
+
+<h3>Integrations</h3>
+
+{{#each integrations}}
+  {{> integration}}
+{{/each}}
+
+{{/if}}
+
+</div>
+
+{{/if}}
+
+</template>

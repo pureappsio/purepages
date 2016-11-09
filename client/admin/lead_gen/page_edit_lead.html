@@ -1,0 +1,100 @@
+<template name="pageEditLead">
+    <h2>Editing Page {{name}}</h2>
+    <h3>Brand</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>
+            <select class='form-control' id='brand-id'>
+                {{#each brands}} {{> brandSelect}} {{/each}}
+            </select>
+        </div>
+    </div>
+    <h3>Sequence</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>
+            <select class='form-control' id='sequence-id'>
+            </select>
+        </div>
+    </div>
+    <h3>Top Header Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='header-title' type='text' class='form-control' value='{{header.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Subtitle:</div>
+        <div class='col-md-3'>
+            <input id='header-subtitle' type='text' class='form-control' value='{{header.subtitle}}'>
+        </div>
+    </div>
+    <h3>Main Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Main text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='main-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Email message text:</div>
+        <div class='col-md-3'>
+            <input id='main-email-message' type='text' class='form-control' value='{{main.emailMessage}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Element title:</div>
+        <div class='col-md-3'>
+            <input id='element-title' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>Element content:</div>
+        <div class='col-md-3'>
+            <input id='element-content' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each elements}} {{> elementListing}} {{/each}}
+    <h3>Message Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Picture:</div>
+        <div class='col-md-3'>
+            <div>{{> uploadForm}}</div>
+            {{#if image}}
+            <div><img class='img-responsive' src='{{imageLink}}'></div>{{/if}}
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Main message:</div>
+        <div class='col-md-6'>
+            <input id='message-message' type='text' class="summernote">
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Signature message:</div>
+        <div class='col-md-6'>
+            <input id='signature-message' type='text' class="summernote">
+        </div>
+    </div>
+    <h3>Bottom Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Main text:</div>
+        <div class='col-md-3'>
+            <input id='bottom-text' type='text' class='form-control' value='{{bottom.message}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Button text:</div>
+        <div class='col-md-3'>
+            <input id='bottom-button' type='text' class='form-control' value='{{bottom.button}}'>
+        </div>
+    </div>
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+</template>

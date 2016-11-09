@@ -1,0 +1,13 @@
+<template name="pageEdit">
+
+	<div class='page-edit'>
+   
+    {{#if isLeadGen}}
+        {{> pageEditLead}}
+    {{else}}
+        {{> pageEditSales}}
+    {{/if}}
+
+    </div>
+
+</template>

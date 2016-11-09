@@ -1,0 +1,41 @@
+<template name="brandEdit">
+    <div id='brand-edit'>
+        <h3>Editing Brand {{name}}</h3>
+        <div class='row voffset15'>
+            <div class='col-md-2'>Name:</div>
+            <div class='col-md-3'>
+                <input id='brand-name' type='text' class='form-control' value='{{name}}'>
+            </div>
+        </div>
+        <div class='row voffset15'>
+            <div class='col-md-2'>Picture:</div>
+            <div class='col-md-3'>
+                <div>{{> uploadForm}}</div>
+                {{#if image}}
+                <div><img class='img-responsive' src='{{imageLink}}'></div>{{/if}}
+            </div>
+        </div>
+        <div class='row voffset15'>
+            <div class='col-md-2'>List:</div>
+            <div class='col-md-2'>
+                <select id='email-list' type='text' class='form-control'>
+                </select>
+            </div>
+        </div>
+        <div class='row voffset15'>
+            <div class='col-md-2'>Cart:</div>
+            <div class='col-md-2'>
+                <select id='cart-id' type='text' class='form-control'>
+                </select>
+            </div>
+        </div>
+        <div class='row voffset30'>
+            <div class='col-md-3'>
+                <button id='save-brand' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+            </div>
+            <div class='col-md-3'>
+                <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+            </div>
+        </div>
+    </div>
+</template>

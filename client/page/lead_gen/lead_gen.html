@@ -1,0 +1,71 @@
+<template name="leadGen">
+    <!-- Main picture -->
+    <div class='row'>
+        <div class='col-md-1'></div>
+        <div class='col-md-3'>
+            <img class='img-responsive' src='{{brandPicture}}'>
+        </div>
+    </div>
+    <!-- Top heading row -->
+    <div class='row lead-gen-top-row'>
+        <div class='col-md-1'></div>
+        <div class='col-md-4'>
+            <div class='lead-gen-top-row-title'>{{header.title}}</div>
+            <div class='lead-gen-top-row-subtitle'>{{header.subtitle}}</div>
+        </div>
+        <div class='col-md-2'></div>
+        <div class='col-md-3'><img class='img-responsive' src='/lead_gen_document.png'></div>
+    </div>
+    <!-- Middle row -->
+    <div class='row lead-gen-middle-row'>
+        <div class='col-md-1'></div>
+        <div class='col-md-5'>
+            <div class="col-md-12">
+                <div class='lead-gen-middle-main-text'>
+                    {{{main.text}}}
+                </div>
+                {{#each elements}}
+                    {{> element}}
+                {{/each}}
+            </div>
+        </div>
+        <div class='col-md-5'>
+            <div class="col-md-12">
+                <div class='lead-gen-middle-question'>{{main.emailMessage}}</div>
+                <div class='lead-gen-middle-email'>
+                    <input id='email' type='text' class='form-control' placeholder="Your email...">
+                </div>
+                <div class='lead-gen-middle-button'>
+                    <button id='submit' class='btn btn-block btn-warning'>DOWNLOAD NOW</button>
+                </div>
+                <div class='lead-gen-middle-disclaimer'>I will never send you spam. Unsubscribe at any time.</div>
+            </div>
+        </div>
+    </div>
+    <!-- Message row -->
+    <div class='row lead-gen-message-row'>
+        <div class='col-md-1'></div>
+        <div class='col-md-2'>
+            <img class='img-responsive' src='{{imageLink}}'>
+        </div>
+        <div class='col-md-8'>
+            <div class="col-md-12 lead-gen-message-main">
+                <div>{{{message.message}}}</div>
+                <br>
+                <div>{{{message.signature}}}</div>
+            </div>
+        </div>
+    </div>
+    <!-- Last row -->
+    <div class='row lead-gen-last-row'>
+        <div class='col-md-1'></div>
+        <div class='col-md-10'>
+            <div class='lead-gen-last-text'>{{bottom.message}}</div>
+            <div>
+            <div class='lead-gen-last-button'>
+                <button id='download' class='btn btn-warning'>{{bottom.button}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

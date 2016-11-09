@@ -1,0 +1,277 @@
+<template name="pageEditSales">
+    <h2>Editing Sales Page {{name}}</h2>
+    <!-- Brand -->
+    <h3>Brand</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>
+            <select class='form-control' id='brand-id'>
+                {{#each brands}} {{> brandSelect}} {{/each}}
+            </select>
+        </div>
+    </div>
+    <!-- Products -->
+    <h3>Products</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>
+            <select class='form-control' id='product-id'>
+            </select>
+        </div>
+    </div>
+    <!-- Save -->
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+    <!-- Header -->
+    <h3>Top Header Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='header-title' type='text' class='form-control' value='{{header.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Header background:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="header"}}
+        </div>
+    </div>
+    <!-- What -->
+    <h3>What is Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='what-title' type='text' class='form-control' value='{{what.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='what-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <!-- Save -->
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+    <!-- What's included -->
+    <h3>What is Included Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='included-title' type='text' class='form-control' value='{{included.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='included-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Included element content:</div>
+        <div class='col-md-3'>
+            <input id='included-element-content' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-included' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each includedElements}} {{> elementListing}} {{/each}}
+    <!-- Benefits -->
+    <h3>Benefits Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='benefits-title' type='text' class='form-control' value='{{benefits.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='benefits-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Benefit element content:</div>
+        <div class='col-md-3'>
+            <input id='benefit-element-content' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-benefit' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each benefitElements}} {{> elementListing}} {{/each}}
+    <!-- Save -->
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+    <!-- Modules -->
+    <h3>Modules Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='modules-title' type='text' class='form-control' value='{{modules.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Modules pictures:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="modules"}}
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Module element content:</div>
+        <div class='col-md-3'>
+            <input id='module-element-title' type='text' class='form-control'>
+        </div>
+        <div class='col-md-3'>
+            <input id='module-element-content' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-module' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each moduleElements}} {{> elementListing}} {{/each}}
+    <!-- Bonuses -->
+    <h3>Bonuses Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='bonuses-title' type='text' class='form-control' value='{{bonuses.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Bonus element content:</div>
+        <div class='col-md-3'>
+            <input id='bonus-element-title' type='text' class='form-control'>
+        </div>
+        <div class='col-md-3'>
+            <input id='bonus-element-content' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-bonus' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each bonusElements}} {{> elementListing}} {{/each}}
+    <!-- Save -->
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+    <!-- Who -->
+    <h3>Who Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='who-title' type='text' class='form-control' value='{{who.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Who element content:</div>
+        <div class='col-md-3'>
+            <input id='who-element-content' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-who' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each whoElements}} {{> elementListing}} {{/each}}
+    <!-- Message -->
+    <h3>Message Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Message:</div>
+        <div class='col-md-6'>
+            <input type="text" id='message-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <!-- Save -->
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+    <!-- FAQ -->
+    <h3>FAQ Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='faq-title' type='text' class='form-control' value='{{faq.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>FAQ element content:</div>
+        <div class='col-md-3'>
+            <input id='faq-element-title' type='text' class='form-control'>
+        </div>
+        <div class='col-md-3'>
+            <input id='faq-element-content' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-faq' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each faqElements}} {{> elementListing}} {{/each}}
+    <!-- Get started -->
+    <h3>Get Started Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='started-title' type='text' class='form-control' value='{{started.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='started-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <!-- Payment -->
+    <h3>Payment Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Payment background picture:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="payment"}}
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Payment element content:</div>
+        <div class='col-md-3'>
+            <input id='payment-element-content' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-payment' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each paymentElements}} {{> elementListing}} {{/each}}
+    <!-- Save -->
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+</template>
