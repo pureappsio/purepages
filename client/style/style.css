@@ -149,3 +149,9 @@ body {
 	margin-top: 25px;
 	text-align: center;
 }
+
+.brand-title {
+	font-size: 26px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}

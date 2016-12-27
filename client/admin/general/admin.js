@@ -19,7 +19,7 @@ Template.admin.rendered = function() {
 
     });
 
-     // Init lists
+    // Init lists
     Meteor.call('getEmailLists', function(err, lists) {
 
         $('#email-list').empty();
@@ -37,6 +37,17 @@ Template.admin.rendered = function() {
 }
 
 Template.admin.events({
+
+    'click #copy-page': function() {
+
+        // Insert Metas
+        Meteor.call('copyPage', {
+            originPageId: $('#origin-page').val(),
+            targetTitle: $('#target-page-title').val(),
+            targetUrl: $('#target-page-url').val()
+        });
+
+    },
 
     'change #page-type, click #page-type': function() {
 
@@ -63,7 +74,7 @@ Template.admin.events({
                 });
 
             }
-            if ($('#page-type :selected').val() == 'salespage') {
+            if ($('#page-type :selected').val() == 'salespage' || $('#page-type :selected').val() == 'tripwire') {
 
                 Meteor.call('getCartProducts', brand.cartId, function(err, products) {
 
@@ -95,10 +106,9 @@ Template.admin.events({
             userId: Meteor.user()._id
         }
 
-        if (this.model == 'salespage') {
+        if (this.model == 'salespage' || this.model == 'tripwire') {
             page.sequenceId = $('#parameter-id :selected').val();
-        }
-        else {
+        } else {
             page.productId = $('#parameter-id :selected').val();
         }
 
@@ -138,6 +148,14 @@ Template.admin.events({
         };
         Meteor.call('addIntegration', accountData);
 
+    },
+    'click #flush-cache': function() {
+
+        Meteor.call('flushCache');
+
+    },
+    'click #save-pixel': function() {
+        Meteor.call('saveFacebookPixel', $('#pixel-id').val());
     }
 
 });
@@ -160,6 +178,9 @@ Template.admin.helpers({
     },
     key: function() {
         return Meteor.user().apiKey;
+    },
+    pixel: function() {
+        return Meteor.user().pixelId;
     }
 
 });

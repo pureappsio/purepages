@@ -96,7 +96,7 @@
                     <div class='row'>
                         <div class='col-md-4'></div>
                         <div class='col-md-4'>
-                            <div class='checkout-middle' id='checkout'>Enroll Now!</div>
+                            <div class='checkout-middle' id='checkout'> {{#if langEN}}Enroll Now!{{else}}S'inscrire maintenant!{{/if}}</div>
                         </div>
                     </div>
                 </div>
@@ -126,11 +126,17 @@
             <div class='row'>
                 <div class='col-md-2'></div>
                 <div class='col-md-8 sales-row sales-faq'>
-                    <div class='sales-section-title'>How about a guarantee?</div>
+                    <div class='sales-section-title'>{{#if langEN}}How about a guarantee?{{else}}Satisfait ou remboursé{{/if}}</div>
                     <div class='sales-section-content'>
                         <div class='row'>
-                            <div class='col-md-3'><img class='img-responsive' src='/30_guarantee.png'></div>
-                            <div class='col-md-9'>As for all my products, this product comes with a 30-day 100% money back guarantee, with no questions asked. I truly believe in the quality of the products I am creating, and we want to make this purchase risk-free for you. So if at any point after purchasing the product you are not satisfied, just let me know under 30 days and you will get a full refund.</div>
+                            <div class='col-md-3'>
+                                {{#if langEN}}
+                                <img class='img-responsive' src='/30_guarantee.png'> {{else}}
+                                <img class='img-responsive' src='/30_guarantee_fr.png'> {{/if}}
+                            </div>
+                            <div class='col-md-9'>
+                                {{#if langEN}} As for all my products, this product comes with a 30-day 100% money back guarantee, with no questions asked. I truly believe in the quality of the products I am creating, and we want to make this purchase risk-free for you. So if at any point after purchasing the product you are not satisfied, just let me know under 30 days and you will get a full refund. {{else}} Comme pour tout mes produits, cette formation comporte une garantie satisfait ou remboursé sous 30 jours, sans avoir besoin de donner de raison. Je crois vraiment à la qualité de cette formation, et je veux que cet achat soit totalement sans risque pour vous. Si vous achetez cette formation et que vous n’êtes pas satisfait, envoyez moi un message sous 30 jours pour un remboursement intégral. {{/if}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -139,7 +145,13 @@
             <div class='row'>
                 <div class='col-md-2'></div>
                 <div class='col-md-8 sales-row sales-payment'>
-                    <div class='sales-section-title'>Click on the button below to get started</div>
+                    <div class='sales-section-title'>
+                        {{#if langEN}}
+                            Click on the button below to get started
+                        {{else}}
+                            Cliquez sur le bouton ci-dessous pour commencer 
+                        {{/if}}
+                    </div>
                     <div class='sales-section-content'>
                         <div class='row'>
                             <div class='col-md-3'></div>
@@ -147,7 +159,9 @@
                                 <div class='sales-product-name'></div>
                                 <div class='sales-price'></div>
                                 {{#each paymentElements}} {{> paymentElement}} {{/each}}
-                                <div class='checkout-end' id='checkout'>Enroll Now!</div>
+                                <div class='checkout-end' id='checkout'>
+                                {{#if langEN}}Enroll Now!{{else}}S'inscrire maintenant!{{/if}}
+                                </div>
                             </div>
                         </div>
                     </div>

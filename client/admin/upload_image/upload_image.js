@@ -6,9 +6,48 @@ Template.uploadForm.helpers({
   currentUpload: function () {
     return Template.instance().currentUpload.get();
   }
+
+  // files: function(){
+  //      return S3.collection.find();
+  // },
+  // uploadedImage: function() {
+  //   if (Session.get('uploadedFile')) {
+  //     return Session.get('uploadedFile');
+  //   }
+  //   else {
+  //     return "default.jpg";
+  //   }
+  // },
+  // imageUploaded: function() {
+  //   if (Session.get('uploadedFile')) {
+  //     return true;
+  //   }
+  //   else {
+  //     return false;
+  //   }
+  // }
+
 });
 
 Template.uploadForm.events({
+
+
+  // "click button.upload": function() {
+
+  //     // Get files
+  //     var files = $("input.file_bag")[0].files
+
+  //     // Upload
+  //     S3.upload({
+  //       files: files,
+  //       path: "pictures"
+  //     }, function(e,r){
+  //       console.log('Callback: ');
+  //       console.log(r);
+  //       Session.set('uploadedFile', r.url);
+  //     });
+  // }
+
   'change #fileInput': function (e, template) {
 
     if (this.imageId) {

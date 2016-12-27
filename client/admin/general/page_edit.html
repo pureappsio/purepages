@@ -2,10 +2,20 @@
 
 	<div class='page-edit'>
    
-    {{#if isLeadGen}}
+    {{#if isPage 'leadgen'}}
         {{> pageEditLead}}
-    {{else}}
+    {{/if}}
+    {{#if isPage 'salespage'}}
         {{> pageEditSales}}
+    {{/if}}
+    {{#if isPage 'thankyou'}}
+        {{> pageEditThankYou}}
+    {{/if}}
+    {{#if isPage 'closed'}}
+        {{> pageEditThankYou}}
+    {{/if}}
+    {{#if isPage 'tripwire'}}
+        {{> pageEditTripwire}}
     {{/if}}
 
     </div>

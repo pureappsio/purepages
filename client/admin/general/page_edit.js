@@ -1,8 +1,7 @@
 Template.pageEdit.helpers({
 
-    isLeadGen: function() {
-        console.log(this);
-        if (this.model == 'leadgen') {
+    isPage: function(pageType) {
+        if (this.model == pageType) {
             return true;
         }
         else {

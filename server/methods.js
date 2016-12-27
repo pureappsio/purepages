@@ -1,5 +1,56 @@
 Meteor.methods({
 
+    copyPage: function(data) {
+
+        // Get page
+        var page = Pages.findOne(data.originPageId);
+
+        // Get all elements linked to page
+        var elements = Elements.find({pageId: page._id}).fetch();
+
+        // Create new page
+        page.url = data.targetUrl;
+        page.name = data.targetTitle;
+        delete page._id;
+
+        // Insert
+        var pageId = Pages.insert(page);
+
+        // Create copy of elements
+        for (i in elements) {
+
+            var element = elements[i];
+            element.pageId = pageId;
+            delete element._id;
+
+            Elements.insert(element)
+        }
+
+    },
+
+    getBrandPages: function(brandId) {
+
+        return Pages.find({brandId: brandId}).fetch();
+
+    },
+    getBrandLanguage: function(brandId) {
+
+        // Get brand
+        var brand = Brands.findOne(brandId);
+
+        if (brand.language) {
+            return brand.language;
+        } else {
+            return 'en';
+        }
+
+    },
+    setElementNumber: function(number, elementId) {
+
+        Elements.update(elementId, { $set: { number: number } });
+
+        Meteor.call('flushCache');
+    },
     redirectCheckout: function(pageId) {
 
         // Get page
@@ -21,11 +72,15 @@ Meteor.methods({
     },
     createElement: function(element) {
 
+        Meteor.call('flushCache');
+
         Elements.insert(element);
 
     },
 
     removeElement: function(elementId) {
+
+        Meteor.call('flushCache');
 
         Elements.remove(elementId);
 
@@ -57,6 +112,8 @@ Meteor.methods({
         console.log(brand);
 
         Brands.update(brand._id, { $set: brand });
+
+        Meteor.call('flushCache');
 
     },
 
@@ -106,7 +163,7 @@ Meteor.methods({
     },
     getProductData: function(pageId) {
 
-         // Get page
+        // Get page
         var page = Pages.findOne(pageId);
 
         // Get brand
@@ -116,7 +173,7 @@ Meteor.methods({
         var integration = Integrations.findOne(brand.cartId);
 
         // Get product data
-        var url = "https://" + integration.url + "/api/products/"+ page.productId + "?key=" + integration.key;
+        var url = "https://" + integration.url + "/api/products/" + page.productId + "?key=" + integration.key;
         var answer = HTTP.get(url);
         return answer.data.product;
 
@@ -140,11 +197,32 @@ Meteor.methods({
 
     },
 
+    getListTags: function(list) {
+
+        // Get integration
+        if (Integrations.findOne({ type: 'puremail' })) {
+
+            var integration = Integrations.findOne({ type: 'puremail' });
+
+            // Get lists
+            var url = "http://" + integration.url + "/api/tags?key=" + integration.key;
+            url += '&list=' + list;
+            var answer = HTTP.get(url);
+            return answer.data.tags;
+
+        } else {
+            return [];
+        }
+
+    },
+
     editPage: function(page) {
 
         console.log(page);
 
         Pages.update(page._id, page);
+
+        Meteor.call('flushCache');
 
     },
     createPage: function(page) {
@@ -201,8 +279,19 @@ Meteor.methods({
 
             // Update user
             Meteor.users.update(Meteor.user()._id, { $set: { apiKey: key } });
+        } else {
+            console.log('API key already generated');
         }
 
     },
+    saveFacebookPixel: function(pixel) {
+
+        // Update user
+        Meteor.users.update(Meteor.user()._id, { $set: { pixelId: pixel } });
+
+    },
+    getFacebookPixel: function() {
+        return Meteor.users.findOne({ pixelId: { $exists: true } }).pixelId;
+    }
 
 });

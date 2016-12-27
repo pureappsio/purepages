@@ -24,25 +24,25 @@ Template.pageEditSales.helpers({
         return Brands.find({});
     },
     includedElements: function() {
-        return Elements.find({type: 'included', pageId: this._id });
+        return Elements.find({ type: 'included', pageId: this._id }, { sort: { number: 1 } });
     },
     benefitElements: function() {
-        return Elements.find({type: 'benefit', pageId: this._id });
+        return Elements.find({ type: 'benefit', pageId: this._id }, { sort: { number: 1 } });
     },
     moduleElements: function() {
-        return Elements.find({type: 'module', pageId: this._id });
+        return Elements.find({ type: 'module', pageId: this._id }, { sort: { number: 1 } });
     },
     bonusElements: function() {
-        return Elements.find({type: 'bonus', pageId: this._id });
+        return Elements.find({ type: 'bonus', pageId: this._id }, { sort: { number: 1 } });
     },
     whoElements: function() {
-        return Elements.find({type: 'who', pageId: this._id });
+        return Elements.find({ type: 'who', pageId: this._id }, { sort: { number: 1 } });
     },
     faqElements: function() {
-        return Elements.find({type: 'faq', pageId: this._id });
+        return Elements.find({ type: 'faq', pageId: this._id }, { sort: { number: 1 } });
     },
     paymentElements: function() {
-        return Elements.find({type: 'payment', pageId: this._id });
+        return Elements.find({ type: 'payment', pageId: this._id }, { sort: { number: 1 } });
     }
 
 });
@@ -58,18 +58,18 @@ Template.pageEditSales.events({
         Meteor.call('getBrandDetails', brandId, function(err, brand) {
 
 
-                Meteor.call('getCartProducts', brand.cartId, function(err, products) {
+            Meteor.call('getCartProducts', brand.cartId, function(err, products) {
 
-                    $('#product-id').empty();
+                $('#product-id').empty();
 
-                    for (i = 0; i < products.length; i++) {
-                        $('#product-id').append($('<option>', {
-                            value: products[i]._id,
-                            text: products[i].name
-                        }));
-                    }
+                for (i = 0; i < products.length; i++) {
+                    $('#product-id').append($('<option>', {
+                        value: products[i]._id,
+                        text: products[i].name
+                    }));
+                }
 
-                });
+            });
 
         });
 
@@ -105,7 +105,7 @@ Template.pageEditSales.events({
         var element = {
             type: 'module',
             title: $('#module-element-title').val(),
-            content: $('#module-element-content').val(),
+            content: $('#module-element-content').summernote('code'),
             pageId: this._id,
             userId: Meteor.user()._id
         }
@@ -118,7 +118,7 @@ Template.pageEditSales.events({
         var element = {
             type: 'bonus',
             title: $('#bonus-element-title').val(),
-            content: $('#bonus-element-content').val(),
+            content: $('#bonus-element-content').summernote('code'),
             pageId: this._id,
             userId: Meteor.user()._id
         }
@@ -142,7 +142,7 @@ Template.pageEditSales.events({
 
         var element = {
             type: 'who',
-            content: $('#who-element-content').val(),
+            content: $('#who-element-content').summernote('code'),
             pageId: this._id,
             userId: Meteor.user()._id
         }
@@ -155,7 +155,7 @@ Template.pageEditSales.events({
         var element = {
             type: 'faq',
             title: $('#faq-element-title').val(),
-            content: $('#faq-element-content').val(),
+            content: $('#faq-element-content').summernote('code'),
             pageId: this._id,
             userId: Meteor.user()._id
         }
@@ -172,6 +172,7 @@ Template.pageEditSales.events({
             model: this.model,
             userId: this.userId,
             _id: this._id,
+            theme: $('#theme :selected').val()
         }
 
         // Brand
@@ -185,7 +186,7 @@ Template.pageEditSales.events({
         page.header.title = $('#header-title').val();
         if (this.header) {
             if (this.header.image) {
-                 page.header.image = this.header.image;
+                page.header.image = this.header.image;
             }
         }
         if (Session.get('header')) {
@@ -212,7 +213,7 @@ Template.pageEditSales.events({
         page.modules.title = $('#modules-title').val();
         if (this.modules) {
             if (this.modules.image) {
-                 page.modules.image = this.modules.image;
+                page.modules.image = this.modules.image;
             }
         }
         if (Session.get('modules')) {
@@ -244,12 +245,19 @@ Template.pageEditSales.events({
         page.payment = {};
         if (this.payment) {
             if (this.payment.image) {
-                 page.payment.image = this.payment.image;
+                page.payment.image = this.payment.image;
             }
         }
         if (Session.get('payment')) {
             page.payment.image = Session.get('payment');
         }
+
+        // Timer
+        page.timer = {};
+        page.timer.active = $('#timer-active :selected').val();
+        page.timer.text = $('#timer-text').val();
+        page.timer.date = $('#timer-date').val();
+        page.timer.page = $('#timer-page :selected').val();
 
         // Save
         Meteor.call('editPage', page);
@@ -259,6 +267,9 @@ Template.pageEditSales.events({
 });
 
 Template.pageEditSales.onRendered(function() {
+
+    // Countdown
+    $('.datetimepicker').datetimepicker();
 
     // Set session to false
     Session.set('fileId', false);
@@ -280,7 +291,23 @@ Template.pageEditSales.onRendered(function() {
         height: 150 // set editor height
     });
 
-     $('#started-text').summernote({
+    $('#started-text').summernote({
+        height: 150 // set editor height
+    });
+
+    $('#module-element-content').summernote({
+        height: 150 // set editor height
+    });
+
+    $('#who-element-content').summernote({
+        height: 150 // set editor height
+    });
+
+    $('#bonus-element-content').summernote({
+        height: 150 // set editor height
+    });
+
+    $('#faq-element-content').summernote({
         height: 150 // set editor height
     });
 
@@ -302,19 +329,45 @@ Template.pageEditSales.onRendered(function() {
         }
     }
 
-     if (this.data.message) {
+    if (this.data.message) {
         if (this.data.message.text) {
             $('#message-text').summernote('code', this.data.message.text);
         }
     }
 
-     if (this.data.started) {
+    if (this.data.started) {
         if (this.data.started.text) {
             $('#started-text').summernote('code', this.data.started.text);
         }
     }
 
-    // Init sequence
+    if (this.data.timer) {
+        $('#timer-active').val(this.data.timer.active);
+    }
+
+    // Load pages
+    if (this.data.timer) {
+        timerPage = this.data.timer.page;
+    }
+    Meteor.call('getBrandPages', this.data.brandId, function(err, pages) {
+
+        $('#timer-page').empty();
+
+        for (i = 0; i < pages.length; i++) {
+            $('#timer-page').append($('<option>', {
+                value: pages[i]._id,
+                text: pages[i].name
+            }));
+        }
+
+        if (timerPage) {
+            $('#timer-page').val(timerPage);
+        }
+
+    });
+
+    // Init product
+    var productId = this.data.productId;
     if (this.data.brandId) {
 
         // Set brand
@@ -324,16 +377,18 @@ Template.pageEditSales.onRendered(function() {
 
             Meteor.call('getCartProducts', brand.cartId, function(err, products) {
 
-                    $('#product-id').empty();
+                $('#product-id').empty();
 
-                    for (i = 0; i < products.length; i++) {
-                        $('#product-id').append($('<option>', {
-                            value: products[i]._id,
-                            text: products[i].name
-                        }));
-                    }
+                for (i = 0; i < products.length; i++) {
+                    $('#product-id').append($('<option>', {
+                        value: products[i]._id,
+                        text: products[i].name
+                    }));
+                }
 
-                });
+                $('#product-id').val(productId);
+
+            });
 
         });
 

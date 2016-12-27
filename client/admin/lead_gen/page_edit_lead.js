@@ -60,6 +60,9 @@ Template.pageEditLead.events({
         // Sequence
         page.sequenceId = $('#sequence-id :selected').val();
 
+        // Tags
+        page.tags = $('#tags-id').val();
+
         // Header
         page.header = {};
         page.header.title = $('#header-title').val();
@@ -132,6 +135,10 @@ Template.pageEditLead.onRendered(function() {
 
     }
 
+    // Init picker
+    $('#tags-id').empty();
+    $('#tags-id').selectpicker();
+
     // Init sequence
     if (this.data.brandId) {
 
@@ -139,6 +146,7 @@ Template.pageEditLead.onRendered(function() {
         $("#brand-id").val(this.data.brandId);
 
         var sequenceId = this.data.sequenceId;
+        var pageTags = this.data.tags;
 
         Meteor.call('getBrandDetails', this.data.brandId, function(err, brand) {
 
@@ -156,6 +164,26 @@ Template.pageEditLead.onRendered(function() {
                 if (sequenceId) {
                     $("#sequence-id").val(sequenceId);
                 }
+
+            });
+
+            Meteor.call('getListTags', brand.listId, function(err, tags) {
+
+                for (i = 0; i < tags.length; i++) {
+                    $('#tags-id').append($('<option>', {
+                        value: tags[i]._id,
+                        text: tags[i].name
+                    }));
+                }
+
+                // Refresh picker
+                $('#tags-id').selectpicker('refresh');
+
+                if (pageTags) {
+                    $('#tags-id').selectpicker('val', pageTags);
+                    $('#tags-id').selectpicker('refresh');
+                }
+
 
             });
 

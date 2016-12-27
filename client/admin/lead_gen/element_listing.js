@@ -2,6 +2,10 @@ Template.elementListing.events({
 
 	'click .delete': function() {
 		Meteor.call('removeElement', this._id);
+	},
+	'click .edit': function(event, template) {
+		var number = $('#number_' + this._id).val();
+		Meteor.call('setElementNumber', number, this._id);
 	}
 
 });

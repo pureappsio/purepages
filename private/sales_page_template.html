@@ -1,0 +1,288 @@
+<div class='row sales-main-bg'>
+    <div class='col-md-12'>
+        <!-- Timer -->
+        {{#if timerActive}}
+        <div class='row timer-row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8'>
+                <div class='timer-text'>{{timer.text}}</div>
+                <div id="clockdiv">
+                    <div>
+                        <span class="days"></span>
+                        <div class="smalltext">{{#if langEN}}Days{{else}}Jours{{/if}}</div>
+                    </div>
+                    <div>
+                        <span class="hours"></span>
+                        <div class="smalltext">{{#if langEN}}Hours{{else}}Heures{{/if}}</div>
+                    </div>
+                    <div>
+                        <span class="minutes"></span>
+                        <div class="smalltext">Minutes</div>
+                    </div>
+                    <div>
+                        <span class="seconds"></span>
+                        <div class="smalltext">{{#if langEN}}Seconds{{else}}Secondes{{/if}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            
+
+       function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  var days = Math.floor(t / (1000 * 60 * 60 * 24));
+  return {
+    'total': t,
+    'days': days,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+function initializeClock(id, endtime) {
+  var clock = document.getElementById(id);
+  var daysSpan = clock.querySelector('.days');
+  var hoursSpan = clock.querySelector('.hours');
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    daysSpan.innerHTML = t.days;
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    // if (t.total < 0) {
+    //   clearInterval(timeinterval);
+    // }
+  }
+
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
+}
+
+var deadline = new Date('{{timer.date}}');
+console.log(deadline);
+initializeClock('clockdiv', deadline);
+
+        </script>
+        {{/if}}
+        <!-- Main logo -->
+        <div class='row sales-logo-row'>
+            <div class='col-md-1'></div>
+            <div class='col-md-3'>
+                <img class='img-responsive' src='{{brandPicture}}'>
+            </div>
+        </div>
+        <!-- Top heading row -->
+        <div class='row sales-top-row' style='{{headerImage}}'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-top-row-container'>
+                <div class='sales-top-row-title'>{{header.title}}</div>
+                <div class='sales-top-row-icon'>
+                    <a href='#what'><span class="sales-top-row-glyph glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span></a>
+                </div>
+            </div>
+        </div>
+        <!-- What -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-what-middle' id='what'>
+                <div class='sales-section-title'>{{what.title}}</div>
+                <div class='sales-section-content'>
+                    {{{what.text}}}
+                </div>
+            </div>
+        </div>
+        <!-- Included -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-what-middle'>
+                <div class='sales-section-title'>{{included.title}}</div>
+                <div class='sales-section-content'>
+                    {{{included.text}}} {{#each includedElements}}
+                    <div class='included-element'>
+                        <span class="included glyphicon glyphicon glyphicon-ok" aria-hidden="true"></span> {{content}}</div> {{/each}}
+                </div>
+            </div>
+        </div>
+        <!-- Benefits -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-what-middle'>
+                <div class='sales-section-title'>{{benefits.title}}</div>
+                <div class='sales-section-content'>
+                    {{{benefits.text}}}
+                    <ul>
+                        {{#each benefitElements}}
+                        <li class='benefits-list'>{{content}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Modules -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-what-middle'>
+                <div class='sales-section-title'>{{modules.title}}</div>
+                <div class='sales-section-content'>
+                    {{#each module in moduleElements}}
+                    <div class='row module-container'>
+                        <div class='col-md-4'><img class='img-responsive' src='{{moduleImage module}}'></div>
+                        <div class='col-md-8'>
+                            <div class='module-title'>Module #{{module.number}}: {{module.title}}</div>
+                            <div class='module-content'>{{{module.content}}}</div>
+                        </div>
+                    </div> {{/each}}
+                </div>
+            </div>
+        </div>
+        <!-- Bonuses -->
+        {{#if areBonuses}}
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-bonuses'>
+                <div class='sales-section-title'>{{bonuses.title}}</div>
+                <div class='sales-section-content'>
+                    {{#each bonusElements}}
+                    <div class='row module-container'>
+                        <div class='col-md-12'>
+                            <div class='module-title'>Bonus #{{number}} - {{title}}</div>
+                            <div class='module-content'>{{{content}}}</div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+        <!-- Who -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div style='{{greenTheme}}' class='col-md-8 sales-row sales-who'>
+                <div class='sales-section-title'>{{who.title}}</div>
+                <div class='sales-section-content'>
+                    <div class='row who-container'>
+                        {{#each whoElements}}
+                        <div class='col-md-4 who-description'>{{{content}}}</div> {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Message -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-message'>
+                <div class='row'>
+                    <div class='col-md-1'></div>
+                    <div class='col-md-10'>
+                        <div class='sales-section-message'>{{{message.text}}}</div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-4'></div>
+                    <div class='col-md-4'>
+                        <a href='{{checkoutLink}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
+                            <div class='checkout-middle' id='checkout'> {{#if langEN}}Enroll Now!{{else}}S'inscrire maintenant!{{/if}}</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FAQ -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-faq'>
+                <div class='sales-section-title'>{{faq.title}}</div>
+                <div class='sales-section-content'>
+                    {{#each faqElements}}
+                    <div class='faq-title'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{{title}}}</div>
+                    <div class='faq-content'>{{{content}}}</div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <!-- Get Started -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-faq'>
+                <div class='sales-section-title'>{{started.title}}</div>
+                <div class='sales-section-content'>
+                    <div>{{{started.text}}}</div>
+                    <div class='sales-price-display'>{{salesPriceDisplay}}</div>
+                </div>
+            </div>
+        </div>
+        <!-- Guarantee -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-faq'>
+                <div class='sales-section-title'>{{#if langEN}}How about a guarantee?{{else}}Satisfait ou remboursé{{/if}}</div>
+                <div class='sales-section-content'>
+                    <div class='row'>
+                        <div class='col-md-3'>
+                            {{#if langEN}}
+                            <img class='img-responsive' src='{{meteorURL}}30_guarantee.png'> {{else}}
+                            <img class='img-responsive' src='{{meteorURL}}30_guarantee_fr.png'> {{/if}}
+                        </div>
+                        <div class='col-md-9'>
+                            {{#if langEN}} As for all my products, this product comes with a 30-day 100% money back guarantee, with no questions asked. I truly believe in the quality of the products I am creating, and we want to make this purchase risk-free for you. So if at any point after purchasing the product you are not satisfied, just let me know under 30 days and you will get a full refund. {{else}} Comme pour tout mes produits, cette formation comporte une garantie satisfait ou remboursé sous 30 jours, sans avoir besoin de donner de raison. Je crois vraiment à la qualité de cette formation, et je veux que cet achat soit totalement sans risque pour vous. Si vous achetez cette formation et que vous n’êtes pas satisfait, envoyez moi un message sous 30 jours pour un remboursement intégral. {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Payment -->
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-payment' style='{{salesImage}}'>
+                <div class='sales-section-title'>
+                    {{#if langEN}} Click on the button below to get started {{else}} Cliquez sur le bouton ci-dessous pour commencer {{/if}}
+                </div>
+                <div class='sales-section-content'>
+                    <div class='row'>
+                        <div class='col-md-3'></div>
+                        <div class='col-md-6'>
+                            <div class='sales-container'>
+                                <div class='sales-product-name'>{{productName}}</div>
+                                <div class='sales-price'>{{salesPrice}}</div>
+                                {{#each paymentElements}}
+                                <div class='payment-element'>{{content}}</div> {{/each}}
+                                <a href='{{checkoutLink}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
+                                    <div class='checkout-end' id='checkout'>
+                                        {{#if langEN}}Enroll Now!{{else}}S'inscrire maintenant!{{/if}}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonials -->
+        <!-- <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-faq'>
+                <div class='sales-section-title'>4 Holy $%@ Limited Time Bonuses</div>
+                <div class='sales-section-content'>
+                    Create Awesome Online Courses (CAOC) is my proven complete step-by-step system designed to take you by the hand (as in step 1, step 2, step 3) to create, promote & profit from your own online course. No ambiguity or confusion. Literally step-by-step nothing is left out.
+                </div>
+            </div>
+        </div> -->
+        <!-- Payment -->
+        <!--  <div class='row sales-payment'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-what-middle'>
+                <button id='buy' class='btn btn-lg btn-block'>Enroll Now!</button>
+            </div>
+        </div> -->
+    </div>
+</div>

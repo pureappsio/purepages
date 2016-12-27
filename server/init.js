@@ -16,4 +16,6 @@ Meteor.startup(function() {
     //     WebApp.connectHandlers.use(prerenderio);
     // }
 
+    Meteor.call('flushCache');
+
 });

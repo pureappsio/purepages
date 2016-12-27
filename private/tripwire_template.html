@@ -1,0 +1,88 @@
+<!-- Main picture -->
+<div class='row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-3'>
+        <img class='img-responsive' src='{{brandPicture}}'>
+    </div>
+</div>
+<!-- Top heading row -->
+<div class='row tripwire-top-row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-10'>
+        <div class='tripwire-top-row-title'>{{header.title}}</div>
+    </div>
+</div>
+<!-- Main row -->
+<div class='row tripwire-row tripwire-main-row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-3'>
+        <img class='img-responsive' src='{{mainImageLink}}'>
+    </div>
+    <div class='col-md-7 tripwire-main-column'>
+        <div class='tripwire-main-title'>Introducing</div>
+        <div class='tripwire-main-title'>{{main.title}}</div>
+        <div class='tripwire-main-text'>{{{main.text}}}</div>
+        <div class='tripwire-button-container'>
+           <a href="{{checkoutLink}}" id='purchase' class='btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
+        </div>
+    </div>
+</div>
+<!-- What is row -->
+<div class='row tripwire-row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-10'>
+        <div class='tripwire-title'>{{what.title}}</div>
+        {{#each element in elements 'what'}}
+        <div class='tripwire-what-element-title'>{{element.title}}</div>
+        <div class='tripwire-what-element-text'>{{element.content}}</div>
+        {{/each}}
+        <div class='tripwire-button-container'>
+           <a href="{{checkoutLink}}" id='purchase' class='btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
+        </div>
+    </div>
+</div>
+<!-- What is inside row -->
+<div class='row tripwire-inside-row tripwire-row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-10'>
+        <div class='tripwire-title tripwire-title-center'>{{inside.title}}</div>
+        <div class='row'>
+            {{#each element in elements 'inside'}}
+            <div class='col-md-4'>
+                <div class='tripwire-inside-element-title'>{{element.title}}</div>
+                <div class='tripwire-inside-element-text'>{{element.content}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+<!-- Message row -->
+<div class='row tripwire-row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-2'><img src='{{messageImageLink}}' class='img-responsive'></div>
+    <div class='col-md-8'>
+        <div class='tripwire-message-text'>{{{message.text}}}</div>
+        <div class='tripwire-message-text'>{{{message.signature}}}</div>
+    </div>
+</div>
+<!-- FAQ row -->
+<div class='row tripwire-row faq-row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-10'>
+        <div class='tripwire-title tripwire-title-center'>Frequently Asked Questions</div>
+        {{#each element in elements 'faq'}}
+        <div class='tripwire-main-faq-title'>{{element.title}}</div>
+        <div class='tripwire-main-faq-text'>{{element.content}}</div>
+        {{/each}}
+    </div>
+</div>
+<!-- Bottom row -->
+<div class='row tripwire-row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-10'>
+        <div class='tripwire-title tripwire-title-center'>{{bottom.text}}</div>
+        <div class='tripwire-button-container'>
+            <a href="{{checkoutLink}}" id='purchase' class='btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
+        </div>
+    </div>
+</div>

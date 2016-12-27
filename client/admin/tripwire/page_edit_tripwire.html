@@ -1,0 +1,137 @@
+<template name="pageEditTripwire">
+    <h2>Editing Page {{name}}</h2>
+    <h3>Brand</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>
+            <select class='form-control' id='brand-id'>
+                {{#each brands}} {{> brandSelect}} {{/each}}
+            </select>
+        </div>
+    </div>
+    <!-- Products -->
+    <h3>Products</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>
+            <select class='form-control' id='product-id'>
+            </select>
+        </div>
+    </div>
+    <h3>Top Header Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='header-title' type='text' class='form-control' value='{{header.title}}'>
+        </div>
+    </div>
+    <h3>Main Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='main-title' type='text' class='form-control' value='{{main.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Main text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='main-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Main picture:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="main"}}
+        </div>
+    </div>
+    <h3>What is Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='what-title' type='text' class='form-control' value='{{what.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Element title:</div>
+        <div class='col-md-3'>
+            <input id='element-title-what' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>Element content:</div>
+        <div class='col-md-3'>
+            <input id='element-content-what' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-what' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each elements 'what'}} {{> elementListing}} {{/each}}
+    <h3>What is Inside Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='inside-title' type='text' class='form-control' value='{{inside.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Element title:</div>
+        <div class='col-md-3'>
+            <input id='element-title-inside' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>Element content:</div>
+        <div class='col-md-3'>
+            <input id='element-content-inside' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-inside' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each elements 'inside'}} {{> elementListing}} {{/each}}
+    <h3>Message Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Main text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='message-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Signature text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='message-signature' name="name" class="summernote" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Message picture:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="message"}}
+        </div>
+    </div>
+    <h3>FAQ Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Element title:</div>
+        <div class='col-md-3'>
+            <input id='element-title-faq' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>Element content:</div>
+        <div class='col-md-3'>
+            <input id='element-content-faq' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-faq' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    {{#each elements 'faq'}} {{> elementListing}} {{/each}}
+    <h3>Bottom Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Text:</div>
+        <div class='col-md-3'>
+            <input id='bottom-text' type='text' class='form-control' value='{{bottom.text}}'>
+        </div>
+    </div>
+
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin/panel' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,101 @@
+.tripwire-top-row {
+    text-align: center;
+}
+
+.tripwire-top-row-title {
+    font-size: 22px;
+    padding-top: 30px;
+}
+
+.tripwire-main-row {
+	border-bottom: 1px solid gray;
+}
+
+@media screen and (min-width: 1060px) {
+    .tripwire-main-column {
+        margin-top: -16px;
+    }
+}
+
+.tripwire-main-title {
+    font-size: 48px;
+}
+
+.tripwire-main-text {
+    font-size: 26px;
+    margin-top: 25px;
+}
+
+.tripwire-button-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#purchase {
+    font-size: 28px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.tripwire-title {
+	font-size: 28px;
+}
+
+.tripwire-what-element-title {
+	color: #0089eb;
+	font-size: 24px;
+	font-weight: 600;
+	margin-top: 25px;
+}
+
+.tripwire-what-element-text {
+	font-size: 24px;
+	margin-top: 15px;
+}
+
+.tripwire-inside-row {
+	color: white;
+	background-color: #0089eb;
+}
+
+.tripwire-title-center {
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.tripwire-inside-element-title {
+	font-size: 24px;
+	font-weight: 600;
+	margin-bottom: 20px;
+}
+
+.tripwire-inside-element-text {
+	font-size: 20px;
+}
+
+.tripwire-row {
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+.tripwire-message-text {
+	font-size: 22px;
+}
+
+.faq-row {
+	background-color: #333333;
+	color: white;
+}
+
+.tripwire-main-faq-title {
+	color: orange;
+	font-size: 20px;
+	font-weight: 600;
+	margin-bottom: 20px;
+}
+
+.tripwire-main-faq-text {
+	font-size: 20px;
+
+	margin-bottom: 20px;
+}

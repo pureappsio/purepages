@@ -13,6 +13,20 @@ Template.brandEdit.helpers({
             return Images.findOne(this.image).link();
         }
 
+    },
+    logo: function() {
+        if (this.logo) {
+            return true;
+        } else {
+            return false;
+        }
+
+    },
+    logoLink: function() {
+        if (this.logo) {
+            return Images.findOne(this.logo).link();
+        }
+
     }
 
 });
@@ -32,6 +46,7 @@ Template.brandEdit.events({
         // Name
         brand.name = $('#brand-name').val();
 
+        // Image
         if (this.image) {
             brand.image = this.image
         }
@@ -40,9 +55,24 @@ Template.brandEdit.events({
             brand.image = Session.get('fileId');
         }
 
+        // Logo
+        if (this.logo) {
+            brand.logo = this.logo
+        }
+
+        if (Session.get('logo')) {
+            brand.logo = Session.get('logo');
+        }
+
         // Cart & list
         brand.cartId = $('#cart-id :selected').val();
         brand.listId = $('#email-list :selected').val();
+
+        // Language
+        brand.language = $('#language :selected').val();
+
+        // Tracking ID
+        brand.trackingId = $('#tracking-id').val();
 
         // Save
         Meteor.call('editBrand', brand);
@@ -56,6 +86,16 @@ Template.brandEdit.onRendered(function() {
     // Set session to false
     Session.set('fileId', false);
 
+    // Init data
+    if (this.data.cartId) {
+        var cartId = this.data.cartId;
+    }
+
+    if (this.data.listId) {
+        var listId = this.data.listId;
+    }
+
+
     // Init lists
     Meteor.call('getCartIntegrations', function(err, integrations) {
 
@@ -68,11 +108,11 @@ Template.brandEdit.onRendered(function() {
             }));
         }
 
-        $('#cart-id').val(this.data.cartId);
+        $('#cart-id').val(cartId);
 
     });
 
-     // Init lists
+    // Init lists
     Meteor.call('getEmailLists', function(err, lists) {
 
         $('#email-list').empty();
@@ -84,7 +124,7 @@ Template.brandEdit.onRendered(function() {
             }));
         }
 
-        $('#email-list').val(this.data.listId);
+        $('#email-list').val(listId);
 
     });
 

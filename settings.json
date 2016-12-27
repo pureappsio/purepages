@@ -1,5 +1,9 @@
 {
-  "PrerenderIO": {
-  	"token": "token"
-  }
+  "s3": {
+        "key": "AKIAITJ6SU3C3OVSBCHA",
+        "secret": "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",
+        "bucket": "purepages",
+        "region": "us-west-2",
+        "cloudfront": "d39qiw04btusym.cloudfront.net"
+    }
 }

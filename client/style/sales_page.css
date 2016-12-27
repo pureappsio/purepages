@@ -62,7 +62,9 @@
 }
 
 .who-description {
-	text-align: center;
+	text-align: justify;
+	padding-left: 40px;
+	padding-right: 40px;
 }
 
 .sales-logo-row {
