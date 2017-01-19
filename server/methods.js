@@ -1,12 +1,31 @@
 Meteor.methods({
 
+    getDiscount: function(code, brandId) {
+
+        // Get brand
+        var brand = Brands.findOne(brandId);
+
+        // Get integration
+        if (Integrations.findOne(brand.cartId)) {
+
+            var integration = Integrations.findOne(brand.cartId);
+
+            // Get lists
+            var url = "https://" + integration.url + "/api/discounts/" + code + "?key=" + integration.key;
+            var answer = HTTP.get(url);
+
+            return answer.data;
+
+        }
+
+    },
     copyPage: function(data) {
 
         // Get page
         var page = Pages.findOne(data.originPageId);
 
         // Get all elements linked to page
-        var elements = Elements.find({pageId: page._id}).fetch();
+        var elements = Elements.find({ pageId: page._id }).fetch();
 
         // Create new page
         page.url = data.targetUrl;
@@ -30,7 +49,7 @@ Meteor.methods({
 
     getBrandPages: function(brandId) {
 
-        return Pages.find({brandId: brandId}).fetch();
+        return Pages.find({ brandId: brandId }).fetch();
 
     },
     getBrandLanguage: function(brandId) {
@@ -47,7 +66,25 @@ Meteor.methods({
     },
     setElementNumber: function(number, elementId) {
 
+        console.log(number);
+
         Elements.update(elementId, { $set: { number: number } });
+
+        Meteor.call('flushCache');
+    },
+    setElementTitle: function(title, elementId) {
+
+        console.log(title);
+
+        Elements.update(elementId, { $set: { title: title } });
+
+        Meteor.call('flushCache');
+    },
+    setElementContent: function(content, elementId) {
+
+        console.log(content);
+
+        Elements.update(elementId, { $set: { content: content } });
 
         Meteor.call('flushCache');
     },
@@ -125,6 +162,22 @@ Meteor.methods({
     removeBrand: function(brandId) {
         Brands.remove(brandId);
     },
+    createDiscount: function(data, integrationId) {
+
+        // Get integration
+        if (Integrations.findOne(integrationId)) {
+
+            var integration = Integrations.findOne(integrationId);
+
+            // Get lists
+            var url = "https://" + integration.url + "/api/discounts?key=" + integration.key;
+            // console.log(url);
+            var answer = HTTP.post(url, { data: data });
+            // console.log(answer);
+
+        }
+
+    },
     getEmailLists: function() {
 
         // Get integration
@@ -142,7 +195,42 @@ Meteor.methods({
         }
 
     },
+    getSubscriber: function(subscriberId) {
 
+        // Get integration
+        if (Integrations.findOne({ type: 'puremail' })) {
+
+            var integration = Integrations.findOne({ type: 'puremail' });
+
+            // Get lists
+            var url = "https://" + integration.url + "/api/subscribers/" + subscriberId;
+            url += "?key=" + integration.key;
+            var answer = HTTP.get(url);
+            return answer.data;
+
+        } else {
+            return {};
+        }
+
+    },
+    getOffers: function(subscriberId) {
+
+        // Get integration
+        if (Integrations.findOne({ type: 'puremail' })) {
+
+            var integration = Integrations.findOne({ type: 'puremail' });
+
+            // Get lists
+            var url = "https://" + integration.url + "/api/offers";
+            url += "?key=" + integration.key + '&subscriber=' + subscriberId;
+            var answer = HTTP.get(url);
+            return answer.data.offers;
+
+        } else {
+            return [];
+        }
+
+    },
     getCartProducts: function(cartId) {
 
         // Get integration

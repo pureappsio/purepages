@@ -24,14 +24,14 @@ Template.pageEditTripwire.helpers({
         return Brands.find({});
     },
     elements: function(type) {
-        return Elements.find({ pageId: this._id, type: type });
+        return Elements.find({ pageId: this._id, type: type }, { sort: { number: 1 } });
     }
 
 });
 
 Template.pageEditTripwire.events({
 
-     'change #brand-id, click #page-type': function() {
+    'change #brand-id, click #page-type': function() {
 
         // Get selection
         var brandId = $('#brand-id :selected').val();
@@ -150,14 +150,15 @@ Template.pageEditTripwire.events({
         page.bottom = {};
         page.bottom.text = $('#bottom-text').val();
 
-        if (Session.get('main')) {
-            page.main.image = Session.get('main');
-        }
 
+        // Image
         if (this.main) {
             if (this.main.image) {
                 page.main.image = this.main.image;
             }
+        }
+        if (Session.get('main')) {
+            page.main.image = Session.get('main');
         }
 
         // Save

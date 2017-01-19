@@ -30,14 +30,14 @@
         </div>
     </div>
     <div class='col-md-5'>
-        <div class="col-md-12">
+        <div class="col-md-12" id='middle-row-indicator'>
             <div class='lead-gen-middle-question'>{{main.emailMessage}}</div>
             <form accept-charset="utf-8" action="https://email.schwartzindustries.com/subscribe" method="POST">
                 <div class='lead-gen-middle-email'>
-                    <input id='email' name='email' type="email" class="form-control input-lg" placeholder="Your email ...">
+                    <input id='email' name='email' type="email" class="form-control input-lg" placeholder="{{#if langEN}}Your email{{else}}Votre email{{/if}} ...">
                 </div>
                 <div class='lead-gen-middle-button'>
-                    <input id='submit' value="DOWNLOAD NOW" type="submit" class="btn btn-block btn-warning btn-lg">
+                    <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="btn btn-block btn-warning btn-lg">
                 </div>
                 <input name="list" type="hidden" value="{{listId}}" />
                 <input name="origin" type="hidden" value="{{origin}}" />
@@ -46,7 +46,7 @@
                     <input name="tag" type="hidden" value="{{tag}}" />
                 {{/each}}
             </form>
-            <div class='lead-gen-middle-disclaimer'>I will never send you spam. Unsubscribe at any time.</div>
+            <div class='lead-gen-middle-disclaimer'>{{#if langEN}}I will never send you spam. Unsubscribe at any time.{{else}}Je ne vous enverrai jamais de spam. Vous pouvez vous désincrire à tout moment.{{/if}}</div>
         </div>
     </div>
 </div>
@@ -71,7 +71,7 @@
         <div class='lead-gen-last-text'>{{bottom.message}}</div>
         <div>
             <div class='lead-gen-last-button'>
-                <button id='download' class='btn btn-warning'>{{bottom.button}}</button>
+                <a href='#middle-row-indicator' id='download' class='btn btn-warning'>{{bottom.button}}</a>
             </div>
         </div>
     </div>

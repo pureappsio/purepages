@@ -124,7 +124,7 @@ Meteor.methods({
             var page = Pages.findOne({ url: postUrl });
 
             // Check if cached
-            if (page.cached == true && !(query.ref) && !(query.origin) && !(query.subscriber)) {
+            if (page.cached == true && !(query.ref) && !(query.origin) && !(query.subscriber) && !(query.discount)) {
 
                 // Get render
                 console.log('Page cached, returning cached version');
@@ -193,6 +193,19 @@ Meteor.methods({
                         },
                         sequenceId: function() {
                             return this.sequenceId;
+                        },
+                        langEN: function() {
+                            var brand = Brands.findOne(this.brandId);
+
+                            if (brand.language) {
+                                if (brand.language == 'fr') {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            } else {
+                                return true;
+                            }
                         }
 
                     });
@@ -245,6 +258,19 @@ Meteor.methods({
                                 return '$' + (productData.price.USD).toFixed(2);
                             } else {
                                 return (productData.price.EUR).toFixed(2) + ' €';
+                            }
+                        },
+                        langEN: function() {
+                            var brand = Brands.findOne(this.brandId);
+
+                            if (brand.language) {
+                                if (brand.language == 'fr') {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            } else {
+                                return true;
                             }
                         }
 
@@ -300,21 +326,73 @@ Meteor.methods({
                     // Check if timer is expired
                     var timerExpired = false;
                     if (page.timer) {
+
+                        // Timer active by default
+                        var useTimer = true;
+
                         if (page.timer.active == 'yes') {
 
                             // Check if it's linked to a subscriber
                             if (query.subscriber) {
 
-                                // Date
-                                var currentDate = new Date();
-                                var expiryDate = new Date(page.timer.date);
+                                // Get offers
+                                offers = Meteor.call('getOffers', query.subscriber);
+                                console.log(offers);
 
-                                if (currentDate.getTime() - expiryDate.getTime() > 0) {
-                                    timerExpired = true;
+                                // Check if offer match product
+                                var offerFound = false;
+                                for (o in offers) {
+                                    if (offers[o].productId == page.productId) {
+                                        console.log('Offer found');
+                                        offerFound = true;
+                                        var offer = offers[o];
+                                    }
+                                }
+
+                                if (offerFound) {
+
+                                    // Date
+                                    var currentDate = new Date();
+                                    var expiryDate = new Date(offer.expiryDate);
+
+                                    if (currentDate.getTime() - expiryDate.getTime() > 0) {
+                                        timerExpired = true;
+                                    }
+
+                                } else {
+                                    // Date
+                                    var currentDate = new Date();
+                                    var expiryDate = new Date(page.timer.date);
+
+                                    if (currentDate.getTime() - expiryDate.getTime() > 0) {
+                                        timerExpired = true;
+                                    }
+                                }
+
+                            } else if (query.discount) {
+
+                                // Verify discount
+                                discount = Meteor.call('getDiscount', query.discount, page.brandId);
+
+                                if (discount._id) {
+                                    console.log('Valid discount code')
+                                    timerExpired = false;
+                                    useTimer = false;
+                                } else {
+
+                                    console.log('Invalid discount code')
+
+                                    // Date
+                                    var currentDate = new Date();
+                                    var expiryDate = new Date(page.timer.date);
+
+                                    if (currentDate.getTime() - expiryDate.getTime() > 0) {
+                                        timerExpired = true;
+                                    }
                                 }
 
                             } else {
-                                
+
                                 // Date
                                 var currentDate = new Date();
                                 var expiryDate = new Date(page.timer.date);
@@ -324,8 +402,8 @@ Meteor.methods({
                                 }
                             }
 
-
-
+                        } else {
+                            useTimer = false;
                         }
                     }
 
@@ -355,27 +433,74 @@ Meteor.methods({
                     var brand = Brands.findOne(page.brandId);
                     var brandLanguage = Meteor.call('getBrandLanguage', page.brandId);
 
+                    // If offer, create discount
+                    if (offerFound) {
+                        if (parseInt(offer.offerDiscount) != 0) {
+
+                            // Generate code
+                            var discountCode = "";
+                            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+                            for (var i = 0; i < 7; i++) {
+                                discountCode += possible.charAt(Math.floor(Math.random() * possible.length));
+                            }
+
+                            discountData = {
+                                code: discountCode,
+                                name: 'Offer Discount',
+                                amount: offer.offerDiscount,
+                                type: 'percent'
+                            }
+
+                            // Create discount
+                            Meteor.call('createDiscount', discountData, brand.cartId);
+
+                        }
+                    }
+
                     // Helpers
                     Template.pageTemplate.helpers({
 
                         checkoutLink: function() {
 
-                            return 'https://' + Integrations.findOne(brand.cartId).url + '?product_id=' + productData._id;
+                            var link = 'https://' + Integrations.findOne(brand.cartId).url + '?product_id=' + productData._id;
 
+                            if (offer) {
+                                link += '&discount=' + discountCode;
+                            }
+
+                            else if (typeof discount !== 'undefined') {
+                                link += '&discount=' + discount.code;
+                            }
+
+                            return link;
+
+                        },
+                        isDiscounted: function() {
+                            if (offer) {
+                                if (parseInt(offer.offerDiscount) == 0) {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            } else if (typeof discount !== 'undefined') {
+                                return true;
+                            } else {
+                                return false;
+                            }
                         },
                         meteorURL: function() {
                             return absoluteURL;
                         },
                         timerActive: function() {
-                            if (this.timer) {
-                                if (this.timer.active == 'yes') {
-                                    return true;
-                                } else {
-                                    return false;
-                                }
+                            if (useTimer) {
+                                return true;
                             } else {
                                 return false;
                             }
+                        },
+                        timerEnd: function() {
+                            return expiryDate;
                         },
                         isAffiliateLink: function() {
                             if (query.ref) {
@@ -391,18 +516,33 @@ Meteor.methods({
                                 return '';
                             }
                         },
-                        salesPriceDisplay: function() {
-                            if (brandLanguage == 'en') {
-                                return '$' + (productData.price.USD).toFixed(2);
-                            } else {
-                                return (productData.price.EUR).toFixed(2) + ' €';
-                            }
-                        },
                         salesPrice: function() {
                             if (brandLanguage == 'en') {
-                                return '$' + (productData.price.USD).toFixed(2);
+                                var price = parseFloat(productData.price.USD);
+                                if (offer) {
+                                    price = price * (1 - parseInt(offer.offerDiscount) / 100);
+                                }
+                                else if (typeof discount !== 'undefined') {
+                                    price = price * (1 - parseInt(discount.amount) / 100);
+                                }
+                                return '$' + price.toFixed(2);
                             } else {
-                                return (productData.price.EUR).toFixed(2) + ' €';
+                                var price = parseFloat(productData.price.EUR);
+                                if (offer) {
+                                    price = price * (1 - parseInt(offer.offerDiscount) / 100);
+                                } else if (typeof discount !== 'undefined') {
+                                    price = price * (1 - parseInt(discount.amount) / 100);
+                                }
+                                return price.toFixed(2) + ' €';
+                            }
+                        },
+                        baseSalesPrice: function() {
+                            if (brandLanguage == 'en') {
+                                var price = parseFloat(productData.price.USD);
+                                return '$' + price.toFixed(2);
+                            } else {
+                                var price = parseFloat(productData.price.EUR);
+                                return price.toFixed(2) + ' €';
                             }
                         },
                         productName: function() {
@@ -421,7 +561,7 @@ Meteor.methods({
                         greenTheme: function() {
 
                             if (page.theme) {
-                                if (page.them == 'green') {
+                                if (page.theme == 'green') {
                                     return 'background-color: #389839;';
                                 }
                             }
@@ -492,7 +632,7 @@ Meteor.methods({
                 var html = SSR.render('pageTemplate', page);
 
                 // Save if no affiliate code
-                if (typeof affiliateCode == 'undefined') {
+                if (!(query.ref) && !(query.origin) && !(query.subscriber) && !(query.discount)) {
                     console.log('Caching page');
                     Pages.update({ url: postUrl }, { $set: { cached: true, html: html } })
                 } else {

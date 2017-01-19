@@ -1,14 +1,11 @@
 <template name="elementListing">
-    <div class='row'>
+    <div class='row voffset15'>
         <div class='col-md-1'>
-            <input id="number_{{_id}}" type='text' class='form-control' value='{{number}}'>
+            <input id="number-{{_id}}" type='text' class='element-number form-control' value='{{number}}'>
         </div>
         {{#if isTitle}}
-        <div class='col-md-3'>{{title}}</div>{{/if}}
-        <div class='col-md-6'>{{content}}</div>
-        <div class='col-md-1'>
-            <button class='btn btn-warning edit'>Edit</button>
-        </div>
+        <div class='col-md-3'><input id='element-title-{{_id}}' class='element-title form-control' value='{{title}}'></div>{{/if}}
+        <div class='col-md-6'><input id='element-content-{{_id}}' class='element-content form-control' value='{{content}}'></div>
         <div class='col-md-1'>
             <button class='btn btn-danger delete'>X</button>
         </div>
