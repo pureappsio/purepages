@@ -5,6 +5,7 @@
         <img class='img-responsive' src='{{brandPicture}}'>
     </div>
 </div>
+{{#if fileTheme}}
 <!-- Top heading row -->
 <div class='row lead-gen-top-row'>
     <div class='col-md-1'></div>
@@ -41,10 +42,8 @@
                 </div>
                 <input name="list" type="hidden" value="{{listId}}" />
                 <input name="origin" type="hidden" value="{{origin}}" />
-                <input name="sequence" type="hidden" value="{{sequenceId}}" />
-                {{#each tag in tags}}
-                    <input name="tag" type="hidden" value="{{tag}}" />
-                {{/each}}
+                <input name="sequence" type="hidden" value="{{sequenceId}}" /> {{#each tag in tags}}
+                <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
             </form>
             <div class='lead-gen-middle-disclaimer'>{{#if langEN}}I will never send you spam. Unsubscribe at any time.{{else}}Je ne vous enverrai jamais de spam. Vous pouvez vous désincrire à tout moment.{{/if}}</div>
         </div>
@@ -76,3 +75,48 @@
         </div>
     </div>
 </div>
+{{/if}} {{#if videoTheme}}
+<!-- Top heading row -->
+<div class='row'>
+    <div class='col-md-1'></div>
+    <div class='col-md-10'>
+        <div class='lead-gen-video-title'>{{header.title}}</div>
+    </div>
+</div>
+<!-- <div class='row'>
+    <div class='col-md-3'></div>
+    <div class='col-md-6'>
+        <div class='lead-gen-video-message'>{{bottom.message}}</div>
+    </div>
+</div> -->
+<!-- Video row -->
+<div class='row'>
+    <div class='col-md-3'></div>
+    <div class='col-md-6'>
+        <video class='lead-gen-video-video img-responsive' autoplay="autoplay">
+            <source src="{{videoLink}}" type="video/mp4">
+        </video>
+    </div>
+</div>
+<!-- Signup row -->
+<div class='row lead-gen-video-middle'>
+    <div class='col-md-3'></div>
+    <div class='col-md-6'>
+        <div class="col-md-12" id='middle-row-indicator'>
+            <form accept-charset="utf-8" action="https://email.schwartzindustries.com/subscribe" method="POST">
+                <div class='lead-gen-middle-email'>
+                    <input id='email' name='email' type="email" class="form-control input-lg" placeholder="{{#if langEN}}Your email{{else}}Votre email{{/if}} ...">
+                </div>
+                <div class='lead-gen-middle-button'>
+                    <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="btn btn-block btn-warning btn-lg">
+                </div>
+                <input name="list" type="hidden" value="{{listId}}" />
+                <input name="origin" type="hidden" value="{{origin}}" />
+                <input name="sequence" type="hidden" value="{{sequenceId}}" /> {{#each tag in tags}}
+                <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
+            </form>
+            <div class='lead-gen-middle-disclaimer'>{{#if langEN}}I will never send you spam. Unsubscribe at any time.{{else}}Je ne vous enverrai jamais de spam. Vous pouvez vous désincrire à tout moment.{{/if}}</div>
+        </div>
+    </div>
+</div>
+{{/if}}

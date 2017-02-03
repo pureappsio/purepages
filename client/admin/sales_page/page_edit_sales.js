@@ -188,9 +188,17 @@ Template.pageEditSales.events({
             if (this.header.image) {
                 page.header.image = this.header.image;
             }
+
+            if (this.header.video) {
+                page.header.video = this.header.video;
+            }
         }
         if (Session.get('header')) {
             page.header.image = Session.get('header');
+        }
+
+        if (Session.get('video')) {
+            page.header.video = Session.get('video');
         }
 
         // What
@@ -251,6 +259,7 @@ Template.pageEditSales.events({
         if (Session.get('payment')) {
             page.payment.image = Session.get('payment');
         }
+        page.payment.button = $('#payment-button').val();
 
         // Timer
         page.timer = {};
@@ -276,39 +285,39 @@ Template.pageEditSales.onRendered(function() {
 
     // Init editor
     $('#what-text').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     $('#included-text').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     $('#benefits-text').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     $('#message-text').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     $('#started-text').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     $('#module-element-content').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     $('#who-element-content').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     $('#bonus-element-content').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     $('#faq-element-content').summernote({
-        height: 150 // set editor height
+        minHeight: 150 // set editor height
     });
 
     if (this.data.what) {

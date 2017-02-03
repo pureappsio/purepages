@@ -1,0 +1,13 @@
+<template name="longElementListing">
+    <div class='row voffset15'>
+        <div class='col-md-1'>
+            <input id="number-{{_id}}" type='text' class='element-number form-control' value='{{number}}'>
+        </div>
+        {{#if isTitle}}
+        <div class='col-md-3'><input id='element-title-{{_id}}' class='element-title form-control' value='{{title}}'></div>{{/if}}
+        <div class='col-md-7'><input id='element-content-{{_id}}' class='element-content form-control' value='{{content}}'></div>
+        <div class='col-md-1'>
+            <button class='btn btn-danger delete'>X</button>
+        </div>
+    </div>
+</template>

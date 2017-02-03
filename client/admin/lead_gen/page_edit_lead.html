@@ -22,6 +22,16 @@
             </select>
         </div>
     </div>
+    <h3>Theme</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>
+            <select class='form-control' id='theme'>
+                <option value='file'>File Giveaway</option>
+                <option value='video'>Video Giveaway</option>
+            </select>
+        </div>
+    </div>
+    {{#if fileThemeSelected}}
     <h3>Top Header Row</h3>
     <div class='row voffset15'>
         <div class='col-md-2'>Title:</div>
@@ -96,9 +106,35 @@
             <input id='bottom-button' type='text' class='form-control' value='{{bottom.button}}'>
         </div>
     </div>
+    {{/if}} {{#if videoThemeSelected}}
+    <h3>Top Header Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='header-title' type='text' class='form-control' value='{{header.title}}'>
+        </div>
+    </div>
+    <h3>Video Preview</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Video:</div>
+        <div class='col-md-3'>
+            <div>{{> uploadForm}}</div>
+        </div>
+    </div>
+    <h3>Bottom Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Message text:</div>
+        <div class='col-md-3'>
+            <input id='bottom-message' type='text' class='form-control' value='{{bottom.message}}'>
+        </div>
+    </div>
+    {{/if}}
     <div class='row voffset30'>
         <div class='col-md-3'>
             <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/{{url}}' class='btn btn-info btn-block btn-lg'>Preview</a>
         </div>
         <div class='col-md-3'>
             <a href='/admin/panel' class='btn btn-warning btn-block btn-lg'>Come Back</a>

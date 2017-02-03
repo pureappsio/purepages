@@ -1,5 +1,23 @@
 Template.pageEditLead.helpers({
 
+    fileThemeSelected: function() {
+
+        if (Session.get('selectedTheme') == 'file') {
+            return true;
+        } else {
+            return false;
+        }
+
+    },
+    videoThemeSelected: function() {
+
+        if (Session.get('selectedTheme') == 'video') {
+            return true;
+        } else {
+            return false;
+        }
+
+    },
     image: function() {
         if (this.message) {
             if (this.message.image) {
@@ -31,6 +49,11 @@ Template.pageEditLead.helpers({
 
 Template.pageEditLead.events({
 
+    'click #theme, change #theme': function() {
+
+        Session.set('selectedTheme', $('#theme :selected').val());
+
+    },
     'click #add-element': function() {
 
         var element = {
@@ -63,34 +86,60 @@ Template.pageEditLead.events({
         // Tags
         page.tags = $('#tags-id').val();
 
-        // Header
-        page.header = {};
-        page.header.title = $('#header-title').val();
-        page.header.subtitle = $('#header-subtitle').val();
+        // Theme
+        page.theme = $('#theme :selected').val();
 
-        // Main
-        page.main = {};
-        page.main.text = $('#main-text').summernote('code');
-        page.main.emailMessage = $('#main-email-message').val();
+        if ($('#theme :selected').val() == 'file') {
 
-        // Message
-        page.message = {};
-        page.message.message = $('#message-message').summernote('code');
-        page.message.signature = $('#signature-message').summernote('code');
-        if (this.message) {
-            if (this.message.image) {
-                page.message.image = this.message.image
+            // Header
+            page.header = {};
+            page.header.title = $('#header-title').val();
+            page.header.subtitle = $('#header-subtitle').val();
+
+            // Main
+            page.main = {};
+            page.main.text = $('#main-text').summernote('code');
+            page.main.emailMessage = $('#main-email-message').val();
+
+            // Message
+            page.message = {};
+            page.message.message = $('#message-message').summernote('code');
+            page.message.signature = $('#signature-message').summernote('code');
+            if (this.message) {
+                if (this.message.image) {
+                    page.message.image = this.message.image
+                }
             }
-        }
 
-        if (Session.get('fileId')) {
-            page.message.image = Session.get('fileId');
-        }
+            if (Session.get('fileId')) {
+                page.message.image = Session.get('fileId');
+            }
 
-        // Bottom
-        page.bottom = {};
-        page.bottom.message = $('#bottom-text').val();
-        page.bottom.button = $('#bottom-button').val();
+            // Bottom
+            page.bottom = {};
+            page.bottom.message = $('#bottom-text').val();
+            page.bottom.button = $('#bottom-button').val();
+
+        }
+        if ($('#theme :selected').val() == 'video') {
+
+            // Header
+            page.header = {};
+            page.header.title = $('#header-title').val();
+
+            // Bottom
+            page.bottom = {};
+            page.bottom.message = $('#bottom-message').val();
+
+            // Video
+            if (this.video) {
+                page.video = this.video;
+            }
+            if (Session.get('fileId')) {
+                page.video = Session.get('fileId');
+            }
+
+        }
 
         // Save
         Meteor.call('editPage', page);

@@ -50,6 +50,12 @@
             {{> uploadForm imageId="header"}}
         </div>
     </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Optional video:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="video"}}
+        </div>
+    </div>
     <!-- What -->
     <h3>What is Row</h3>
     <div class='row voffset15'>
@@ -159,7 +165,7 @@
             <input type="text" id='module-element-content' name="name" class="summernote" />
         </div>
     </div>
-    {{#each moduleElements}} {{> elementListing}} {{/each}}
+    {{#each moduleElements}} {{> longElementListing}} {{/each}}
     <!-- Bonuses -->
     <h3>Bonuses Row</h3>
     <div class='row voffset15'>
@@ -183,7 +189,7 @@
             <input type="text" id='bonus-element-content' name="name" class="summernote" />
         </div>
     </div>
-    {{#each bonusElements}} {{> elementListing}} {{/each}}
+    {{#each bonusElements}} {{> longElementListing}} {{/each}}
     <!-- Save -->
     <div class='row voffset30'>
         <div class='col-md-3'>
@@ -210,7 +216,7 @@
             <button id='add-element-who' class='btn btn-primary btn-block'>Add Element</button>
         </div>
     </div>
-    {{#each whoElements}} {{> elementListing}} {{/each}}
+    {{#each whoElements}} {{> longElementListing}} {{/each}}
     <!-- Message -->
     <h3>Message Row</h3>
     <div class='row voffset15'>
@@ -251,7 +257,7 @@
             <input type="text" id='faq-element-content' name="name" class="summernote" />
         </div>
     </div>
-    {{#each faqElements}} {{> elementListing}} {{/each}}
+    {{#each faqElements}} {{> longElementListing}} {{/each}}
     <!-- Get started -->
     <h3>Get Started Row</h3>
     <div class='row voffset15'>
@@ -269,13 +275,19 @@
     <!-- Payment -->
     <h3>Payment Row</h3>
     <div class='row voffset15'>
-        <div class='col-md-2'>Payment background picture:</div>
+        <div class='col-md-3'>Payment button text:</div>
+        <div class='col-md-3'>
+           <input type="text" id='payment-button' value='{{payment.button}}' name="name" class="form-control" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-3'>Payment background picture:</div>
         <div class='col-md-3'>
             {{> uploadForm imageId="payment"}}
         </div>
     </div>
     <div class='row voffset15'>
-        <div class='col-md-2'>Payment element content:</div>
+        <div class='col-md-3'>Payment element content:</div>
         <div class='col-md-3'>
             <input id='payment-element-content' type='text' class='form-control'>
         </div>
@@ -322,6 +334,9 @@
     <div class='row voffset30'>
         <div class='col-md-3'>
             <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/{{url}}' class='btn btn-info btn-block btn-lg'>Preview</a>
         </div>
         <div class='col-md-3'>
             <a href='/admin/panel' class='btn btn-warning btn-block btn-lg'>Come Back</a>

@@ -70,7 +70,6 @@ Meteor.methods({
 
         Elements.update(elementId, { $set: { number: number } });
 
-        Meteor.call('flushCache');
     },
     setElementTitle: function(title, elementId) {
 
@@ -78,7 +77,6 @@ Meteor.methods({
 
         Elements.update(elementId, { $set: { title: title } });
 
-        Meteor.call('flushCache');
     },
     setElementContent: function(content, elementId) {
 
@@ -86,7 +84,6 @@ Meteor.methods({
 
         Elements.update(elementId, { $set: { content: content } });
 
-        Meteor.call('flushCache');
     },
     redirectCheckout: function(pageId) {
 

@@ -78,15 +78,28 @@
             </div>
         </div>
         <!-- Top heading row -->
+        {{#if useVideo}}
+        <div class='row sales-top-row-video' style='{{headerImage}}'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8'>
+                <div class='sales-top-row-title'>{{header.title}}</div>
+                <div class='sales-top-video'>
+                    <video class='img-responsive' controls autoplay="autoplay">
+                        <source src="{{videoLink}}" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+        {{else}}
         <div class='row sales-top-row' style='{{headerImage}}'>
             <div class='col-md-2'></div>
-            <div class='col-md-8 sales-top-row-container'>
+            <div class='col-md-8'>
                 <div class='sales-top-row-title'>{{header.title}}</div>
                 <div class='sales-top-row-icon'>
                     <a href='#what'><span class="sales-top-row-glyph glyphicon glyphicon-circle-arrow-down" aria-hidden="true"></span></a>
                 </div>
             </div>
-        </div>
+        </div> {{/if}}
         <!-- What -->
         <div class='row'>
             <div class='col-md-2'></div>
@@ -110,6 +123,7 @@
             </div>
         </div>
         <!-- Benefits -->
+        {{#if benefitElements}}
         <div class='row'>
             <div class='col-md-2'></div>
             <div class='col-md-8 sales-row sales-what-middle'>
@@ -124,7 +138,9 @@
                 </div>
             </div>
         </div>
+        {{/if}}
         <!-- Modules -->
+        {{#if moduleElements}}
         <div class='row'>
             <div class='col-md-2'></div>
             <div class='col-md-8 sales-row sales-what-middle'>
@@ -141,6 +157,7 @@
                 </div>
             </div>
         </div>
+        {{/if}}
         <!-- Bonuses -->
         {{#if areBonuses}}
         <div class='row'>
@@ -161,6 +178,7 @@
         </div>
         {{/if}}
         <!-- Who -->
+        {{#if whoElements}}
         <div class='row'>
             <div class='col-md-2'></div>
             <div style='{{greenTheme}}' class='col-md-8 sales-row sales-who'>
@@ -173,6 +191,7 @@
                 </div>
             </div>
         </div>
+        {{/if}}
         <!-- Message -->
         <div class='row'>
             <div class='col-md-2'></div>
@@ -187,12 +206,13 @@
                     <div class='col-md-{{#if langEN}}4{{else}}3{{/if}}'></div>
                     <div class='col-md-{{#if langEN}}4{{else}}6{{/if}}'>
                         <a href='{{checkoutLink}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
-                            <div class='checkout-middle' id='checkout'> {{#if langEN}}Enroll Now!{{else}}S'inscrire maintenant!{{/if}}</div>
+                            <div class='checkout-middle' id='checkout'>{{paymentButtonText}}</div>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
+        {{#if faqElements}}
         <!-- FAQ -->
         <div class='row'>
             <div class='col-md-2'></div>
@@ -206,6 +226,7 @@
                 </div>
             </div>
         </div>
+        {{/if}}
         <!-- Get Started -->
         <div class='row'>
             <div class='col-md-2'></div>
@@ -270,7 +291,7 @@
                                 <div class='payment-element'>{{content}}</div> {{/each}}
                                 <a href='{{checkoutLink}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
                                     <div class='checkout-end' id='checkout'>
-                                        {{#if langEN}}Enroll Now!{{else}}S'inscrire maintenant!{{/if}}
+                                        {{paymentButtonText}}
                                     </div>
                                 </a>
                             </div>

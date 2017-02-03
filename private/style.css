@@ -93,7 +93,7 @@ body {
 
 .lead-gen-middle-disclaimer {
 	text-align: center;
-	margin-top: 15px;
+	margin-top: 10px;
 	font-size: 12px;
 }
 
@@ -181,4 +181,23 @@ a:active {
 
 .thanks-top-row {
 	margin-top: 25px;
+}
+
+.lead-gen-video-title {
+	text-align: center;
+	font-size: 32px;
+	margin-bottom: 25px;
+	margin-top: 20px;
+}
+
+.lead-gen-video-middle {
+	margin-top: 15px;
+}
+
+.lead-gen-video-video {
+	border: 1px solid black;
+}
+
+.lead-gen-video-message {
+	font-size: 30px;
 }
