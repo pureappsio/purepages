@@ -78,16 +78,25 @@
             </div>
         </div>
         <!-- Top heading row -->
-        {{#if useVideo}}
+        {{#if useVideoTop}}
         <div class='row sales-top-row-video' style='{{headerImage}}'>
             <div class='col-md-2'></div>
             <div class='col-md-8'>
                 <div class='sales-top-row-title'>{{header.title}}</div>
                 <div class='sales-top-video'>
-                    <video class='img-responsive' controls autoplay="autoplay">
-                        <source src="{{videoLink}}" type="video/mp4">
-                    </video>
+                    {{#if videoAutoplay}}
+                        <video class='video-js vjs-big-play-centered vjs-16-9' preload="auto" controls autoplay="autoplay" data-setup="{}">
+                            <source src="{{videoLink}}" type="video/mp4">
+                        </video>
+                    {{else}}
+                        <video class='video-js vjs-big-play-centered vjs-16-9' preload="auto" controls data-setup="{}">
+                            <source src="{{videoLink}}" type="video/mp4">
+                        </video>
+                    {{/if}}
                 </div>
+                <a href='#payment-row'>
+                    <div class='checkout-top' id='checkout'>{{paymentButtonText}}</div>
+                </a>
             </div>
         </div>
         {{else}}
@@ -105,6 +114,19 @@
             <div class='col-md-2'></div>
             <div class='col-md-8 sales-row sales-what-middle' id='what'>
                 <div class='sales-section-title'>{{what.title}}</div>
+                {{#if useVideoWhat}}
+                <div class='sales-what-video'>
+                    {{#if videoAutoplay}}
+                        <video class='video-js vjs-big-play-centered vjs-16-9' preload="auto" controls autoplay="autoplay" data-setup="{}">
+                            <source src="{{videoLink}}" type="video/mp4">
+                        </video>
+                    {{else}}
+                        <video class='video-js vjs-big-play-centered vjs-16-9' preload="auto" controls data-setup="{}">
+                            <source src="{{videoLink}}" type="video/mp4">
+                        </video>
+                    {{/if}}
+                </div>
+                {{/if}}
                 <div class='sales-section-content'>
                     {{{what.text}}}
                 </div>
@@ -267,17 +289,46 @@
             </div>
         </div>
         <!-- Payment -->
-        <div class='row'>
+        <div class='row' id='payment-row'>
             <div class='col-md-2'></div>
             <div class='col-md-8 sales-row sales-payment' style='{{salesImage}}'>
                 <div class='sales-section-title'>
-                    {{#if langEN}} Click on the button below to get started {{else}} Cliquez sur le bouton ci-dessous pour commencer {{/if}}
+                    {{#if useVariants}} {{#if langEN}} Click on the desired option below to get started {{else}} Choisissez une option ci-dessous pour commencer {{/if}} {{else}} {{#if langEN}} Click on the button below to get started {{else}} Cliquez sur le bouton ci-dessous pour commencer {{/if}} {{/if}}
                 </div>
                 <div class='sales-section-content'>
                     <div class='row'>
+                        {{#if useVariants}} {{#each variant in variants}}
+                        <div class='col-md-4'>
+                            <div class='sales-container'>
+                                <div class='sales-product-name'>{{variant.name}}</div>
+                                <div class='sales-price'>
+                                    {{#if isDiscounted}}
+                                    <div class='base-sale-price'>
+                                        {{variantBasePrice variant}}
+                                    </div>
+                                    {{/if}}
+                                    <div class='{{#if isDiscounted}}reduced-price{{/if}}'>{{variantSalesPrice variant}}</div>
+                                </div>
+                                {{#each salesElement in variant.includedSalesElements}}
+                                <div class='payment-element-included'>
+                                    <span class="glyphicon glyphicon-included glyphicon-sales glyphicon-ok" aria-hidden="true"></span>
+                                    <span class='payment-element-content'>{{salesElement.value}}</span>
+                                </div> {{/each}} {{#each salesElement in variant.excludedSalesElements}}
+                                <div class='payment-element-excluded'>
+                                    <span class="glyphicon glyphicon-excluded glyphicon-sales glyphicon-remove" aria-hidden="true"></span>
+                                    <span class='payment-element-content'>{{salesElement.value}}</span>
+                                </div> {{/each}}
+                                <a href='{{variantCheckoutLink variant}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
+                                    <div class='checkout-end' id='checkout'>
+                                        {{paymentButtonText}}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {{/each}} {{else}}
                         <div class='col-md-3'></div>
                         <div class='col-md-6'>
-                            <div class='sales-container'>
+                            <div class='sales-container sales-container-no-variant'>
                                 <div class='sales-product-name'>{{productName}}</div>
                                 <div class='sales-price'>
                                     {{#if isDiscounted}}
@@ -296,6 +347,7 @@
                                 </a>
                             </div>
                         </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>

@@ -206,6 +206,11 @@ Template.pageEditSales.events({
         page.what.title = $('#what-title').val();
         page.what.text = $('#what-text').summernote('code');
 
+        // Video
+        page.video = {};
+        page.video.placement = $('#video-placement :selected').val();
+        page.video.control = $('#video-control :selected').val();
+
         // Included
         page.included = {};
         page.included.title = $('#included-title').val();
@@ -352,6 +357,11 @@ Template.pageEditSales.onRendered(function() {
 
     if (this.data.timer) {
         $('#timer-active').val(this.data.timer.active);
+    }
+
+    if (this.data.video) {
+        $('#video-placement').val(this.data.video.placement);
+        $('#video-control').val(this.data.video.control);
     }
 
     // Load pages

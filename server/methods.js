@@ -1,5 +1,27 @@
 Meteor.methods({
 
+    getUserLocation: function(httpHeaders) {
+
+        // console.log(httpHeaders);
+
+        if (httpHeaders['cf-ipcountry']) {
+            // console.log('Using CloudFlare location')
+            var data = {};
+            country_code = httpHeaders['cf-ipcountry'];
+        } else {
+            // console.log('Using direct IP location')
+            country_code = 'US';
+        }
+
+        return country_code;
+
+    },
+
+    getUSDLocations: function() {
+
+        return ['US', 'CA', 'AU', 'NZ'];
+
+    },
     getDiscount: function(code, brandId) {
 
         // Get brand
@@ -261,6 +283,26 @@ Meteor.methods({
         var url = "https://" + integration.url + "/api/products/" + page.productId + "?key=" + integration.key;
         var answer = HTTP.get(url);
         return answer.data.product;
+
+    },
+    getProductVariants: function(pageId) {
+
+        // Get page
+        var page = Pages.findOne(pageId);
+
+        // Get brand
+        var brand = Brands.findOne(page.brandId);
+
+        // Get integration
+        var integration = Integrations.findOne(brand.cartId);
+
+        // Get product data
+        var url = "https://" + integration.url + "/api/variants?key=" + integration.key;
+        url += '&product=' + page.productId;
+        console.log(url);
+
+        var answer = HTTP.get(url);
+        return answer.data.variants;
 
     },
     getListSequences: function(list) {

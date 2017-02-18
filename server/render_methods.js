@@ -255,19 +255,137 @@ Meteor.methods({
                 // Get product data
                 var productData = Meteor.call('getProductData', page._id);
 
+                // Get variants
+                var variants = Meteor.call('getProductVariants', page._id);
+                // console.log('Variants: ');
+                // console.log(variants);
+
             }
+
+            // Build salesElements
+            if (variants.length > 0) {
+                for (v = 0; v < variants.length; v++) {
+
+                    // Build not included
+                    var excludedSalesElements = [];
+                    for (j = v + 1; j < variants.length; j++) {
+                        excludedSalesElements = excludedSalesElements.concat(variants[j].salesElements);
+                    }
+
+                    // Build included
+                    var includedSalesElements = [];
+                    for (k = v; k >= 0; k--) {
+
+                        var includedSalesElementsVariant = [];
+
+                        for (s in variants[k].salesElements) {
+                            includedSalesElementsVariant.push(variants[k].salesElements[s]);
+                        }
+
+                        includedSalesElementsVariant.reverse();
+                        includedSalesElements = includedSalesElements.concat(includedSalesElementsVariant);
+
+                    }
+
+                    variants[v].includedSalesElements = includedSalesElements.reverse();
+                    variants[v].excludedSalesElements = excludedSalesElements;
+
+                }
+            }
+
+            console.log(variants);
 
             // Get brand data
             var brand = Brands.findOne(page.brandId);
             var brandLanguage = Meteor.call('getBrandLanguage', page.brandId);
 
+            // Get location
+            if (query.location) {
+                var location = query.location;
+            } else {
+                var location = 'US';
+            }
+            var usdLocations = Meteor.call('getUSDLocations');
+
             // Helpers
             helpers = {
 
-                useVideo: function() {
+                variantBasePrice: function(variant) {
 
-                    if (page.header) {
-                        if (page.header.video) {
+                    if (usdLocations.indexOf(location) != -1) {
+                        var price = parseFloat(variant.price.USD);
+                        return '$' + price.toFixed(2);
+                    } else {
+                        var price = parseFloat(variant.price.EUR);
+                        return price.toFixed(2) + ' €';
+                    }
+
+                },
+                variantSalesPrice: function(variant) {
+
+                    if (usdLocations.indexOf(location) != -1) {
+                        var price = parseFloat(variant.price.USD);
+                        price = price * (1 - parseInt(discount.amount) / 100);
+
+                        return '$' + price.toFixed(2);
+                    } else {
+                        var price = parseFloat(variant.price.EUR);
+                        price = price * (1 - parseInt(discount.amount) / 100);
+
+                        return price.toFixed(2) + ' €';
+                    }
+
+                },
+                variants: function() {
+
+                    return variants;
+
+                },
+                variantCheckoutLink: function(variant) {
+
+                    var link = 'https://' + Integrations.findOne(brand.cartId).url + '?variant=' + variant._id;
+
+                    if (discount.useDiscount == true) {
+                        link += '&discount=' + discount.code;
+                    }
+
+                    if (query.origin) {
+                        link += '&origin=' + query.origin;
+                    }
+
+                    return link;
+
+                },
+                useVariants: function() {
+
+                    if (variants.length > 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                },
+                useVideoTop: function() {
+
+                    if (page.header && page.video) {
+                        if (page.header.video && page.video.placement == 'header') {
+                            return true;
+                        }
+                    }
+
+                },
+                videoAutoplay: function() {
+
+                    if (page.video) {
+                        if (page.video.control == 'autoplay') {
+                            return true;
+                        }
+                    }
+                },
+                useVideoWhat: function() {
+
+                    if (page.header && page.video) {
+                        if (page.header.video && page.video.placement == 'what') {
                             return true;
                         }
                     }
@@ -361,24 +479,38 @@ Meteor.methods({
                     }
                 },
                 salesPrice: function() {
-                    if (brandLanguage == 'en') {
-                        var price = parseFloat(productData.price.USD);
+
+                    if (variants.length > 0) {
+                        var productPrice = variants[0].price;
+                    } else {
+                        var productPrice = productData.price;
+                    }
+
+                    if (usdLocations.indexOf(location) != -1) {
+                        var price = parseFloat(productPrice.USD);
                         price = price * (1 - parseInt(discount.amount) / 100);
 
                         return '$' + price.toFixed(2);
                     } else {
-                        var price = parseFloat(productData.price.EUR);
+                        var price = parseFloat(productPrice.EUR);
                         price = price * (1 - parseInt(discount.amount) / 100);
 
                         return price.toFixed(2) + ' €';
                     }
                 },
                 baseSalesPrice: function() {
-                    if (brandLanguage == 'en') {
-                        var price = parseFloat(productData.price.USD);
+
+                    if (variants.length > 0) {
+                        var productPrice = variants[0].price;
+                    } else {
+                        var productPrice = productData.price;
+                    }
+
+                    if (usdLocations.indexOf(location) != -1) {
+                        var price = parseFloat(productPrice.USD);
                         return '$' + price.toFixed(2);
                     } else {
-                        var price = parseFloat(productData.price.EUR);
+                        var price = parseFloat(productPrice.EUR);
                         return price.toFixed(2) + ' €';
                     }
                 },
@@ -502,7 +634,7 @@ Meteor.methods({
             var page = Pages.findOne({ url: postUrl });
 
             // Check if cached
-            if (page.cached == true && !(query.ref) && !(query.origin) && !(query.subscriber) && !(query.discount)) {
+            if (page.cached == true && !(query.location) && !(query.ref) && !(query.origin) && !(query.subscriber) && !(query.discount)) {
 
                 return Meteor.call('returnCachedPage', page);
 

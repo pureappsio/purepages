@@ -16,6 +16,12 @@
             <select class='form-control' id='product-id'>
             </select>
         </div>
+        <!-- <div class='col-md-2'>
+            <select class='form-control' id='use-variants'>
+                <option value='yes'>Use variants</option>
+                <option value='no'>Don't use variants</option>
+            </select>
+        </div> -->
     </div>
     <!-- Theme -->
     <h3>Theme</h3>
@@ -50,10 +56,30 @@
             {{> uploadForm imageId="header"}}
         </div>
     </div>
+    <!-- Video -->
+    <h3>Video</h3>
     <div class='row voffset15'>
         <div class='col-md-2'>Optional video:</div>
         <div class='col-md-3'>
             {{> uploadForm imageId="video"}}
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Video placement:</div>
+        <div class='col-md-3'>
+            <select class='form-control' id='video-placement'>
+                <option value='header'>Header</option>
+                <option value='what'>What Is Section</option>
+            </select>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Video control:</div>
+        <div class='col-md-3'>
+            <select class='form-control' id='video-control'>
+                <option value='autoplay'>Autoplay</option>
+                <option value='stop'>Stopped</option>
+            </select>
         </div>
     </div>
     <!-- What -->
@@ -277,7 +303,7 @@
     <div class='row voffset15'>
         <div class='col-md-3'>Payment button text:</div>
         <div class='col-md-3'>
-           <input type="text" id='payment-button' value='{{payment.button}}' name="name" class="form-control" />
+            <input type="text" id='payment-button' value='{{payment.button}}' name="name" class="form-control" />
         </div>
     </div>
     <div class='row voffset15'>
@@ -326,7 +352,6 @@
         <div class='col-md-3'>Activate timer:</div>
         <div class='col-md-4'>
             <select class="form-control" id='timer-page'>
-
             </select>
         </div>
     </div>
