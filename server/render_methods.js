@@ -395,7 +395,16 @@ Meteor.methods({
 
                     if (page.header) {
                         if (page.header.video) {
-                            return Images.findOne(page.header.video).link()
+                            return Images.findOne(page.header.video).link();
+                        }
+                    }
+
+                },
+                videoPoster: function() {
+
+                    if (page.video) {
+                        if (page.video.poster) {
+                            return Images.findOne(page.video.poster).link();
                         }
                     }
 
@@ -574,6 +583,9 @@ Meteor.methods({
                 },
                 bonusElements: function() {
                     return Elements.find({ type: 'bonus', pageId: this._id }, { sort: { number: 1 } });
+                },
+                testimonialElements: function() {
+                    return Elements.find({ type: 'testimonial', pageId: this._id }, { sort: { number: 1 } });
                 },
                 areBonuses: function() {
 

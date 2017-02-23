@@ -64,6 +64,12 @@
             {{> uploadForm imageId="video"}}
         </div>
     </div>
+     <div class='row voffset15'>
+        <div class='col-md-2'>Optional video poster:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="videoposter"}}
+        </div>
+    </div>
     <div class='row voffset15'>
         <div class='col-md-2'>Video placement:</div>
         <div class='col-md-3'>
@@ -322,6 +328,30 @@
         </div>
     </div>
     {{#each paymentElements}} {{> elementListing}} {{/each}}
+    <!-- Testimonials -->
+    <h3>Testimonials</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Testimonials title:</div>
+        <div class='col-md-3'>
+            <input type="text" id='testimonial-title' value='{{testimonials.title}}' name="name" class="form-control" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Person name:</div>
+        <div class='col-md-3'>
+            <input id='testimonial-element-title' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element-testimonial' class='btn btn-primary btn-block'>Add Testimonial</button>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Testimonial content:</div>
+        <div class='col-md-5'>
+            <input type="text" id='testimonial-element-content' name="name" class="summernote" />
+        </div>
+    </div>
+    {{#each testimonialElements}} {{> elementListing}} {{/each}}
     <!-- Timer -->
     <h3>Countdown Timer</h3>
     <div class='row voffset15'>

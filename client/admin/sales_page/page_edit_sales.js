@@ -29,6 +29,9 @@ Template.pageEditSales.helpers({
     benefitElements: function() {
         return Elements.find({ type: 'benefit', pageId: this._id }, { sort: { number: 1 } });
     },
+    testimonialElements: function() {
+        return Elements.find({ type: 'testimonial', pageId: this._id }, { sort: { number: 1 } });
+    },
     moduleElements: function() {
         return Elements.find({ type: 'module', pageId: this._id }, { sort: { number: 1 } });
     },
@@ -106,6 +109,19 @@ Template.pageEditSales.events({
             type: 'module',
             title: $('#module-element-title').val(),
             content: $('#module-element-content').summernote('code'),
+            pageId: this._id,
+            userId: Meteor.user()._id
+        }
+
+        Meteor.call('createElement', element);
+
+    },
+    'click #add-element-testimonial': function() {
+
+        var element = {
+            type: 'testimonial',
+            title: $('#testimonial-element-title').val(),
+            content: $('#testimonial-element-content').summernote('code'),
             pageId: this._id,
             userId: Meteor.user()._id
         }
@@ -211,6 +227,16 @@ Template.pageEditSales.events({
         page.video.placement = $('#video-placement :selected').val();
         page.video.control = $('#video-control :selected').val();
 
+        if (this.video) {
+            if (this.video.poster) {
+                page.video.poster = this.video.poster;
+            }
+        }
+
+        if (Session.get('videoposter')) {
+            page.video.poster = Session.get('videoposter');
+        }
+
         // Included
         page.included = {};
         page.included.title = $('#included-title').val();
@@ -248,6 +274,10 @@ Template.pageEditSales.events({
         // FAQ
         page.faq = {};
         page.faq.title = $('#faq-title').val();
+
+        // Testimonials
+        page.testimonials = {};
+        page.testimonials.title = $('#testimonial-title').val();
 
         // Get Started
         page.started = {};
@@ -318,6 +348,10 @@ Template.pageEditSales.onRendered(function() {
     });
 
     $('#bonus-element-content').summernote({
+        minHeight: 150 // set editor height
+    });
+
+    $('#testimonial-element-content').summernote({
         minHeight: 150 // set editor height
     });
 

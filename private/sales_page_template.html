@@ -85,11 +85,11 @@
                 <div class='sales-top-row-title'>{{header.title}}</div>
                 <div class='sales-top-video'>
                     {{#if videoAutoplay}}
-                        <video class='video-js vjs-big-play-centered vjs-16-9' preload="auto" controls autoplay="autoplay" data-setup="{}">
+                        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" preload="auto" controls autoplay="autoplay" poster="{{videoPoster}}" data-setup="{}">
                             <source src="{{videoLink}}" type="video/mp4">
                         </video>
                     {{else}}
-                        <video class='video-js vjs-big-play-centered vjs-16-9' preload="auto" controls data-setup="{}">
+                        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls data-setup="{}">
                             <source src="{{videoLink}}" type="video/mp4">
                         </video>
                     {{/if}}
@@ -117,11 +117,11 @@
                 {{#if useVideoWhat}}
                 <div class='sales-what-video'>
                     {{#if videoAutoplay}}
-                        <video class='video-js vjs-big-play-centered vjs-16-9' preload="auto" controls autoplay="autoplay" data-setup="{}">
+                        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls autoplay="autoplay" data-setup="{}">
                             <source src="{{videoLink}}" type="video/mp4">
                         </video>
                     {{else}}
-                        <video class='video-js vjs-big-play-centered vjs-16-9' preload="auto" controls data-setup="{}">
+                        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls data-setup="{}">
                             <source src="{{videoLink}}" type="video/mp4">
                         </video>
                     {{/if}}
@@ -249,6 +249,21 @@
             </div>
         </div>
         {{/if}}
+        <!-- Testimonials -->
+        {{#if testimonialElements}}
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row sales-testimonial'>
+                <div class='sales-section-title'>{{testimonials.title}}</div>
+                <div class='sales-section-content'>
+                    {{#each testimonialElements}}
+                    <div class='testimonial-content'>{{{content}}}</div>
+                    <div class='testimonial-title'>{{{title}}}</div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+       {{/if}}
         <!-- Get Started -->
         <div class='row'>
             <div class='col-md-2'></div>
@@ -352,22 +367,5 @@
                 </div>
             </div>
         </div>
-        <!-- Testimonials -->
-        <!-- <div class='row'>
-            <div class='col-md-2'></div>
-            <div class='col-md-8 sales-row sales-faq'>
-                <div class='sales-section-title'>4 Holy $%@ Limited Time Bonuses</div>
-                <div class='sales-section-content'>
-                    Create Awesome Online Courses (CAOC) is my proven complete step-by-step system designed to take you by the hand (as in step 1, step 2, step 3) to create, promote & profit from your own online course. No ambiguity or confusion. Literally step-by-step nothing is left out.
-                </div>
-            </div>
-        </div> -->
-        <!-- Payment -->
-        <!--  <div class='row sales-payment'>
-            <div class='col-md-2'></div>
-            <div class='col-md-8 sales-row sales-what-middle'>
-                <button id='buy' class='btn btn-lg btn-block'>Enroll Now!</button>
-            </div>
-        </div> -->
     </div>
 </div>

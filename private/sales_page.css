@@ -117,6 +117,16 @@
     color: gray;
 }
 
+.testimonial-content {
+    color: gray;
+}
+
+.testimonial-title {
+    margin-top: 25px;
+    font-size: 20px;
+    text-align: center;
+}
+
 .sales-price {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -296,6 +306,10 @@ video {
 }
 
 .sales-faq {
+    background-color: white;
+}
+
+.sales-testimonial {
     background-color: white;
 }
 
