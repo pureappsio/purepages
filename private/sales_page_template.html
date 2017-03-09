@@ -74,7 +74,7 @@
         <div class='row sales-logo-row'>
             <div class='col-md-1'></div>
             <div class='col-md-3'>
-                <img class='img-responsive' src='{{brandPicture}}'>
+                <img class='img-fluid' src='{{brandPicture}}'>
             </div>
         </div>
         <!-- Top heading row -->
@@ -85,13 +85,13 @@
                 <div class='sales-top-row-title'>{{header.title}}</div>
                 <div class='sales-top-video'>
                     {{#if videoAutoplay}}
-                        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" preload="auto" controls autoplay="autoplay" poster="{{videoPoster}}" data-setup="{}">
-                            <source src="{{videoLink}}" type="video/mp4">
-                        </video>
+                    <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" preload="auto" controls autoplay="autoplay" poster="{{videoPoster}}" data-setup="{}">
+                        <source src="{{videoLink}}" type="video/mp4">
+                    </video>
                     {{else}}
-                        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls data-setup="{}">
-                            <source src="{{videoLink}}" type="video/mp4">
-                        </video>
+                    <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls data-setup="{}">
+                        <source src="{{videoLink}}" type="video/mp4">
+                    </video>
                     {{/if}}
                 </div>
                 <a href='#payment-row'>
@@ -117,13 +117,13 @@
                 {{#if useVideoWhat}}
                 <div class='sales-what-video'>
                     {{#if videoAutoplay}}
-                        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls autoplay="autoplay" data-setup="{}">
-                            <source src="{{videoLink}}" type="video/mp4">
-                        </video>
+                    <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls autoplay="autoplay" data-setup="{}">
+                        <source src="{{videoLink}}" type="video/mp4">
+                    </video>
                     {{else}}
-                        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls data-setup="{}">
-                            <source src="{{videoLink}}" type="video/mp4">
-                        </video>
+                    <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" poster="{{videoPoster}}" preload="auto" controls data-setup="{}">
+                        <source src="{{videoLink}}" type="video/mp4">
+                    </video>
                     {{/if}}
                 </div>
                 {{/if}}
@@ -170,7 +170,7 @@
                 <div class='sales-section-content'>
                     {{#each module in moduleElements}}
                     <div class='row module-container'>
-                        <div class='col-md-4'><img class='img-responsive' src='{{moduleImage module}}'></div>
+                        <div class='col-md-4'><img class='img-fluid' src='{{moduleImage module}}'></div>
                         <div class='col-md-8'>
                             <div class='module-title'>Module #{{module.number}}: {{module.title}}</div>
                             <div class='module-content'>{{{module.content}}}</div>
@@ -263,7 +263,7 @@
                 </div>
             </div>
         </div>
-       {{/if}}
+        {{/if}}
         <!-- Get Started -->
         <div class='row'>
             <div class='col-md-2'></div>
@@ -293,8 +293,8 @@
                     <div class='row'>
                         <div class='col-md-3'>
                             {{#if langEN}}
-                            <img class='img-responsive' src='{{meteorURL}}30_guarantee.png'> {{else}}
-                            <img class='img-responsive' src='{{meteorURL}}30_guarantee_fr.png'> {{/if}}
+                            <img class='img-fluid' src='{{meteorURL}}30_guarantee.png'> {{else}}
+                            <img class='img-fluid' src='{{meteorURL}}30_guarantee_fr.png'> {{/if}}
                         </div>
                         <div class='col-md-9'>
                             {{#if langEN}} As for all my products, this product comes with a 30-day 100% money back guarantee, with no questions asked. I truly believe in the quality of the products I am creating, and we want to make this purchase risk-free for you. So if at any point after purchasing the product you are not satisfied, just let me know under 30 days and you will get a full refund. {{else}} Comme pour tout mes produits, cette formation comporte une garantie satisfait ou remboursé sous 30 jours, sans avoir besoin de donner de raison. Je crois vraiment à la qualité de cette formation, et je veux que cet achat soit totalement sans risque pour vous. Si vous achetez cette formation et que vous n’êtes pas satisfait, envoyez moi un message sous 30 jours pour un remboursement intégral. {{/if}}
@@ -312,7 +312,37 @@
                 </div>
                 <div class='sales-section-content'>
                     <div class='row'>
-                        {{#if useVariants}} {{#each variant in variants}}
+                        {{#if useVariants}} {{#if twoVariants}}
+                        {{#each variant in variants}}
+                        <div class='col-md-6'>
+                            <div class='sales-container'>
+                                <div class='sales-product-name'>{{variant.name}}</div>
+                                <div class='sales-price'>
+                                    {{#if isDiscounted}}
+                                    <div class='base-sale-price'>
+                                        {{variantBasePrice variant}}
+                                    </div>
+                                    {{/if}}
+                                    <div class='{{#if isDiscounted}}reduced-price{{/if}}'>{{variantSalesPrice variant}}</div>
+                                </div>
+                                {{#each salesElement in variant.includedSalesElements}}
+                                <div class='payment-element-included'>
+                                 
+                                    <i class="fa fa-check glyphicon-included glyphicon-sales" aria-hidden="true"></i>
+                                    <span class='payment-element-content'>{{salesElement.value}}</span>
+                                </div> {{/each}} {{#each salesElement in variant.excludedSalesElements}}
+                                <div class='payment-element-excluded'>
+                                    <i class="fa fa-times glyphicon-excluded glyphicon-sales" aria-hidden="true"></i>
+                                    <span class='payment-element-content'>{{salesElement.value}}</span>
+                                </div> {{/each}}
+                                <a href='{{variantCheckoutLink variant}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
+                                    <div class='checkout-end' id='checkout'>
+                                        {{paymentButtonText}}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {{/each}} {{/if}} {{#if threeVariants}} {{#each variant in variants}}
                         <div class='col-md-4'>
                             <div class='sales-container'>
                                 <div class='sales-product-name'>{{variant.name}}</div>
@@ -326,11 +356,11 @@
                                 </div>
                                 {{#each salesElement in variant.includedSalesElements}}
                                 <div class='payment-element-included'>
-                                    <span class="glyphicon glyphicon-included glyphicon-sales glyphicon-ok" aria-hidden="true"></span>
+                                    <i class="fa fa-check glyphicon-included glyphicon-sales" aria-hidden="true"></i>
                                     <span class='payment-element-content'>{{salesElement.value}}</span>
                                 </div> {{/each}} {{#each salesElement in variant.excludedSalesElements}}
                                 <div class='payment-element-excluded'>
-                                    <span class="glyphicon glyphicon-excluded glyphicon-sales glyphicon-remove" aria-hidden="true"></span>
+                                    <i class="fa fa-times glyphicon-excluded glyphicon-sales" aria-hidden="true"></i>
                                     <span class='payment-element-content'>{{salesElement.value}}</span>
                                 </div> {{/each}}
                                 <a href='{{variantCheckoutLink variant}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
@@ -340,7 +370,7 @@
                                 </a>
                             </div>
                         </div>
-                        {{/each}} {{else}}
+                        {{/each}} {{/if}} {{else}}
                         <div class='col-md-3'></div>
                         <div class='col-md-6'>
                             <div class='sales-container sales-container-no-variant'>

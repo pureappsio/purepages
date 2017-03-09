@@ -365,6 +365,24 @@ Meteor.methods({
                     }
 
                 },
+                twoVariants: function() {
+
+                    if (variants.length == 2) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                },
+                threeVariants: function() {
+
+                    if (variants.length == 3) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                },
                 useVideoTop: function() {
 
                     if (page.header && page.video) {
