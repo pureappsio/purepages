@@ -228,7 +228,7 @@
                     <div class='col-md-{{#if langEN}}4{{else}}3{{/if}}'></div>
                     <div class='col-md-{{#if langEN}}4{{else}}6{{/if}}'>
                         <a href='{{checkoutLink}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
-                            <div class='checkout-middle' id='checkout'>{{paymentButtonText}}</div>
+                            <div class='action checkout-middle' id='checkout'>{{paymentButtonText}}</div>
                         </a>
                     </div>
                 </div>
@@ -336,7 +336,7 @@
                                     <span class='payment-element-content'>{{salesElement.value}}</span>
                                 </div> {{/each}}
                                 <a href='{{variantCheckoutLink variant}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
-                                    <div class='checkout-end' id='checkout'>
+                                    <div class='action checkout-end' id='checkout'>
                                         {{paymentButtonText}}
                                     </div>
                                 </a>
@@ -364,7 +364,7 @@
                                     <span class='payment-element-content'>{{salesElement.value}}</span>
                                 </div> {{/each}}
                                 <a href='{{variantCheckoutLink variant}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
-                                    <div class='checkout-end' id='checkout'>
+                                    <div class='action checkout-end' id='checkout'>
                                         {{paymentButtonText}}
                                     </div>
                                 </a>
@@ -386,7 +386,7 @@
                                 {{#each paymentElements}}
                                 <div class='payment-element'>{{content}}</div> {{/each}}
                                 <a href='{{checkoutLink}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
-                                    <div class='checkout-end' id='checkout'>
+                                    <div class='action checkout-end' id='checkout'>
                                         {{paymentButtonText}}
                                     </div>
                                 </a>

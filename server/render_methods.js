@@ -51,6 +51,14 @@ Meteor.methods({
                 if (brand.trackingId) {
                     return brand.trackingId;
                 }
+            },
+            pageId: function() {
+                if (options.pageId) {
+                    return options.pageId;
+                }
+            },
+            appUrl: function() {
+                return Meteor.absoluteUrl();
             }
 
         });
@@ -86,12 +94,21 @@ Meteor.methods({
         if (page.model == 'thankyou' || page.model == 'tripwire') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { brandId: page.brandId, lead: true, pageTitle: page.name });
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
+                lead: true,
+                pageTitle: page.name,
+                pageId: page._id
+            });
         }
         if (page.model == 'salespage' || page.model == 'leadgen' || page.model == 'closed') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { brandId: page.brandId, pageTitle: page.name });
+            headerHtml = Meteor.call('renderHeader', { 
+                brandId: page.brandId, 
+                pageTitle: page.name,
+                pageId: page._id
+            });
         }
 
         return headerHtml + "<body>" + "<div class='container-fluid main-container'>" + page.html + "</div>" + "</body>";
@@ -108,7 +125,11 @@ Meteor.methods({
         if (page.model == 'leadgen') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { brandId: page.brandId, pageTitle: page.name });
+            headerHtml = Meteor.call('renderHeader', { 
+                brandId: page.brandId, 
+                pageTitle: page.name,
+                pageId: page._id 
+            });
 
             // Compile
             SSR.compileTemplate('pageTemplate',
@@ -122,7 +143,12 @@ Meteor.methods({
         if (page.model == 'tripwire') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { brandId: page.brandId, lead: true, pageTitle: page.name });
+            headerHtml = Meteor.call('renderHeader', { 
+                brandId: page.brandId, 
+                lead: true, 
+                pageTitle: page.name,
+                pageId: page._id 
+            });
 
             // Get product data
             var productData = Meteor.call('getProductData', page._id);
@@ -188,7 +214,12 @@ Meteor.methods({
         if (page.model == 'thankyou') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { brandId: page.brandId, lead: true, pageTitle: page.name });
+            headerHtml = Meteor.call('renderHeader', { 
+                brandId: page.brandId, 
+                lead: true, 
+                pageTitle: page.name,
+                pageId: page._id 
+            });
 
             // Compile
             SSR.compileTemplate('pageTemplate',
@@ -208,7 +239,11 @@ Meteor.methods({
         if (page.model == 'closed') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { brandId: page.brandId, pageTitle: page.name });
+            headerHtml = Meteor.call('renderHeader', { 
+                brandId: page.brandId, 
+                pageTitle: page.name,
+                pageId: page._id 
+            });
 
             // Compile
             SSR.compileTemplate('pageTemplate',
@@ -228,7 +263,11 @@ Meteor.methods({
         if (page.model == 'salespage') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { brandId: page.brandId, pageTitle: page.name });
+            headerHtml = Meteor.call('renderHeader', { 
+                brandId: page.brandId, 
+                pageTitle: page.name,
+                pageId: page._id 
+            });
 
             // Set timer & discount
             var timer = Meteor.call('getTimerData', page, query);

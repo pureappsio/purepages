@@ -1,5 +1,11 @@
 Meteor.methods({
 
+    insertSession: function(session) {
+
+        console.log(session);
+        Sessions.insert(session);
+
+    },
     getUserLocation: function(httpHeaders) {
 
         // console.log(httpHeaders);
@@ -34,9 +40,13 @@ Meteor.methods({
 
             // Get lists
             var url = "https://" + integration.url + "/api/discounts/" + code + "?key=" + integration.key;
-            var answer = HTTP.get(url);
 
-            return answer.data;
+            try {
+                var answer = HTTP.get(url);
+                return answer.data;
+            } catch (e) {
+                return {};
+            }
 
         }
 
@@ -190,9 +200,8 @@ Meteor.methods({
 
             // Get lists
             var url = "https://" + integration.url + "/api/discounts?key=" + integration.key;
-            // console.log(url);
+
             var answer = HTTP.post(url, { data: data });
-            // console.log(answer);
 
         }
 
@@ -206,8 +215,15 @@ Meteor.methods({
 
             // Get lists
             var url = "https://" + integration.url + "/api/lists?key=" + integration.key;
-            var answer = HTTP.get(url);
-            return answer.data.lists;
+
+            try {
+
+                var answer = HTTP.get(url);
+                return answer.data.lists;
+
+            } catch (e) {
+                return [];
+            }
 
         } else {
             return [];
@@ -259,9 +275,14 @@ Meteor.methods({
 
             // Get products
             var url = "https://" + integration.url + "/api/products?key=" + integration.key;
-            console.log(url);
-            var answer = HTTP.get(url);
-            return answer.data.products;
+
+            try {
+                var answer = HTTP.get(url);
+                return answer.data.products;
+
+            } catch (e) {
+                return [];
+            }
 
         } else {
             return [];
@@ -281,8 +302,14 @@ Meteor.methods({
 
         // Get product data
         var url = "https://" + integration.url + "/api/products/" + page.productId + "?key=" + integration.key;
-        var answer = HTTP.get(url);
-        return answer.data.product;
+
+        try {
+            var answer = HTTP.get(url);
+            return answer.data.product;
+        } catch (e) {
+            console.log(e);
+            return {};
+        }
 
     },
     getProductVariants: function(pageId) {
@@ -299,10 +326,13 @@ Meteor.methods({
         // Get product data
         var url = "https://" + integration.url + "/api/variants?key=" + integration.key;
         url += '&product=' + page.productId;
-        console.log(url);
 
-        var answer = HTTP.get(url);
-        return answer.data.variants;
+        try {
+            var answer = HTTP.get(url);
+            return answer.data.variants;
+        } catch (e) {
+            return [];
+        }
 
     },
     getListSequences: function(list) {
@@ -313,10 +343,15 @@ Meteor.methods({
             var integration = Integrations.findOne({ type: 'puremail' });
 
             // Get lists
-            var url = "http://" + integration.url + "/api/sequences?key=" + integration.key;
+            var url = "https://" + integration.url + "/api/sequences?key=" + integration.key;
             url += '&list=' + list;
-            var answer = HTTP.get(url);
-            return answer.data.sequences;
+
+            try {
+                var answer = HTTP.get(url);
+                return answer.data.sequences;
+            } catch (e) {
+                return [];
+            }
 
         } else {
             return [];
@@ -334,8 +369,13 @@ Meteor.methods({
             // Get lists
             var url = "http://" + integration.url + "/api/tags?key=" + integration.key;
             url += '&list=' + list;
-            var answer = HTTP.get(url);
-            return answer.data.tags;
+
+            try {
+                var answer = HTTP.get(url);
+                return answer.data.tags;
+            } catch (e) {
+                return [];
+            }
 
         } else {
             return [];

@@ -18,6 +18,10 @@ Meteor.publish("userIntegrations", function() {
     return Integrations.find({});
 });
 
+Meteor.publish("userSessions", function() {
+    return Sessions.find({});
+});
+
 Meteor.publish("allUsers", function() {
     return Meteor.users.find({});
 });

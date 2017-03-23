@@ -5,6 +5,7 @@ Tracker.autorun(function() {
     Meteor.subscribe('userElements');
     Meteor.subscribe('userIntegrations');
     Meteor.subscribe('userCaches');
+     Meteor.subscribe('userSessions');
     Meteor.subscribe('allUsers');
     Meteor.subscribe('files.images.all');
 });
