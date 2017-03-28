@@ -230,6 +230,81 @@ Meteor.methods({
         }
 
     },
+    getCourses: function() {
+
+        // Get integration
+        if (Integrations.findOne({ type: 'purecourses' })) {
+
+            var integration = Integrations.findOne({ type: 'purecourses' });
+
+            // Get lists
+            var url = "https://" + integration.url + "/api/courses?key=" + integration.key;
+
+            try {
+
+                var answer = HTTP.get(url);
+                return answer.data.courses;
+
+            } catch (e) {
+                return [];
+            }
+
+        } else {
+            return [];
+        }
+
+    },
+    getModules: function(courseId) {
+
+        // Get integration
+        if (Integrations.findOne({ type: 'purecourses' })) {
+
+            var integration = Integrations.findOne({ type: 'purecourses' });
+
+            // Get module
+            var url = "https://" + integration.url + "/api/modules?key=" + integration.key;
+            url += '&course=' + courseId;
+            url += '&lessons=all';
+
+            try {
+
+                var answer = HTTP.get(url);
+                return answer.data.modules;
+
+            } catch (e) {
+                return [];
+            }
+
+        } else {
+            return [];
+        }
+
+    },
+    getLessons: function(moduleId) {
+
+        // Get integration
+        if (Integrations.findOne({ type: 'purecourses' })) {
+
+            var integration = Integrations.findOne({ type: 'purecourses' });
+
+            // Get lists
+            var url = "https://" + integration.url + "/api/lessons?key=" + integration.key;
+            url += '&module=' + moduleId;
+
+            try {
+
+                var answer = HTTP.get(url);
+                return answer.data.lessons;
+
+            } catch (e) {
+                return [];
+            }
+
+        } else {
+            return [];
+        }
+
+    },
     getSubscriber: function(subscriberId) {
 
         // Get integration

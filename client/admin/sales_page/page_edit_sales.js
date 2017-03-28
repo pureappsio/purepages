@@ -191,6 +191,11 @@ Template.pageEditSales.events({
             theme: $('#theme :selected').val()
         }
 
+        // Course?
+        if ($('#theme :selected').val() == 'course') {
+            page.courseId = $('#course :selected').val();
+        }
+
         // Brand
         page.brandId = $('#brand-id :selected').val();
 
@@ -436,6 +441,21 @@ Template.pageEditSales.onRendered(function() {
                     $('#product-id').append($('<option>', {
                         value: products[i]._id,
                         text: products[i].name
+                    }));
+                }
+
+                $('#product-id').val(productId);
+
+            });
+
+            Meteor.call('getCourses', function(err, courses) {
+
+                $('#course').empty();
+
+                for (i = 0; i < courses.length; i++) {
+                    $('#course').append($('<option>', {
+                        value: courses[i]._id,
+                        text: courses[i].name
                     }));
                 }
 

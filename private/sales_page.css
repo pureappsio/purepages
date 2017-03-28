@@ -3,6 +3,56 @@
     margin: 5px;
 }
 
+.sales-what-row {
+    background-color: white !important;
+}
+
+.sales-included-row {
+    background-color: #F7F7F7;
+}
+
+.sales-benefits-row {
+    background-color: white;
+}
+
+.sales-modules-row {
+    background-color: #F7F7F7;
+}
+
+.sales-bonuses-row {
+    background-color: white;
+}
+
+.sales-message-row {
+    color: white;
+    background-color: #232824;
+}
+
+.sales-who-row {
+    background-color: #F7F7F7;
+}
+
+.sales-faq-row {
+    background-color: white;
+}
+
+.sales-started-row {
+    background-color: white;
+}
+
+.sales-guarantee-row {
+    background-color: white;
+}
+
+.sales-testimonials-row {
+    background-color: #F7F7F7;
+}
+
+.sales-payment-row {
+    background-color: #EEEEEE;
+    color: white;
+}
+
 .sales-container-no-variant {
     text-align: center;
 }
@@ -43,18 +93,6 @@
 .reduced-price {
     color: red;
 }
-
-
-/*
-.bonus-number {
-    font-size: 75px;
-    border-radius: 50%;
-    background-color: white;
-    text-align: center;
-    color: black;
-    width: 100px;
-    height: 100px;
-}*/
 
 @media screen and (min-width: 1060px) {
     .timer-text {
@@ -158,8 +196,13 @@
 
 .who-description {
     text-align: justify;
-    padding-left: 40px;
-    padding-right: 40px;
+}
+
+.who-interior {
+    padding: 20px;
+
+    background-color: white !important;
+    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.08);
 }
 
 .sales-logo-row {
@@ -170,8 +213,25 @@
     margin-top: 20px;
 }
 
+.testimonial-container {
+
+    margin-top: 25px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.08);
+
+}
+
+.bonus-container {
+    margin-top: 50px;
+    
+}
+
 .module-container {
     margin-top: 50px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.08);
 }
 
 .module-title {
@@ -231,6 +291,9 @@
 .included-element {
     margin-top: 20px;
     margin-left: 20px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.08);
 }
 
 .sales-top-row-video {

@@ -16,12 +16,6 @@
             <select class='form-control' id='product-id'>
             </select>
         </div>
-        <!-- <div class='col-md-2'>
-            <select class='form-control' id='use-variants'>
-                <option value='yes'>Use variants</option>
-                <option value='no'>Don't use variants</option>
-            </select>
-        </div> -->
     </div>
     <!-- Theme -->
     <h3>Theme</h3>
@@ -30,6 +24,15 @@
             <select class='form-control' id='theme'>
                 <option value='orange'>Orange</option>
                 <option value='green'>Green</option>
+                <option value='course'>Course</option>
+            </select>
+        </div>
+    </div>
+    <!-- Course -->
+    <h3>Course</h3>
+    <div class='row voffset15'>
+        <div class='col-md-4'>
+            <select class='form-control' id='course'>
             </select>
         </div>
     </div>
@@ -64,7 +67,7 @@
             {{> uploadForm imageId="video"}}
         </div>
     </div>
-     <div class='row voffset15'>
+    <div class='row voffset15'>
         <div class='col-md-2'>Optional video poster:</div>
         <div class='col-md-3'>
             {{> uploadForm imageId="videoposter"}}

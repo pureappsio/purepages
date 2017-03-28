@@ -332,6 +332,14 @@ Meteor.methods({
                 }
             }
 
+            // Get course data
+            if (page.courseId) {
+
+                var modules = Meteor.call('getModules', page.courseId);
+                console.log(modules);
+
+            } 
+
             console.log(variants);
 
             // Get brand data
