@@ -38,6 +38,14 @@
             </div>
         </div>
         <div class='row voffset15'>
+            <div class='col-md-2'>Learning platform:</div>
+            <div class='col-md-2'>
+                <select id='course-id' type='text' class='form-control'>
+                {{#each courseIntegrations}} {{> integrationListing}} {{/each}}
+                </select>
+            </div>
+        </div>
+        <div class='row voffset15'>
             <div class='col-md-2'>Language:</div>
             <div class='col-md-2'>
                 <select id='language' type='text' class='form-control'>

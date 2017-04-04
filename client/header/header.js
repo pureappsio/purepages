@@ -12,9 +12,9 @@ Template.header.rendered = function() {
     Session.set('title', data);
   });
 
-  Meteor.call('checkLanguage', function(err, data) {
-    console.log(data);
-    accountsUIBootstrap3.setLanguage(data); 
-  });
+  // Meteor.call('checkLanguage', function(err, data) {
+  //   console.log(data);
+  //   accountsUIBootstrap3.setLanguage(data); 
+  // });
   
 }

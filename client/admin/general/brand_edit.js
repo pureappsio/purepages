@@ -27,6 +27,9 @@ Template.brandEdit.helpers({
             return Images.findOne(this.logo).link();
         }
 
+    },
+    courseIntegrations: function() {
+        return Integrations.find({ type: 'purecourses' });
     }
 
 });
@@ -66,6 +69,7 @@ Template.brandEdit.events({
 
         // Cart & list
         brand.cartId = $('#cart-id :selected').val();
+        brand.courseId = $('#course-id :selected').val();
         brand.listId = $('#email-list :selected').val();
 
         // Language
@@ -93,6 +97,11 @@ Template.brandEdit.onRendered(function() {
 
     if (this.data.listId) {
         var listId = this.data.listId;
+    }
+
+    if (this.data.courseId) {
+        var courseId = this.data.courseId;
+        $('#course-id').val(courseId);
     }
 
 

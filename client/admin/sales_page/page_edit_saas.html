@@ -1,0 +1,139 @@
+<template name="pageEditSaas">
+    <h2>Editing SaaS Page {{name}}</h2>
+    <!-- Brand -->
+    <h3>Brand</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>
+            <select class='form-control' id='brand-id'>
+                {{#each brands}} {{> brandSelect}} {{/each}}
+            </select>
+        </div>
+    </div>
+    <!-- Save -->
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+    <!-- Header -->
+    <h3>Top Header Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Title:</div>
+        <div class='col-md-3'>
+            <input id='header-title' type='text' class='form-control' value='{{header.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Text:</div>
+        <div class='col-md-6'>
+            <input type="text" id='header-text' name="name" class="summernote" />
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Button text:</div>
+        <div class='col-md-3'>
+            <input id='header-button' type='text' class='form-control' value='{{header.button}}'>
+        </div>
+        <div class='col-md-2'>Button link:</div>
+        <div class='col-md-3'>
+            <input id='header-link' type='text' class='form-control' value='{{header.link}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Header background:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="headerImage"}}
+        </div>
+    </div>
+    <!-- Elements -->
+    <h3>Featured Elements</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Element picture:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="elementPicture"}}
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Module element title:</div>
+        <div class='col-md-3'>
+            <input id='element-title' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-element' class='btn btn-primary btn-block'>Add Element</button>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Element content:</div>
+        <div class='col-md-5'>
+            <input type="text" id='element-content' name="name" class="summernote" />
+        </div>
+    </div>
+    {{#each elements}} {{> longElementListing}} {{/each}}
+    <!-- Features -->
+    <h3>Features</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Features row title:</div>
+        <div class='col-md-3'>
+            <input id='feature-row-title' type='text' class='form-control' value="{{features.title}}">
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Feature title:</div>
+        <div class='col-md-3'>
+            <input id='feature-title' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>
+            <select id='feature-icon' type='text' class='form-control'>
+                <option value='link'>Link</option>
+                <option value='users'>Users</option>
+                <option value='clock-o'>Clock</option>
+                <option value='comments-o'>Messages</option>
+                <option value='envelope-o'>Email</option>
+                <option value='refresh'>Automation</option>
+            </select>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-feature' class='btn btn-primary btn-block'>Add Feature</button>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Feature content:</div>
+        <div class='col-md-5'>
+            <input type="text" id='feature-content' name="name" class="summernote" />
+        </div>
+    </div>
+    {{#each features}} {{> longElementListing}} {{/each}}
+    <!-- Message -->
+    <h3>Message Row</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Message:</div>
+        <div class='col-md-6'>
+            <input class='form-control' type="text" id='message-text' name="name" value='{{message.text}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Button text:</div>
+        <div class='col-md-3'>
+            <input id='message-button' type='text' class='form-control' value='{{message.button}}'>
+        </div>
+        <div class='col-md-2'>Button link:</div>
+        <div class='col-md-3'>
+            <input id='message-link' type='text' class='form-control' value='{{message.link}}'>
+        </div>
+    </div>
+    <!-- Save -->
+    <div class='row voffset30'>
+        <div class='col-md-3'>
+            <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>
+        </div>
+        <div class='col-md-3'>
+            <a href='/{{url}}' class='btn btn-info btn-block btn-lg'>Preview</a>
+        </div>
+        <div class='col-md-3'>
+            <a href='/admin/panel' class='btn btn-warning btn-block btn-lg'>Come Back</a>
+        </div>
+    </div>
+</template>

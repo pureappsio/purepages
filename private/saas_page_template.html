@@ -1,0 +1,82 @@
+<style type="text/css">{{css}}</style>
+<div class='row saas-main'>
+    <div class='col-md-12'>
+        <!-- Header -->
+        <div class='row saas-top-row' style='{{headerImage}}'>
+            <div class='col-md-3'></div>
+            <div class='col-md-6'>
+                <div class='saas-row-title'>{{header.title}}</div>
+                <div class='saas-row-text'>{{{header.text}}}</div>
+                <div class='saas-button-container'>
+                    <a href="{{header.link}}" class='btn btn-lg btn-warning'>{{header.button}}</a>
+                </div>
+            </div>
+        </div>
+        <!-- Elements -->
+        {{#each element in elements}}
+        <div class='row saas-row'>
+            <div class='col-md-2'></div>
+            {{#if isOdd element}}
+            <div class='col-md-4'>
+                <img class='saas-element-image img-fluid' src='{{imageLink element}}'>
+            </div>
+            <div class='col-md-4'>
+                <div class='saas-element-title'>{{element.title}}</div>
+                <div class='saas-element-content'>{{{element.content}}}</div>
+            </div>
+            {{else}}
+            <div class='col-md-4'>
+                <div class='saas-element-title'>{{element.title}}</div>
+                <div class='saas-element-content'>{{{element.content}}}</div>
+            </div>
+            <div class='col-md-4'>
+                <img class='img-fluid saas-element-image' src='{{imageLink element}}'>
+            </div>
+            {{/if}}
+        </div>
+        {{/each}}
+        <!-- Features -->
+        <div class='row saas-row'>
+            <div class='col-md-1'></div>
+            <div class='col-md-10'>
+                <div class='row saas-features-title'>
+                    <div class='col-md-2'></div>
+                    <div class='col-md-8'>
+                        <div>{{features.title}}</div>
+                    </div>
+                </div>
+                <div class='row'>
+                    {{#each feature in featureElements}}
+                    <div class='col-md-4'>
+                        <div class='saas-feature-icon'>
+                            <i class="fa fa-{{feature.icon}}" aria-hidden="true"></i>
+                        </div>
+                        <div class='saas-feature-title'>{{feature.title}}</div>
+                        <div class='saas-feature-content'>{{{feature.content}}}</div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        <!-- Message -->
+        <div class='row saas-message saas-row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8'>
+                <div class='row'>
+                    <div class='col-md-1'></div>
+                    <div class='col-md-10'>
+                        <div class='saas-message-title'>{{{message.text}}}</div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-4'></div>
+                    <div class='col-md-4'>
+                        <div class='saas-message-button'>
+                            <a class='btn btn-lg btn-warning' href='{{message.link}}'>{{message.button}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

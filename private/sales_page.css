@@ -1,3 +1,38 @@
+.lesson-title {
+    vertical-align: middle;
+    font-size: 18px;
+}
+
+.fa-faq {
+    margin-right: 5px;
+    color: gray;
+}
+
+.mobile-guarantee {
+    margin-top: 25px;
+}
+
+.lesson-play {
+    font-size: 30px !important;
+    color: #BBBBBB;
+    vertical-align: middle;
+    margin-right: 10px;
+    padding-bottom: 3px;
+}
+
+.course-module-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.lesson-container {
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.08);
+    margin-top: 10px;
+}
+
 .payment-element {
     color: gray;
     margin: 5px;
@@ -401,6 +436,13 @@ video {
     font-size: 30px;
     text-align: center;
     margin-bottom: 35px;
+    margin-top: 25px;
+}
+
+.course-section-title {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 25px;
     margin-top: 25px;
 }
 

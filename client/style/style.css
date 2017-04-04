@@ -1,4 +1,13 @@
 /* CSS declarations go here */
+
+.element-icon {
+	margin-top: 10px;
+}
+
+.section-selector {
+	cursor: pointer;
+}
+
 .fa-delete {
     color: gray;
     cursor: pointer;

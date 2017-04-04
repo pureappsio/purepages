@@ -104,8 +104,8 @@ Meteor.methods({
         if (page.model == 'salespage' || page.model == 'leadgen' || page.model == 'closed') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { 
-                brandId: page.brandId, 
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
                 pageTitle: page.name,
                 pageId: page._id
             });
@@ -125,10 +125,10 @@ Meteor.methods({
         if (page.model == 'leadgen') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { 
-                brandId: page.brandId, 
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
                 pageTitle: page.name,
-                pageId: page._id 
+                pageId: page._id
             });
 
             // Compile
@@ -143,11 +143,11 @@ Meteor.methods({
         if (page.model == 'tripwire') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { 
-                brandId: page.brandId, 
-                lead: true, 
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
+                lead: true,
                 pageTitle: page.name,
-                pageId: page._id 
+                pageId: page._id
             });
 
             // Get product data
@@ -214,11 +214,11 @@ Meteor.methods({
         if (page.model == 'thankyou') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { 
-                brandId: page.brandId, 
-                lead: true, 
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
+                lead: true,
                 pageTitle: page.name,
-                pageId: page._id 
+                pageId: page._id
             });
 
             // Compile
@@ -236,13 +236,71 @@ Meteor.methods({
 
         }
 
+        if (page.model == 'saas') {
+
+            // Render header
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
+                lead: false,
+                pageTitle: page.name,
+                pageId: page._id
+            });
+
+            // Compile
+            SSR.compileTemplate('pageTemplate',
+                Assets.getText('saas_page_template.html'));
+
+            css = Assets.getText('saas_page.css');
+
+            // Helpers
+            helpers = {
+
+                imageLink: function(element) {
+
+                    if (element.pictureId) {
+                        return Images.findOne(element.pictureId).link();
+                    }
+
+                },
+                css: function() {
+                    return css;
+                },
+                isOdd: function(element) {
+
+                    if (element.number % 2) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                },
+                headerImage: function() {
+
+                    if (page.header) {
+                        if (page.header.image) {
+                            return 'background-image: url(' + Images.findOne(page.header.image).link() + ')';
+                        }
+                    }
+
+                },
+                elements: function() {
+                    return Elements.find({ pageId: page._id, type: 'element' }, { sort: { number: 1 }}).fetch();
+                },
+                featureElements: function() {
+                    return Elements.find({ pageId: page._id, type: 'feature' }, { sort: { number: 1 }}).fetch();
+                }
+
+            }
+
+        }
+
         if (page.model == 'closed') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { 
-                brandId: page.brandId, 
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
                 pageTitle: page.name,
-                pageId: page._id 
+                pageId: page._id
             });
 
             // Compile
@@ -263,11 +321,13 @@ Meteor.methods({
         if (page.model == 'salespage') {
 
             // Render header
-            headerHtml = Meteor.call('renderHeader', { 
-                brandId: page.brandId, 
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
                 pageTitle: page.name,
-                pageId: page._id 
+                pageId: page._id
             });
+
+            var brand = Brands.findOne(page.brandId);
 
             // Set timer & discount
             var timer = Meteor.call('getTimerData', page, query);
@@ -333,12 +393,12 @@ Meteor.methods({
             }
 
             // Get course data
-            if (page.courseId) {
+            if (page.courseId && page.theme == 'course') {
 
-                var modules = Meteor.call('getModules', page.courseId);
+                var modules = Meteor.call('getModules', page.courseId, brand.courseId);
                 console.log(modules);
 
-            } 
+            }
 
             console.log(variants);
 
@@ -357,6 +417,18 @@ Meteor.methods({
             // Helpers
             helpers = {
 
+                course: function() {
+
+                    if (page.courseId && page.theme == 'course') {
+                        return true;
+                    }
+
+                },
+                courseModules: function() {
+
+                    return modules;
+
+                },
                 variantBasePrice: function(variant) {
 
                     if (usdLocations.indexOf(location) != -1) {

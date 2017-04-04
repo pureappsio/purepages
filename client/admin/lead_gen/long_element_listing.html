@@ -4,8 +4,24 @@
             <input id="number-{{_id}}" type='text' class='element-number form-control' value='{{number}}'>
         </div>
         {{#if isTitle}}
-        <div class='col-md-3'><input id='element-title-{{_id}}' class='element-title form-control' value='{{title}}'></div>{{/if}}
-        <div class='col-md-7'><input id='element-content-{{_id}}' class='element-content form-control' value='{{content}}'></div>
+        <div class='col-md-3'>
+            <input id='element-title-{{_id}}' class='element-title form-control' value='{{title}}'> 
+
+            {{#if hasIcon}}
+            <select id='element-icon-{{_id}}' class='element-icon form-control'>
+                <option value='link'>Link</option>
+                <option value='users'>Users</option>
+                <option value='clock-o'>Clock</option>
+                <option value='comments-o'>Messages</option>
+                <option value='envelope-o'>Email</option>
+                <option value='refresh'>Automation</option>
+            </select>
+            {{/if}}
+        </div>
+        {{/if}}
+        <div class='col-md-7'>
+            <input id='element-content-{{_id}}' class='element-content form-control' value='{{content}}'>
+        </div>
         <div class='col-md-1'>
             <button class='btn btn-danger delete'>X</button>
         </div>

@@ -18,7 +18,7 @@ Template.pageListing.helpers({
             var clicks = Sessions.find({ pageId: this._id, type: 'click' }).fetch().length;
 
             if (visits != 0) {
-                return clicks / visits * 100 + '%';
+                return (clicks / visits * 100).toFixed(2) + '%';
             } else {
                 return '0%';
             }
@@ -31,6 +31,9 @@ Template.pageListing.helpers({
     printModel: function() {
         if (this.model == 'salespage') {
             return 'Sales Page';
+        }
+        if (this.model == 'saas') {
+            return 'SaaS Page';
         }
         if (this.model == 'closed') {
             return 'Course Closed Page';

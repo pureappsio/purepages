@@ -424,14 +424,40 @@ Template.pageEditSales.onRendered(function() {
 
     });
 
+
     // Init product
     var productId = this.data.productId;
+    if (this.data.courseId) {
+        var courseId = this.data.courseId;
+    }
+
     if (this.data.brandId) {
 
         // Set brand
         $("#brand-id").val(this.data.brandId);
 
         Meteor.call('getBrandDetails', this.data.brandId, function(err, brand) {
+
+            console.log(brand);
+
+            if (brand.courseId) {
+
+                Meteor.call('getCourses', brand.courseId, function(err, courses) {
+
+                    $('#course').empty();
+
+                    for (i = 0; i < courses.length; i++) {
+                        $('#course').append($('<option>', {
+                            value: courses[i]._id,
+                            text: courses[i].name
+                        }));
+                    }
+
+                    $('#course').val(courseId);
+
+                });
+
+            }
 
             Meteor.call('getCartProducts', brand.cartId, function(err, products) {
 
@@ -441,21 +467,6 @@ Template.pageEditSales.onRendered(function() {
                     $('#product-id').append($('<option>', {
                         value: products[i]._id,
                         text: products[i].name
-                    }));
-                }
-
-                $('#product-id').val(productId);
-
-            });
-
-            Meteor.call('getCourses', function(err, courses) {
-
-                $('#course').empty();
-
-                for (i = 0; i < courses.length; i++) {
-                    $('#course').append($('<option>', {
-                        value: courses[i]._id,
-                        text: courses[i].name
                     }));
                 }
 

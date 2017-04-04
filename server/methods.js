@@ -110,6 +110,13 @@ Meteor.methods({
         Elements.update(elementId, { $set: { title: title } });
 
     },
+    setElementIcon: function(icon, elementId) {
+
+        console.log(icon);
+
+        Elements.update(elementId, { $set: { icon: icon } });
+
+    },
     setElementContent: function(content, elementId) {
 
         console.log(content);
@@ -139,6 +146,12 @@ Meteor.methods({
     createElement: function(element) {
 
         Meteor.call('flushCache');
+
+        // Order
+        var order = Elements.find({ type: element.type, pageId: element.pageId }).fetch().length + 1;
+        element.number = order;
+
+        console.log(element);
 
         Elements.insert(element);
 
@@ -230,12 +243,11 @@ Meteor.methods({
         }
 
     },
-    getCourses: function() {
+    getCourses: function(integrationId) {
 
-        // Get integration
-        if (Integrations.findOne({ type: 'purecourses' })) {
+        if (Integrations.findOne(integrationId)) {
 
-            var integration = Integrations.findOne({ type: 'purecourses' });
+            var integration = Integrations.findOne(integrationId);
 
             // Get lists
             var url = "https://" + integration.url + "/api/courses?key=" + integration.key;
@@ -243,6 +255,7 @@ Meteor.methods({
             try {
 
                 var answer = HTTP.get(url);
+                console.log(answer.data.courses);
                 return answer.data.courses;
 
             } catch (e) {
@@ -254,12 +267,12 @@ Meteor.methods({
         }
 
     },
-    getModules: function(courseId) {
+    getModules: function(courseId, integrationId) {
 
         // Get integration
-        if (Integrations.findOne({ type: 'purecourses' })) {
+        if (Integrations.findOne(integrationId)) {
 
-            var integration = Integrations.findOne({ type: 'purecourses' });
+            var integration = Integrations.findOne(integrationId);
 
             // Get module
             var url = "https://" + integration.url + "/api/modules?key=" + integration.key;

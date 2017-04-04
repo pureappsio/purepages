@@ -133,6 +133,7 @@
             </div>
         </div>
         <!-- Included -->
+        {{#if includedElements}}
         <div class='row sales-included-row'>
             <div class='col-md-2'></div>
             <div class='col-md-8 sales-row'>
@@ -144,6 +145,7 @@
                 </div>
             </div>
         </div>
+        {{/if}}
         <!-- Benefits -->
         {{#if benefitElements}}
         <div class='row sales-benefits-row'>
@@ -162,7 +164,26 @@
         </div>
         {{/if}}
         <!-- Modules -->
-        {{#if moduleElements}}
+        {{#if course}}
+        <div class='row sales-modules-row'>
+            <div class='col-md-2'></div>
+            <div class='col-md-8 sales-row'>
+                <div class='course-section-title'>{{modules.title}}</div>
+                {{#each module in courseModules}}
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class='course-module-title'>Module #{{module.order}}: {{module.name}}</div>
+                        {{#each lesson in module.lessons}}
+                        <div class='lesson-container'>
+                            <div class='lesson-title'>
+                                <i class="lesson-play fa fa-play-circle" aria-hidden="true"></i> {{#if langEN}}Lesson{{else}}Leçon{{/if}} {{lesson.order}}: {{lesson.name}}</div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div> {{/each}}
+            </div>
+        </div>
+        {{else}} {{#if moduleElements}}
         <div class='row sales-modules-row'>
             <div class='col-md-2'></div>
             <div class='col-md-8 sales-row'>
@@ -179,9 +200,9 @@
                 </div>
             </div>
         </div>
-        {{/if}}
+        {{/if}} {{/if}}
         <!-- Bonuses -->
-        {{#if areBonuses}}
+        {{#if bonusElements}}
         <div class='row sales-bonuses-row'>
             <div class='col-md-2'></div>
             <div class='col-md-8 sales-row'>
@@ -246,7 +267,7 @@
                 <div class='sales-section-title'>{{faq.title}}</div>
                 <div class='sales-section-content'>
                     {{#each faqElements}}
-                    <div class='faq-title'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{{title}}}</div>
+                    <div class='faq-title'><i class="fa-faq fa fa-plus-circle" aria-hidden="true"></i> {{{title}}}</div>
                     <div class='faq-content'>{{{content}}}</div>
                     {{/each}}
                 </div>
@@ -302,7 +323,7 @@
                             <img class='img-fluid' src='{{meteorURL}}30_guarantee.png'> {{else}}
                             <img class='img-fluid' src='{{meteorURL}}30_guarantee_fr.png'> {{/if}}
                         </div>
-                        <div class='col-md-9'>
+                        <div class='col-md-9 mobile-guarantee'>
                             {{#if langEN}} As for all my products, this product comes with a 30-day 100% money back guarantee, with no questions asked. I truly believe in the quality of the products I am creating, and we want to make this purchase risk-free for you. So if at any point after purchasing the product you are not satisfied, just let me know under 30 days and you will get a full refund. {{else}} Comme pour tout mes produits, cette formation comporte une garantie satisfait ou remboursé sous 30 jours, sans avoir besoin de donner de raison. Je crois vraiment à la qualité de cette formation, et je veux que cet achat soit totalement sans risque pour vous. Si vous achetez cette formation et que vous n’êtes pas satisfait, envoyez moi un message sous 30 jours pour un remboursement intégral. {{/if}}
                         </div>
                     </div>
@@ -311,15 +332,16 @@
         </div>
         <!-- Payment -->
         <div class='sales-payment-row sales-payment row' style='{{salesImage}}' id='payment-row'>
-<!--             <div class='col-md-2'></div>
- -->            <div class='col-md-12'>
+            <div class='col-md-12'>
                 <div class='sales-section-title'>
                     {{#if useVariants}} {{#if langEN}} Click on the desired option below to get started {{else}} Choisissez une option ci-dessous pour commencer {{/if}} {{else}} {{#if langEN}} Click on the button below to get started {{else}} Cliquez sur le bouton ci-dessous pour commencer {{/if}} {{/if}}
                 </div>
                 <div class='sales-section-content'>
                     <div class='row'>
-                        {{#if useVariants}} {{#if twoVariants}} {{#each variant in variants}}
-                        <div class='col-md-6'>
+                        {{#if useVariants}} {{#if twoVariants}} 
+                        <div class='col-md-2'></div>
+                        {{#each variant in variants}}
+                        <div class='col-md-4'>
                             <div class='sales-container'>
                                 <div class='sales-product-name'>{{variant.name}}</div>
                                 <div class='sales-price'>
