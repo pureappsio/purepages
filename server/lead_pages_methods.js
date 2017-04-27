@@ -10,13 +10,28 @@ Meteor.methods({
 
         // Helpers
         helpers = {
+            emailAppUrl: function() {
+                return Integrations.findOne({type: 'puremail'}).url;
+            },
+            oneStepOptin: function() {
+
+                if (page.optin) {
+                    if (page.optin == 'onestep') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return true;
+                }
+            },
             fileTheme: function() {
 
                 if (page.theme) {
                     if (page.theme == 'file') {
                         return true;
                     } else {
-                        return false; 
+                        return false;
                     }
                 } else {
                     return true;
@@ -28,7 +43,7 @@ Meteor.methods({
                     if (page.theme == 'video') {
                         return true;
                     } else {
-                        return false; 
+                        return false;
                     }
                 } else {
                     return false;
@@ -48,7 +63,7 @@ Meteor.methods({
                 if (query.origin) {
                     return query.origin;
                 } else {
-                    return 'landing';
+                    return 'organic';
                 }
             },
             meteorURL: function() {

@@ -31,8 +31,6 @@ Meteor.methods({
                 } else {
                     return brand.name;
                 }
-
-
             },
             useTracking: function() {
                 var brand = Brands.findOne(options.brandId);
@@ -56,6 +54,18 @@ Meteor.methods({
                 if (options.pageId) {
                     return options.pageId;
                 }
+            },
+            pageOrigin: function() {
+                if (options.query) {
+                    if (options.query.origin) {
+                        return options.query.origin;
+                    } else {
+                        return 'organic';
+                    }
+                } else {
+                    return 'organic';
+                }
+
             },
             appUrl: function() {
                 return Meteor.absoluteUrl();
@@ -128,7 +138,8 @@ Meteor.methods({
             headerHtml = Meteor.call('renderHeader', {
                 brandId: page.brandId,
                 pageTitle: page.name,
-                pageId: page._id
+                pageId: page._id,
+                query: query
             });
 
             // Compile
@@ -147,7 +158,8 @@ Meteor.methods({
                 brandId: page.brandId,
                 lead: true,
                 pageTitle: page.name,
-                pageId: page._id
+                pageId: page._id,
+                query: query
             });
 
             // Get product data
@@ -218,7 +230,8 @@ Meteor.methods({
                 brandId: page.brandId,
                 lead: true,
                 pageTitle: page.name,
-                pageId: page._id
+                pageId: page._id,
+                query: query
             });
 
             // Compile
@@ -243,7 +256,8 @@ Meteor.methods({
                 brandId: page.brandId,
                 lead: false,
                 pageTitle: page.name,
-                pageId: page._id
+                pageId: page._id,
+                query: query
             });
 
             // Compile
@@ -255,6 +269,18 @@ Meteor.methods({
             // Helpers
             helpers = {
 
+                headerVideo: function() {
+
+                    if (page.header) {
+                        if (page.header.secondaryVideo) {
+                            return Images.findOne(page.header.secondaryVideo).link();
+                        }
+                    }
+
+                },
+                testimonialElements: function() {
+                    return Elements.find({ type: 'testimonial', pageId: this._id }, { sort: { number: 1 } });
+                },
                 imageLink: function(element) {
 
                     if (element.pictureId) {
@@ -284,10 +310,13 @@ Meteor.methods({
 
                 },
                 elements: function() {
-                    return Elements.find({ pageId: page._id, type: 'element' }, { sort: { number: 1 }}).fetch();
+                    return Elements.find({ pageId: page._id, type: 'element' }, { sort: { number: 1 } }).fetch();
                 },
                 featureElements: function() {
-                    return Elements.find({ pageId: page._id, type: 'feature' }, { sort: { number: 1 }}).fetch();
+                    return Elements.find({ pageId: page._id, type: 'feature' }, { sort: { number: 1 } }).fetch();
+                },
+                integrationElements: function() {
+                    return Elements.find({ pageId: page._id, type: 'integration' }, { sort: { number: 1 } }).fetch();
                 }
 
             }
@@ -300,7 +329,8 @@ Meteor.methods({
             headerHtml = Meteor.call('renderHeader', {
                 brandId: page.brandId,
                 pageTitle: page.name,
-                pageId: page._id
+                pageId: page._id,
+                query: query
             });
 
             // Compile
@@ -324,7 +354,8 @@ Meteor.methods({
             headerHtml = Meteor.call('renderHeader', {
                 brandId: page.brandId,
                 pageTitle: page.name,
-                pageId: page._id
+                pageId: page._id,
+                query: query
             });
 
             var brand = Brands.findOne(page.brandId);
@@ -591,6 +622,10 @@ Meteor.methods({
                         link += '&origin=' + query.origin;
                     }
 
+                    if (query.medium) {
+                        link += '&medium=' + query.medium;
+                    }
+
                     return link;
 
                 },
@@ -779,8 +814,31 @@ Meteor.methods({
         // Find post or page
         if (Pages.findOne({ url: postUrl })) {
 
+            console.log(query);
+
             // Query
             var page = Pages.findOne({ url: postUrl });
+
+            // Session
+            session = {
+                pageId: page._id,
+                date: new Date(),
+                type: 'visit'
+            }
+
+            // Source
+            if (query.origin) {
+                session.origin = query.origin;
+            } else {
+                session.origin = 'organic';
+            }
+
+            // Type
+            if (query.medium) {
+                session.medium = query.medium;
+            }
+
+            Meteor.call('insertSession', session);
 
             // Check if cached
             if (page.cached == true && !(query.location) && !(query.ref) && !(query.origin) && !(query.subscriber) && !(query.discount)) {

@@ -1,5 +1,170 @@
 Meteor.methods({
 
+    convertSessions: function() {
+
+        var sessions = Sessions.find({}).fetch();
+
+        for (i in sessions) {
+            var newDate = new Date(sessions[i].date);
+            Sessions.update(sessions[i]._id, {$set: {date: newDate}});
+            console.log(Sessions.findOne(sessions[i]._id));
+        }
+
+    },
+    getSessions: function(pageId, type) {
+
+        var now = new Date();
+        var limitDate = new Date(now.getTime() - 1000 * 60 * 60 * 24 * 30);
+
+        return Sessions.aggregate(
+            [
+                { $match: { date: { $gte: limitDate }, pageId: pageId, type: type } }, {
+                    $group: {
+                        _id: {
+                            "year": {
+                                "$substr": ["$date", 0, 4]
+                            },
+                            "month": {
+                                "$substr": ["$date", 5, 2]
+                            },
+                            "day": {
+                                "$substr": ["$date", 8, 2]
+                            }
+                        },
+                        count: { $sum: 1 }
+                    }
+                }
+            ]);
+
+    },
+    getGraphSessions: function(pageId, type) {
+
+        var sessions = Meteor.call('getSessions', pageId, type);
+
+        data = [];
+
+        for (i in sessions) {
+
+            dataPoint = {};
+
+            dataPoint.y = parseInt(sessions[i].count);
+            var date = sessions[i]._id.year + '-' + sessions[i]._id.month + '-' + sessions[i]._id.day;
+            dataPoint.x = new Date(date);
+
+            data.push(dataPoint);
+
+        }
+
+        // Sort
+        data.sort(date_sort);
+
+        return data;
+
+    },
+    getGraphData: function(pageId, type) {
+
+        var visits = Meteor.call('getGraphSessions', pageId, 'visit');
+        var clicks = Meteor.call('getGraphSessions', pageId, 'click');
+
+        console.log(visits);
+
+        // // Adjust clicks on visits
+        // for (i in visits.dates) {
+
+        //     if (clicks.dates[i]) {
+        //         if (visits.dates[i].getTime() != clicks.dates[i].getTime()) {
+        //             console.log('Splicing');
+        //             clicks.dates.splice(i, 0, visits.dates[i]);
+        //             clicks.values.splice(i, 0, 0);
+        //         }
+        //     } else {
+
+        //         console.log('Adding missing value');
+        //         clicks.dates.push(visits.dates[i]);
+        //         clicks.values.push(0);
+
+        //     }
+
+        // }
+
+        if (type == 'conversion') {
+
+            var conversions = [];
+
+            for (i in visits) {
+
+                for (j in clicks) {
+
+                    if (clicks[j].x.getTime() == visits[i].x.getTime()) {
+
+                        dataPoint = {
+                            y: (clicks[j].y / visits[i].y * 100).toFixed(2),
+                            x: clicks[j].x
+                        }
+                        conversions.push(dataPoint);
+
+                    }
+                }
+
+            }
+
+            conversions.sort(date_sort);
+
+            var data = {
+                labels: visits.dates,
+                datasets: [{
+                    label: "Conversions",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "orange",
+                    borderColor: "orange",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "orange",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "orange",
+                    pointHoverBorderColor: "orange",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: conversions,
+                    spanGaps: false,
+                }]
+            }
+        }
+
+        if (type == 'trend') {
+
+            var data = {
+                datasets: [{
+                    label: 'Sessions',
+                    fill: false,
+                    data: visits,
+                    pointHoverBackgroundColor: "darkblue",
+                    pointHoverBorderColor: "darkblue",
+                    pointBorderColor: "darkblue",
+                    backgroundColor: "darkblue",
+                    borderColor: "darkblue"
+                }, {
+                    label: 'Clicks',
+                    fill: false,
+                    data: clicks,
+                    pointHoverBackgroundColor: "red",
+                    pointHoverBorderColor: "red",
+                    pointBorderColor: "red",
+                    backgroundColor: "red",
+                    borderColor: "red"
+                }]
+            };
+        }
+
+        return data;
+
+    },
     insertSession: function(session) {
 
         console.log(session);
@@ -251,6 +416,7 @@ Meteor.methods({
 
             // Get lists
             var url = "https://" + integration.url + "/api/courses?key=" + integration.key;
+            console.log(url);
 
             try {
 
@@ -259,6 +425,7 @@ Meteor.methods({
                 return answer.data.courses;
 
             } catch (e) {
+                console.log(e);
                 return [];
             }
 
@@ -278,6 +445,7 @@ Meteor.methods({
             var url = "https://" + integration.url + "/api/modules?key=" + integration.key;
             url += '&course=' + courseId;
             url += '&lessons=all';
+            console.log(url);
 
             try {
 
@@ -285,6 +453,7 @@ Meteor.methods({
                 return answer.data.modules;
 
             } catch (e) {
+                console.log(e);
                 return [];
             }
 
@@ -550,3 +719,7 @@ Meteor.methods({
     }
 
 });
+
+function date_sort(a, b) {
+    return new Date(a.x).getTime() - new Date(b.x).getTime();
+}

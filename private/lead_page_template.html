@@ -12,14 +12,22 @@
     <div class='col-md-4'>
         <div class='lead-gen-top-row-title'>{{header.title}}</div>
         <div class='lead-gen-top-row-subtitle'>{{header.subtitle}}</div>
+        {{#if header.text}}
+            <div class='lead-gen-top-row-text'>{{header.text}}</div>
+        {{/if}}
     </div>
     <div class='col-md-2'></div>
-    <div class='col-md-3'><img class='img-fluid' src='{{meteorURL}}lead_gen_document.png'></div>
+    <div class='col-md-3'>
+        <img class='img-fluid' src='{{meteorURL}}lead_gen_document.png'> {{#if oneStepOptin}}{{else}}
+        <div class='lead-gen-middle-button-two-step'>
+            <button id='submit' data-toggle="modal" data-target="#myModal" class="btn btn-block btn-warning btn-lg">{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER{{/if}}</button>
+        </div>{{/if}}
+    </div>
 </div>
 <!-- Middle row -->
 <div class='row lead-gen-middle-row'>
-    <div class='col-md-1'></div>
-    <div class='col-md-5'>
+    <div class='col-md-{{#if oneStepOptin}}1{{else}}3{{/if}}'></div>
+    <div class='col-md-{{#if oneStepOptin}}5{{else}}6{{/if}}'>
         <div class="col-md-12">
             <div class='lead-gen-middle-main-text'>
                 {{{main.text}}}
@@ -27,13 +35,18 @@
             {{#each element in elements}}
             <div class='lead-gen-featured-title'>{{element.title}}</div>
             <div class='lead-gen-featured-text'>{{element.content}}</div>
-            {{/each}}
+            {{/each}} {{#if oneStepOptin}} {{else}}
+            <div class='lead-gen-middle-button-two-step'>
+                <button id='submit' data-toggle="modal" data-target="#myModal" class="btn btn-block btn-warning btn-lg">{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}</button>
+            </div>
+            {{/if}}
         </div>
     </div>
     <div class='col-md-5'>
         <div class="col-md-12" id='middle-row-indicator'>
+            {{#if oneStepOptin}}
             <div class='lead-gen-middle-question'>{{main.emailMessage}}</div>
-            <form accept-charset="utf-8" action="https://email.schwartzindustries.com/subscribe" method="POST">
+            <form accept-charset="utf-8" action="https://{{emailAppUrl}}/subscribe" method="POST">
                 <div class='lead-gen-middle-email'>
                     <input id='email' name='email' type="email" class="form-control input-lg" placeholder="{{#if langEN}}Your email{{else}}Votre email{{/if}} ...">
                 </div>
@@ -46,6 +59,7 @@
                 <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
             </form>
             <div class='lead-gen-middle-disclaimer'>{{#if langEN}}I will never send you spam. Unsubscribe at any time.{{else}}Je ne vous enverrai jamais de spam. Vous pouvez vous désincrire à tout moment.{{/if}}</div>
+            {{/if}}
         </div>
     </div>
 </div>
@@ -70,7 +84,9 @@
         <div class='lead-gen-last-text'>{{bottom.message}}</div>
         <div>
             <div class='lead-gen-last-button'>
-                <a href='#middle-row-indicator' id='download' class='btn btn-warning'>{{bottom.button}}</a>
+                {{#if oneStepOptin}}
+                <a href='#middle-row-indicator' id='download' class='btn btn-warning'>{{bottom.button}}</a> {{else}}
+                <button id='download' data-toggle="modal" data-target="#myModal" class='btn btn-warning'>{{bottom.button}}</button> {{/if}}
             </div>
         </div>
     </div>
@@ -83,12 +99,6 @@
         <div class='lead-gen-video-title'>{{header.title}}</div>
     </div>
 </div>
-<!-- <div class='row'>
-    <div class='col-md-3'></div>
-    <div class='col-md-6'>
-        <div class='lead-gen-video-message'>{{bottom.message}}</div>
-    </div>
-</div> -->
 <!-- Video row -->
 <div class='row'>
     <div class='col-md-3'></div>
@@ -103,12 +113,13 @@
     <div class='col-md-3'></div>
     <div class='col-md-6'>
         <div class="col-md-12" id='middle-row-indicator'>
-            <form accept-charset="utf-8" action="https://email.schwartzindustries.com/subscribe" method="POST">
+            {{#if oneStepOptin}}
+            <form accept-charset="utf-8" action="https://{{emailAppUrl}}/subscribe" method="POST">
                 <div class='lead-gen-middle-email'>
                     <input id='email' name='email' type="email" class="form-control input-lg" placeholder="{{#if langEN}}Your email{{else}}Votre email{{/if}} ...">
                 </div>
                 <div class='lead-gen-middle-button'>
-                    <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="btn btn-block btn-warning btn-lg">
+                    <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="action btn btn-block btn-warning btn-lg">
                 </div>
                 <input name="list" type="hidden" value="{{listId}}" />
                 <input name="origin" type="hidden" value="{{origin}}" />
@@ -116,7 +127,42 @@
                 <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
             </form>
             <div class='lead-gen-middle-disclaimer'>{{#if langEN}}I will never send you spam. Unsubscribe at any time.{{else}}Je ne vous enverrai jamais de spam. Vous pouvez vous désincrire à tout moment.{{/if}}</div>
+            {{else}}
+            <div class='lead-gen-middle-button-two-step'>
+                <button id='submit' data-toggle="modal" data-target="#myModal" class="btn btn-block btn-warning btn-lg">{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}</button>
+            </div>
+            {{/if}}
         </div>
     </div>
 </div>
 {{/if}}
+<!-- Signup Modal -->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{#if main.emailMessage}}{{main.emailMessage}}{{else}}Where should I send it?{{/if}}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form accept-charset="utf-8" action="https://{{emailAppUrl}}/subscribe" method="POST">
+                    <div class='lead-gen-middle-email'>
+                        <input id='email' name='email' type="email" class="form-control input-lg" placeholder="{{#if langEN}}Your email{{else}}Votre email{{/if}} ...">
+                    </div>
+                    <div class='lead-gen-middle-button'>
+                        <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="action btn btn-block btn-warning btn-lg">
+                    </div>
+                    <input name="list" type="hidden" value="{{listId}}" />
+                    <input name="origin" type="hidden" value="{{origin}}" />
+                    <input name="sequence" type="hidden" value="{{sequenceId}}" /> {{#each tag in tags}}
+                    <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
+                </form>
+                <div class='lead-gen-middle-disclaimer'>{{#if langEN}}I will never send you spam. Unsubscribe at any time.{{else}}Je ne vous enverrai jamais de spam. Vous pouvez vous désincrire à tout moment.{{/if}}</div>
+            </div>
+        </div>
+    </div>
+</div>

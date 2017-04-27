@@ -43,6 +43,19 @@
         </div>
     </div>
     <div class='row voffset15'>
+        <div class='col-md-2'>Secondary Button text:</div>
+        <div class='col-md-3'>
+            <input id='header-secondary-button' type='text' class='form-control' value='{{header.secondaryButton}}'>
+        </div>
+        <div class='col-md-2'>Secondary Button link:</div>
+        <div class='col-md-3'>
+            <input id='header-secondary-link' type='text' class='form-control' value='{{header.secondaryLink}}'>
+        </div>
+        <div class='col-md-2'>
+            {{> uploadForm imageId="secondaryVideo"}}
+        </div>
+    </div>
+    <div class='row voffset15'>
         <div class='col-md-2'>Header background:</div>
         <div class='col-md-3'>
             {{> uploadForm imageId="headerImage"}}
@@ -93,6 +106,9 @@
                 <option value='comments-o'>Messages</option>
                 <option value='envelope-o'>Email</option>
                 <option value='refresh'>Automation</option>
+                <option value='mobile'>Mobile</option>
+                <option value='money'>Money</option>
+                <option value='thumbs-o-up'>Thumb Up</option>
             </select>
         </div>
         <div class='col-md-2'>
@@ -106,6 +122,63 @@
         </div>
     </div>
     {{#each features}} {{> longElementListing}} {{/each}}
+    <!-- Integrations -->
+    <h3>Integrations</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Integrations row title:</div>
+        <div class='col-md-3'>
+            <input id='integrations-row-title' type='text' class='form-control' value="{{integrations.title}}">
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Integration picture:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="integrationPicture"}}
+        </div>
+        <div class='col-md-2'>
+            <button id='add-integration' class='btn btn-primary btn-block'>Add Integration</button>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        {{#each integrations}} {{> pictureListing}} {{/each}}
+    </div>
+    <!-- Testimonials -->
+    <h3>Testimonials</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Testimonials row title:</div>
+        <div class='col-md-3'>
+            <input id='testimonials-row-title' type='text' class='form-control' value="{{testimonials.title}}">
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Element picture:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="testimonialPicture"}}
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Testimonial name:</div>
+        <div class='col-md-2'>
+            <input id='testimonial-name' type='text' class='form-control'>
+        </div>
+        <div class='col-md-2'>Testimonial company:</div>
+        <div class='col-md-2'>
+            <input id='testimonial-company' type='text' class='form-control'>
+        </div>
+        
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Testimonial content:</div>
+        <div class='col-md-4'>
+            <input type="text" id='testimonial-content' name="name" class="summernote" />
+        </div>
+        <div class='col-md-2'>
+            <button id='add-testimonial' class='btn btn-primary btn-block'>Add Testimonial</button>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        {{#each testimonials}} {{> longElementListing}} {{/each}}
+    </div>
     <!-- Message -->
     <h3>Message Row</h3>
     <div class='row voffset15'>

@@ -10,21 +10,21 @@ Template.pageListing.events({
 
 Template.pageListing.helpers({
 
-    conversions: function() {
+    // conversions: function() {
 
-        if (this.model == 'salespage' || this.model == 'leadgen' || this.model == 'tripwire') {
+    //     if (this.model == 'salespage' || this.model == 'leadgen' || this.model == 'tripwire') {
 
-            var visits = Sessions.find({ pageId: this._id, type: 'visit' }).fetch().length;
-            var clicks = Sessions.find({ pageId: this._id, type: 'click' }).fetch().length;
+    //         var visits = Sessions.find({ pageId: this._id, type: 'visit' }).fetch().length;
+    //         var clicks = Sessions.find({ pageId: this._id, type: 'click' }).fetch().length;
 
-            if (visits != 0) {
-                return (clicks / visits * 100).toFixed(2) + '%';
-            } else {
-                return '0%';
-            }
-        }
+    //         if (visits != 0) {
+    //             return (clicks / visits * 100).toFixed(2) + '%';
+    //         } else {
+    //             return '0%';
+    //         }
+    //     }
 
-    },
+    // },
     brand: function() {
         return Brands.findOne(this.brandId).name;
     },

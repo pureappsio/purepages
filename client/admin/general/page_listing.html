@@ -1,11 +1,12 @@
 <template name="pageListing">
     <div class='row'>
-        <div class='col-md-4'>{{name}}</div>
+        <div class='col-md-5'>{{name}}</div>
         <div class='col-md-3'>{{url}}</div>
         <div class='col-md-2'>{{printModel}}</div>
-        <div class='col-md-1'>{{conversions}}</div>
-        <div class='col-md-1'>
+<!--         <div class='col-md-1'>{{conversions}}</div>
+ -->        <div class='col-md-2'>
             <a href='/pages/edit/{{_id}}'><i class="fa fa-pencil fa-edit edit-element" aria-hidden="true"></i></a>
+            <a href='/pages/stats/{{_id}}'><i class="fa fa-stats fa-line-chart" aria-hidden="true"></i></a>
             <i class="fa fa-trash fa-delete delete" aria-hidden="true"></i>
         </div>
     </div>

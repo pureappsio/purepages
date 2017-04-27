@@ -2,17 +2,25 @@ Template.pageEditLead.helpers({
 
     fileThemeSelected: function() {
 
-        if (Session.get('selectedTheme') == 'file') {
-            return true;
+        if (Session.get('selectedTheme')) {
+            if (Session.get('selectedTheme') == 'file') {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            return true;
         }
 
     },
     videoThemeSelected: function() {
 
-        if (Session.get('selectedTheme') == 'video') {
-            return true;
+        if (Session.get('selectedTheme')) {
+            if (Session.get('selectedTheme') == 'video') {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -88,6 +96,7 @@ Template.pageEditLead.events({
 
         // Theme
         page.theme = $('#theme :selected').val();
+        page.optin = $('#optin :selected').val();
 
         if ($('#theme :selected').val() == 'file') {
 
@@ -95,6 +104,9 @@ Template.pageEditLead.events({
             page.header = {};
             page.header.title = $('#header-title').val();
             page.header.subtitle = $('#header-subtitle').val();
+            if ($('#header-text').val() != "") {
+                page.header.text = $('#header-text').val();
+            }
 
             // Main
             page.main = {};
@@ -153,18 +165,20 @@ Template.pageEditLead.onRendered(function() {
     // Set session to false
     Session.set('fileId', false);
 
-    // Init editor
-    $('#main-text').summernote({
-        height: 150 // set editor height
-    });
+    if (this.data) {
+        // Init editor
+        $('#main-text').summernote({
+            height: 150 // set editor height
+        });
 
-    $('#message-message').summernote({
-        height: 150 // set editor height
-    });
+        $('#message-message').summernote({
+            height: 150 // set editor height
+        });
 
-    $('#signature-message').summernote({
-        height: 100 // set editor height
-    });
+        $('#signature-message').summernote({
+            height: 100 // set editor height
+        });
+    }
 
     if (this.data.main) {
         if (this.data.main.text) {

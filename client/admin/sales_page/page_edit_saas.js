@@ -8,6 +8,12 @@ Template.pageEditSaas.helpers({
     },
     features: function() {
         return Elements.find({ pageId: this._id, type: 'feature' }, { sort: { number: 1 } });
+    },
+    integrations: function() {
+        return Elements.find({ pageId: this._id, type: 'integration' }, { sort: { number: 1 } });
+    },
+    testimonials: function() {
+        return Elements.find({ pageId: this._id, type: 'testimonial' }, { sort: { number: 1 } });
     }
 
 });
@@ -26,6 +32,39 @@ Template.pageEditSaas.events({
 
         if (Session.get('elementPicture')) {
             element.pictureId = Session.get('elementPicture');
+        }
+
+        Meteor.call('createElement', element);
+
+    },
+    'click #add-testimonial': function() {
+
+        var element = {
+            type: 'testimonial',
+            name: $('#testimonial-name').val(),
+            company: $('#testimonial-company').val(),
+            content: $('#testimonial-content').summernote('code'),
+            pageId: this._id,
+            userId: Meteor.user()._id
+        }
+
+        if (Session.get('testimonialPicture')) {
+            element.pictureId = Session.get('testimonialPicture');
+        }
+
+        Meteor.call('createElement', element);
+
+    },
+    'click #add-integration': function() {
+
+        var element = {
+            type: 'integration',
+            pageId: this._id,
+            userId: Meteor.user()._id
+        }
+
+        if (Session.get('integrationPicture')) {
+            element.pictureId = Session.get('integrationPicture');
         }
 
         Meteor.call('createElement', element);
@@ -61,17 +100,35 @@ Template.pageEditSaas.events({
         page.header.link = $('#header-link').val();
         page.header.text = $('#header-text').summernote('code');
 
-        if (this.header) {
-
-            if (this.header.image) {
-                page.header.image = this.header.image;
-            }
-
+        // Secondary button
+        if ($('#header-secondary-button').val() != "") {
+            page.header.secondaryButton = $('#header-secondary-button').val();
+            page.header.secondaryLink = $('#header-secondary-link').val();
         }
+
+        // if (this.header) {
+
+        //     if (this.header.image) {
+        //         page.header.image = this.header.image;
+        //     }
+
+        //     if (this.header.secondaryVideo) {
+        //         page.header.secondaryVideo = this.header.secondaryVideo;
+        //     }
+
+        // }
 
         if (Session.get('headerImage')) {
             page.header.image = Session.get('headerImage');
         }
+
+        if (Session.get('secondaryVideo')) {
+            page.header.secondaryVideo = Session.get('secondaryVideo');
+        }
+
+        // Integrations
+        page.integrations = {};
+        page.integrations.title = $('#integrations-row-title').val();
 
         // Message
         page.message = {};
@@ -83,10 +140,12 @@ Template.pageEditSaas.events({
         page.features = {};
         page.features.title = $('#feature-row-title').val();
 
+        // Testimonials
+        page.testimonials = {};
+        page.testimonials.title = $('#testimonials-row-title').val();
+
         // Save
-        Meteor.call('editPage', page, function(err, data) {
-            Session.set('headerImage', null);
-        });
+        Meteor.call('editPage', page);
 
     }
 
@@ -112,6 +171,10 @@ Template.pageEditSaas.onRendered(function() {
     }
 
     $('#element-content').summernote({
+        minHeight: 150 // set editor height
+    });
+
+    $('#testimonial-content').summernote({
         minHeight: 150 // set editor height
     });
 

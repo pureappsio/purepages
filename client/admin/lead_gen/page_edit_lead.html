@@ -24,10 +24,16 @@
     </div>
     <h3>Theme</h3>
     <div class='row voffset15'>
-        <div class='col-md-2'>
+        <div class='col-md-3'>
             <select class='form-control' id='theme'>
                 <option value='file'>File Giveaway</option>
                 <option value='video'>Video Giveaway</option>
+            </select>
+        </div>
+        <div class='col-md-3'>
+            <select class='form-control' id='optin'>
+                <option value='onestep'>One Step Opt-in</option>
+                <option value='twostep'>Two Step Opt-in</option>
             </select>
         </div>
     </div>
@@ -35,14 +41,20 @@
     <h3>Top Header Row</h3>
     <div class='row voffset15'>
         <div class='col-md-2'>Title:</div>
-        <div class='col-md-3'>
+        <div class='col-md-4'>
             <input id='header-title' type='text' class='form-control' value='{{header.title}}'>
         </div>
     </div>
     <div class='row voffset15'>
         <div class='col-md-2'>Subtitle:</div>
-        <div class='col-md-3'>
+        <div class='col-md-4'>
             <input id='header-subtitle' type='text' class='form-control' value='{{header.subtitle}}'>
+        </div>
+    </div>
+     <div class='row voffset15'>
+        <div class='col-md-2'>Text:</div>
+        <div class='col-md-4'>
+            <input id='header-text' type='text' class='form-control' value='{{header.text}}'>
         </div>
     </div>
     <h3>Main Row</h3>

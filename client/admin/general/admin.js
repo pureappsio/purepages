@@ -38,6 +38,11 @@ Template.admin.rendered = function() {
 
 Template.admin.events({
 
+    'click #convert-sessions': function() {
+
+        Meteor.call('convertSessions');
+
+    },
     'click #copy-page': function() {
 
         // Insert Metas

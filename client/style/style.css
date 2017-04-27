@@ -34,6 +34,18 @@
     color: blue;
 }
 
+.fa-stats {
+    padding-top: 3px;
+    color: gray;
+    cursor: pointer;
+    margin-right: 30px;
+    vertical-align: middle;
+}
+
+.fa-stats:hover {
+    color: orange;
+}
+
 .voffset30 {
 	margin-top: 30px;
 }
@@ -189,4 +201,13 @@ body {
 	font-size: 26px;
 	font-weight: bold;
 	margin-bottom: 10px;
+}
+
+.col-center {
+	text-align: center;
+}
+
+.conversion-title {
+	text-align: center;
+	font-size: 46px;
 }
