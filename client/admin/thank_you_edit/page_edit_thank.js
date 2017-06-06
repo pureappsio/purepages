@@ -30,6 +30,29 @@ Template.pageEditThankYou.events({
         page.header.title = $('#header-title').val();
         page.header.subtitle = $('#header-subtitle').val();
 
+        // Video
+        if (this.videoId) {
+            page.videoId = this.videoId;
+        }
+        if (Session.get('video')) {
+            page.videoId = Session.get('video');
+        }
+
+        // Button one
+        if ($('#button-text').val() != "") {
+            page.button = {};
+            page.button.text = $('#button-text').val();
+            page.button.link = $('#button-link').val();
+            page.button.color = $('#button-color :selected').val();
+        }
+
+        if ($('#button-two-text').val() != "") {
+            page.buttonTwo = {};
+            page.buttonTwo.text = $('#button-two-text').val();
+            page.buttonTwo.link = $('#button-two-link').val();
+            page.buttonTwo.color = $('#button-two-color :selected').val();
+        }
+
         // Save
         Meteor.call('editPage', page);
 

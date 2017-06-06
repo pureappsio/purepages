@@ -1,25 +1,5 @@
 Template.pageEditTripwire.helpers({
 
-    // image: function() {
-    //     if (this.main) {
-    //         if (this.main.image) {
-    //             return true;
-    //         } else {
-    //             return false;
-    //         }
-    //     } else {
-    //         return false;
-    //     }
-
-    // },
-    // imageLink: function() {
-    //     if (this.main) {
-    //         if (this.main.image) {
-    //             return Images.findOne(this.main.image).link();
-    //         }
-    //     }
-
-    // },
     brands: function() {
         return Brands.find({});
     },
@@ -31,6 +11,11 @@ Template.pageEditTripwire.helpers({
 
 Template.pageEditTripwire.events({
 
+    'click #remove-video': function(){
+
+        Meteor.call('removeTripwireVideo', this._id);
+
+    },
     'change #brand-id, click #page-type': function() {
 
         // Get selection
@@ -118,9 +103,21 @@ Template.pageEditTripwire.events({
         page.header = {};
         page.header.title = $('#header-title').val();
 
+        if (this.header) {
+            if (this.header.video) {
+            page.header.video = this.header.video;
+        }
+        }
+        
+
+        if (Session.get('video')) {
+            page.header.video = Session.get('video');
+        }
+
         // Main
         page.main = {};
         page.main.title = $('#main-title').val();
+        page.main.subtitle = $('#main-subtitle').val();
         page.main.text = $('#main-text').summernote('code');
 
         // What
@@ -162,7 +159,10 @@ Template.pageEditTripwire.events({
         }
 
         // Save
-        Meteor.call('editPage', page);
+        Meteor.call('editPage', page, function() {
+            Session.set('video', false);
+            Session.set('fileId', false);
+        });
 
     }
 
@@ -200,6 +200,7 @@ Template.pageEditTripwire.onRendered(function() {
 
     // Set session to false
     Session.set('fileId', false);
+    Session.set('video', false);
 
     // Init editor
     $('#main-text').summernote({

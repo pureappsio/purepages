@@ -23,11 +23,26 @@
             <input id='header-title' type='text' class='form-control' value='{{header.title}}'>
         </div>
     </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Top video:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="video"}}
+        </div>
+        <div class='col-md-3'>
+             <button id='remove-video' class='btn btn-danger btn-block'>Remove Video</button>
+        </div>
+    </div>
     <h3>Main Row</h3>
     <div class='row voffset15'>
         <div class='col-md-2'>Title:</div>
         <div class='col-md-3'>
             <input id='main-title' type='text' class='form-control' value='{{main.title}}'>
+        </div>
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Subtitle:</div>
+        <div class='col-md-3'>
+            <input id='main-subtitle' type='text' class='form-control' value='{{main.subtitle}}'>
         </div>
     </div>
     <div class='row voffset15'>
@@ -125,7 +140,7 @@
             <input id='bottom-text' type='text' class='form-control' value='{{bottom.text}}'>
         </div>
     </div>
-
+  
     <div class='row voffset30'>
         <div class='col-md-3'>
             <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>

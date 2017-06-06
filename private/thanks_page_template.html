@@ -12,3 +12,36 @@
         <div class='thanks-top-row-subtitle'>{{header.subtitle}}</div>
     </div>
 </div>
+<!-- Video row -->
+{{#if videoId}}
+<div class='row thanks-video-row'>
+    <div class='col-md-3'></div>
+    <div class='col-md-6'>
+        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" preload="auto" controls autoplay="autoplay" data-setup="{}">
+            <source src="{{videoLink}}" type="video/mp4">
+        </video>
+    </div>
+</div>
+{{/if}}
+
+<!-- Button -->
+{{#if oneButton}}
+<div class='row thanks-row'>
+    <div class='col-md-4'></div>
+    <div class='col-md-4'>
+        <a href='{{button.link}}' class='action btn btn-lg btn-{{button.color}} btn-block'>{{button.text}}</a>
+    </div>
+</div>
+{{/if}}
+
+{{#if twoButtons}}
+<div class='row thanks-row'>
+    <div class='col-md-3'></div>
+    <div class='col-md-3'>
+        <a href='{{button.link}}' class='action btn btn-lg btn-{{button.color}} btn-block'>{{button.text}}</a>
+    </div>
+      <div class='col-md-3'>
+        <a href='{{buttonTwo.link}}' class='action btn btn-lg btn-{{buttonTwo.color}} btn-block'>{{buttonTwo.text}}</a>
+    </div>
+</div>
+{{/if}}

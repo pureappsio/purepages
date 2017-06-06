@@ -54,7 +54,7 @@
                     <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="action btn btn-block btn-warning btn-lg">
                 </div>
                 <input name="list" type="hidden" value="{{listId}}" />
-                <input name="origin" type="hidden" value="{{origin}}" />
+                <input name="origin" type="hidden" value="organic" />
                 <input name="sequence" type="hidden" value="{{sequenceId}}" /> {{#each tag in tags}}
                 <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
             </form>
@@ -122,7 +122,7 @@
                     <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="action btn btn-block btn-warning btn-lg">
                 </div>
                 <input name="list" type="hidden" value="{{listId}}" />
-                <input name="origin" type="hidden" value="{{origin}}" />
+                <input id='origin' name="origin" type="hidden" value="organic" />
                 <input name="sequence" type="hidden" value="{{sequenceId}}" /> {{#each tag in tags}}
                 <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
             </form>
@@ -157,7 +157,7 @@
                         <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="action btn btn-block btn-warning btn-lg">
                     </div>
                     <input name="list" type="hidden" value="{{listId}}" />
-                    <input name="origin" type="hidden" value="{{origin}}" />
+                    <input id='origin' name="origin" type="hidden" value="organic" />
                     <input name="sequence" type="hidden" value="{{sequenceId}}" /> {{#each tag in tags}}
                     <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
                 </form>

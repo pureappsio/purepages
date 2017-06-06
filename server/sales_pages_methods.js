@@ -1,10 +1,59 @@
+import Images from '../imports/api/files';
+
 Meteor.methods({
 
+    calculateSalesPrice: function(productData, discount, currency) {
+
+        if (currency == 'USD') {
+            var price = parseFloat(productData.price.USD);
+        } else {
+            var price = parseFloat(productData.price.EUR);
+        }
+
+        if (discount.type == 'amount') {
+            price = price - parseInt(discount.amount);
+        } else {
+            price = price * (1 - parseInt(discount.amount) / 100);
+        }
+
+        if (currency == 'USD') {
+            price = '$' + price.toFixed(2);
+        } else {
+            price = price.toFixed(2) + ' €';
+        }
+
+        return price;
+
+    },
+    calculateBasePrice: function(productData, discount, currency) {
+
+        if (discount.useDiscount == false) {
+            if (productData.basePrice) {
+                var price = parseFloat(productData.basePrice[currency]);
+            }
+            else {
+                var price = parseFloat(productData.price[currency]);
+            }
+        }
+        else {
+            var price = parseFloat(productData.price[currency]);
+        }
+
+        if (currency == 'USD') {
+            price = '$' + price.toFixed(2);
+        } else {
+            price = price.toFixed(2) + ' €';
+        }
+
+        return price;
+
+    },
     getDiscountData: function(page, query) {
 
         discount = {
             useDiscount: false,
-            amount: 0
+            amount: 0,
+            type: 'percent'
         };
 
         var brand = Brands.findOne(page.brandId);
@@ -64,7 +113,7 @@ Meteor.methods({
                 // Discount
                 discount.useDiscount = true;
                 discount.amount = verifiedDiscount.amount;
-                discount.type = 'percent';
+                discount.type = verifiedDiscount.type;
                 discount.code = query.discount;
 
                 // Check expiry date

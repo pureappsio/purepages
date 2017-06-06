@@ -6,24 +6,42 @@
     </div>
 </div>
 <!-- Top heading row -->
+{{#if header.title}}
 <div class='row tripwire-top-row'>
     <div class='col-md-1'></div>
     <div class='col-md-10'>
         <div class='tripwire-top-row-title'>{{header.title}}</div>
     </div>
 </div>
+{{/if}}
+<!-- Video row -->
+{{#if videoLink}}
+<div class='row tripwire-video-row'>
+    <div class='col-md-3'></div>
+    <div class='col-md-6'>
+        <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" preload="auto" controls autoplay="autoplay" data-setup="{}">
+            <source src="{{videoLink}}" type="video/mp4">
+        </video>
+        <!--    <video src="{{videoLink}}" width="100%" type="video/mp4" preload="auto" controls autoplay="autoplay"></video> -->
+    </div>
+</div>
+{{/if}}
 <!-- Main row -->
 <div class='row tripwire-row tripwire-main-row'>
     <div class='col-md-1'></div>
     <div class='col-md-3'>
-        <img class='img-fluid img-border' src='{{mainImageLink}}'>
+        <div class="img-border">
+            <img class='img-fluid' src='{{mainImageLink}}'>
+            <div class='tripwire-img-title'>{{main.title}}</div>
+            <div class='tripwire-img-subtitle'>{{main.subtitle}}</div>
+        </div>
     </div>
     <div class='col-md-7 tripwire-main-column'>
         <div class='tripwire-main-title'>Introducing</div>
         <div class='tripwire-main-title'>{{main.title}}</div>
         <div class='tripwire-main-text'>{{{main.text}}}</div>
         <div class='tripwire-button-container'>
-           <a href="{{checkoutLink}}" id='purchase' class='action btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
+            <a href="{{checkoutLink}}" id='purchase' class='action btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
         </div>
     </div>
 </div>
@@ -37,7 +55,7 @@
         <div class='tripwire-what-element-text'>{{element.content}}</div>
         {{/each}}
         <div class='tripwire-button-container'>
-           <a href="{{checkoutLink}}" id='purchase' class='btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
+            <a href="{{checkoutLink}}" id='purchase' class='btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
         </div>
     </div>
 </div>

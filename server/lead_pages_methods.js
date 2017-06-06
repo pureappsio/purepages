@@ -1,3 +1,5 @@
+import Images from '../imports/api/files';
+
 Meteor.methods({
 
     getLeadPageData: function(page, query) {
@@ -10,6 +12,7 @@ Meteor.methods({
 
         // Helpers
         helpers = {
+            
             emailAppUrl: function() {
                 return Integrations.findOne({type: 'puremail'}).url;
             },
@@ -57,13 +60,6 @@ Meteor.methods({
             videoLink: function() {
                 if (page.video) {
                     return Images.findOne(page.video).link();
-                }
-            },
-            origin: function() {
-                if (query.origin) {
-                    return query.origin;
-                } else {
-                    return 'organic';
                 }
             },
             meteorURL: function() {

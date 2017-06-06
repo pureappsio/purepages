@@ -21,6 +21,62 @@
             <input id='header-subtitle' type='text' class='form-control' value='{{header.subtitle}}'>
         </div>
     </div>
+    <h3>Optional Video</h3>
+    <div class='row voffset15'>
+        <div class='col-md-2'>Video:</div>
+        <div class='col-md-3'>
+            {{> uploadForm imageId="video"}}
+        </div>
+    </div>
+    <h3>Optional Button(s)</h3>
+    <div class='row voffset15'>
+        <div class='col-md-3'>
+            <label>Button Text</label>
+            <input id='button-text' type='text' class='form-control' value='{{button.text}}'>
+        </div>
+        <div class='col-md-3'>
+            <label>Button Link</label>
+            <input id='button-link' type='text' class='form-control' value='{{button.link}}'>
+        </div>
+        <div class='col-md-3'>
+            <label>Button Color</label>
+            <select id='button-color' type='text' class='form-control'>
+                <option value="primary">Blue</option>
+                <option value="danger">Red</option>
+                <option value="warning">Yellow</option>
+                <option value="success">Green</option>
+                <option value="secondary">Transparent</option>
+            </select>
+        </div>
+        <!--   <div class='col-md-1'>
+            <label>Add Button</label>
+           <button id='add-button' class='btn btn-primary btn-block'>+</button>
+        </div> -->
+    </div>
+    <div class='row voffset15'>
+        <div class='col-md-3'>
+            <label>Button Text</label>
+            <input id='button-two-text' type='text' class='form-control' value='{{buttonTwo.text}}'>
+        </div>
+        <div class='col-md-3'>
+            <label>Button Link</label>
+            <input id='button-two-link' type='text' class='form-control' value='{{buttonTwo.link}}'>
+        </div>
+        <div class='col-md-3'>
+            <label>Button Color</label>
+            <select id='button-two-color' type='text' class='form-control'>
+                <option value="primary">Blue</option>
+                <option value="danger">Red</option>
+                <option value="warning">Yellow</option>
+                <option value="success">Green</option>
+                <option value="secondary">Transparent</option>
+            </select>
+        </div>
+        <!--   <div class='col-md-1'>
+            <label>Add Button</label>
+           <button id='add-button' class='btn btn-primary btn-block'>+</button>
+        </div> -->
+    </div>
     <div class='row voffset30'>
         <div class='col-md-3'>
             <button id='save-page' class='btn btn-primary btn-block btn-lg'>Save Changes</button>

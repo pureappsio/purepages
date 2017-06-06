@@ -1,3 +1,5 @@
+import Images from '../imports/api/files';
+
 Meteor.publish("userPages", function() {
     return Pages.find({});
 });

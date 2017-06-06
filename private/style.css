@@ -1,11 +1,19 @@
 /* CSS declarations go here */
 
+.thanks-video-row {
+    margin-top: 25px;
+}
+
 .voffset30 {
     margin-top: 30px;
 }
 
 .btn {
     cursor: pointer;
+}
+
+.btn-red {
+    background-color: red !important;
 }
 
 #brand-edit {
@@ -189,6 +197,10 @@ a:active {
 }
 
 .thanks-top-row {
+    margin-top: 25px;
+}
+
+.thanks-row {
     margin-top: 25px;
 }
 

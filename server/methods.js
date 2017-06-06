@@ -1,12 +1,22 @@
+import Images from '../imports/api/files';
+
 Meteor.methods({
 
+    removeTripwireVideo: function(pageId) {
+
+        Pages.update(pageId, { $unset: { 'header.video': "" } });
+        Pages.update(pageId, { $set: { cached: false } });
+
+        console.log(Pages.findOne(pageId));
+
+    },
     convertSessions: function() {
 
         var sessions = Sessions.find({}).fetch();
 
         for (i in sessions) {
             var newDate = new Date(sessions[i].date);
-            Sessions.update(sessions[i]._id, {$set: {date: newDate}});
+            Sessions.update(sessions[i]._id, { $set: { date: newDate } });
             console.log(Sessions.findOne(sessions[i]._id));
         }
 
@@ -559,6 +569,7 @@ Meteor.methods({
 
         // Get product data
         var url = "https://" + integration.url + "/api/products/" + page.productId + "?key=" + integration.key;
+        url += '&variants=true';
 
         try {
             var answer = HTTP.get(url);
@@ -644,9 +655,9 @@ Meteor.methods({
 
         console.log(page);
 
+        // Update
         Pages.update(page._id, page);
-
-        Meteor.call('flushCache');
+        Pages.update(page._id, { $set: { cached: false } });
 
     },
     createPage: function(page) {

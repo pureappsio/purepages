@@ -1,75 +1,5 @@
 <div class='row sales-main-bg'>
     <div class='col-md-12'>
-        <!-- Timer -->
-        {{#if timerActive}}
-        <div class='row timer-row'>
-            <div class='col-md-2'></div>
-            <div class='col-md-8'>
-                <div class='timer-text'>{{timer.text}}</div>
-                <div id="clockdiv">
-                    <div>
-                        <span class="days"></span>
-                        <div class="smalltext">{{#if langEN}}Days{{else}}Jours{{/if}}</div>
-                    </div>
-                    <div>
-                        <span class="hours"></span>
-                        <div class="smalltext">{{#if langEN}}Hours{{else}}Heures{{/if}}</div>
-                    </div>
-                    <div>
-                        <span class="minutes"></span>
-                        <div class="smalltext">Minutes</div>
-                    </div>
-                    <div>
-                        <span class="seconds"></span>
-                        <div class="smalltext">{{#if langEN}}Seconds{{else}}Secondes{{/if}}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-        function getTimeRemaining(endtime) {
-            var t = Date.parse(endtime) - Date.parse(new Date());
-            var seconds = Math.floor((t / 1000) % 60);
-            var minutes = Math.floor((t / 1000 / 60) % 60);
-            var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-            var days = Math.floor(t / (1000 * 60 * 60 * 24));
-            return {
-                'total': t,
-                'days': days,
-                'hours': hours,
-                'minutes': minutes,
-                'seconds': seconds
-            };
-        }
-
-        function initializeClock(id, endtime) {
-            var clock = document.getElementById(id);
-            var daysSpan = clock.querySelector('.days');
-            var hoursSpan = clock.querySelector('.hours');
-            var minutesSpan = clock.querySelector('.minutes');
-            var secondsSpan = clock.querySelector('.seconds');
-
-            function updateClock() {
-                var t = getTimeRemaining(endtime);
-
-                daysSpan.innerHTML = t.days;
-                hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-                minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-                secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-                // if (t.total < 0) {
-                //   clearInterval(timeinterval);
-                // }
-            }
-
-            updateClock();
-            var timeinterval = setInterval(updateClock, 1000);
-        }
-
-        var deadline = new Date('{{timerEnd}}');
-        initializeClock('clockdiv', deadline);
-        </script>
-        {{/if}}
         <!-- Main logo -->
         <div class='row sales-logo-row'>
             <div class='col-md-1'></div>
@@ -252,7 +182,7 @@
                 <div class='row'>
                     <div class='col-md-{{#if langEN}}4{{else}}3{{/if}}'></div>
                     <div class='col-md-{{#if langEN}}4{{else}}6{{/if}}'>
-                        <a href='{{checkoutLink}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
+                        <a href='{{checkoutLink}}'>
                             <div class='action checkout-middle' id='checkout'>{{paymentButtonText}}</div>
                         </a>
                     </div>
@@ -299,14 +229,8 @@
                 <div class='sales-section-content'>
                     <div>{{{started.text}}}</div>
                     <div class='sales-price-display'>
-                        {{#if isDiscounted}}
-                        <div class='base-sale-price'>
-                            {{baseSalesPrice}}
-                        </div>
-                        {{/if}}
-                        <div class='{{#if isDiscounted}}reduced-price{{/if}}'>
-                            {{salesPrice}}
-                        </div>
+                        <div id='middle-base-sales-price' class='base-sale-price'></div>
+                        <div id='middle-sales-price'></div>
                     </div>
                 </div>
             </div>
@@ -345,12 +269,14 @@
                             <div class='sales-container'>
                                 <div class='sales-product-name'>{{variant.name}}</div>
                                 <div class='sales-price'>
-                                    {{#if isDiscounted}}
+                                    <!-- {{#if isDiscounted}}
                                     <div class='base-sale-price'>
                                         {{variantBasePrice variant}}
                                     </div>
                                     {{/if}}
-                                    <div class='{{#if isDiscounted}}reduced-price{{/if}}'>{{variantSalesPrice variant}}</div>
+                                    <div class='{{#if isDiscounted}}reduced-price{{/if}}'>{{variantSalesPrice variant}}</div> -->
+                                    <div class='variant-base-price base-sale-price'></div>
+                                    <div class='variant-sales-price'></div>
                                 </div>
                                 {{#each salesElement in variant.includedSalesElements}}
                                 <div class='payment-element-included'>
@@ -373,12 +299,8 @@
                             <div class='sales-container'>
                                 <div class='sales-product-name'>{{variant.name}}</div>
                                 <div class='sales-price'>
-                                    {{#if isDiscounted}}
-                                    <div class='base-sale-price'>
-                                        {{variantBasePrice variant}}
-                                    </div>
-                                    {{/if}}
-                                    <div class='{{#if isDiscounted}}reduced-price{{/if}}'>{{variantSalesPrice variant}}</div>
+                                    <div class='variant-base-price base-sale-price'></div>
+                                    <div class='variant-sales-price'></div>
                                 </div>
                                 {{#each salesElement in variant.includedSalesElements}}
                                 <div class='payment-element-included'>
@@ -389,7 +311,7 @@
                                     <i class="fa fa-times glyphicon-excluded glyphicon-sales" aria-hidden="true"></i>
                                     <span class='payment-element-content'>{{salesElement.value}}</span>
                                 </div> {{/each}}
-                                <a href='{{variantCheckoutLink variant}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
+                                <a href='{{variantCheckoutLink variant}}'>
                                     <div class='action checkout-end' id='checkout'>
                                         {{paymentButtonText}}
                                     </div>
@@ -402,16 +324,12 @@
                             <div class='sales-container sales-container-no-variant'>
                                 <div class='sales-product-name'>{{productName}}</div>
                                 <div class='sales-price'>
-                                    {{#if isDiscounted}}
-                                    <div class='base-sale-price'>
-                                        {{baseSalesPrice}}
-                                    </div>
-                                    {{/if}}
-                                    <div class='{{#if isDiscounted}}reduced-price{{/if}}'>{{salesPrice}}</div>
+                                    <div id='bottom-base-sales-price' class='base-sale-price'></div>
+                                    <div id='bottom-sales-price'></div>
                                 </div>
                                 {{#each paymentElements}}
                                 <div class='payment-element'>{{content}}</div> {{/each}}
-                                <a href='{{checkoutLink}}{{#if isAffiliateLink}}{{affiliateLink}}{{/if}}'>
+                                <a href='{{checkoutLink}}'>
                                     <div class='action checkout-end' id='checkout'>
                                         {{paymentButtonText}}
                                     </div>

@@ -1,3 +1,6 @@
+var cheerio = Npm.require("cheerio");
+import Images from '../imports/api/files';
+
 Meteor.methods({
 
     flushCache: function() {
@@ -95,11 +98,85 @@ Meteor.methods({
         return headerHtml;
 
     },
+    renderTimer: function(page, query) {
 
-    returnCachedPage: function(page) {
+        // Set timer & discount
+        var timer = Meteor.call('getTimerData', page, query);
+        var discount = Meteor.call('getDiscountData', page, query);
+
+        // Act according to timer
+        if (timer.timerExpired == true) {
+
+            console.log('Timer expired');
+
+            // Reload page
+            var page = Pages.findOne(page.timer.page);
+
+            // Compile
+            SSR.compileTemplate('pageTemplate',
+                Assets.getText('course_closed_template.html'));
+
+            // Helpers
+            helpers = {
+                brandPicture: function() {
+
+                    var brand = Brands.findOne(page.brandId);
+                    return Images.findOne(brand.image).link();
+                }
+            }
+
+            Template.pageTemplate.helpers(helpers);
+
+            return SSR.render('pageTemplate', page);
+
+        } else if (timer.useTimer) {
+
+            // Compile
+            SSR.compileTemplate('pageTemplate',
+                Assets.getText('timer_template.html'));
+
+            helpers = {
+                timerActive: function() {
+                    if (timer.useTimer) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                timerEnd: function() {
+                    return timer.expiryDate;
+                },
+                langEN: function() {
+
+                    var brand = Brands.findOne(page.brandId);
+
+                    if (brand.language) {
+                        if (brand.language == 'fr') {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        return true;
+                    }
+                }
+            }
+
+            Template.pageTemplate.helpers(helpers);
+
+            return SSR.render('pageTemplate', page) + page.html;
+
+        } else {
+            return page.html;
+        }
+
+    },
+    returnCachedPage: function(page, query) {
 
         // Get render
         console.log('Page cached, returning cached version');
+
+        var html = page.html;
 
         if (page.model == 'thankyou' || page.model == 'tripwire') {
 
@@ -110,7 +187,9 @@ Meteor.methods({
                 pageTitle: page.name,
                 pageId: page._id
             });
+
         }
+
         if (page.model == 'salespage' || page.model == 'leadgen' || page.model == 'closed') {
 
             // Render header
@@ -121,10 +200,18 @@ Meteor.methods({
             });
         }
 
-        return headerHtml + "<body>" + "<div class='container-fluid main-container'>" + page.html + "</div>" + "</body>";
+        // Timer
+        if (page.model == 'salespage') {
+            html = Meteor.call('renderTimer', page, query);
+        }
+
+        // Process
+        var html = Meteor.call('processRendered', html, page, query);
+        Pages.update(page._id, { $set: { liveHtml: html } });
+
+        return headerHtml + "<body>" + "<div class='container-fluid main-container'>" + html + "</div>" + "</body>";
 
     },
-
     processPage: function(page, query) {
 
         // Get URL
@@ -175,9 +262,15 @@ Meteor.methods({
 
             // Helpers
             helpers = {
+
                 mainImageLink: function() {
                     if (page.main.image) {
                         return Images.findOne(page.main.image).link();
+                    }
+                },
+                videoLink: function() {
+                    if (page.header.video) {
+                        return Images.findOne(page.header.video).link();
                     }
                 },
                 messageImageLink: function() {
@@ -240,6 +333,26 @@ Meteor.methods({
 
             // Helpers
             helpers = {
+
+                oneButton: function() {
+
+                    if (page.button && !page.buttonTwo) {
+                        return true;
+                    }
+
+                },
+                twoButtons: function() {
+
+                    if (page.buttonTwo) {
+                        return true;
+                    }
+
+                },
+                videoLink: function() {
+                    if (page.videoId) {
+                        return Images.findOne(page.videoId).link();
+                    }
+                },
                 brandPicture: function() {
 
                     var brand = Brands.findOne(page.brandId);
@@ -350,6 +463,18 @@ Meteor.methods({
 
         if (page.model == 'salespage') {
 
+            // Get location
+            if (query.location) {
+                var location = query.location;
+            } else {
+                var location = 'US';
+            }
+            var usdLocations = Meteor.call('getUSDLocations');
+
+            // Set timer & discount
+            var timer = Meteor.call('getTimerData', page, query);
+            var discount = Meteor.call('getDiscountData', page, query);
+
             // Render header
             headerHtml = Meteor.call('renderHeader', {
                 brandId: page.brandId,
@@ -360,37 +485,15 @@ Meteor.methods({
 
             var brand = Brands.findOne(page.brandId);
 
-            // Set timer & discount
-            var timer = Meteor.call('getTimerData', page, query);
-            var discount = Meteor.call('getDiscountData', page, query);
+            // Compile
+            SSR.compileTemplate('pageTemplate',
+                Assets.getText('sales_page_template.html'));
 
-            // Act according to timer
-            if (timer.timerExpired == true) {
+            // Get product data
+            var productData = Meteor.call('getProductData', page._id);
 
-                console.log('Timer expired');
-
-                // Reload page
-                var page = Pages.findOne(page.timer.page);
-
-                // Compile
-                SSR.compileTemplate('pageTemplate',
-                    Assets.getText('course_closed_template.html'));
-
-            } else {
-
-                // Compile
-                SSR.compileTemplate('pageTemplate',
-                    Assets.getText('sales_page_template.html'));
-
-                // Get product data
-                var productData = Meteor.call('getProductData', page._id);
-
-                // Get variants
-                var variants = Meteor.call('getProductVariants', page._id);
-                // console.log('Variants: ');
-                // console.log(variants);
-
-            }
+            // Get variants
+            var variants = Meteor.call('getProductVariants', page._id);
 
             // Build salesElements
             if (variants.length > 0) {
@@ -431,19 +534,9 @@ Meteor.methods({
 
             }
 
-            console.log(variants);
-
             // Get brand data
             var brand = Brands.findOne(page.brandId);
             var brandLanguage = Meteor.call('getBrandLanguage', page.brandId);
-
-            // Get location
-            if (query.location) {
-                var location = query.location;
-            } else {
-                var location = 'US';
-            }
-            var usdLocations = Meteor.call('getUSDLocations');
 
             // Helpers
             helpers = {
@@ -460,32 +553,6 @@ Meteor.methods({
                     return modules;
 
                 },
-                variantBasePrice: function(variant) {
-
-                    if (usdLocations.indexOf(location) != -1) {
-                        var price = parseFloat(variant.price.USD);
-                        return '$' + price.toFixed(2);
-                    } else {
-                        var price = parseFloat(variant.price.EUR);
-                        return price.toFixed(2) + ' €';
-                    }
-
-                },
-                variantSalesPrice: function(variant) {
-
-                    if (usdLocations.indexOf(location) != -1) {
-                        var price = parseFloat(variant.price.USD);
-                        price = price * (1 - parseInt(discount.amount) / 100);
-
-                        return '$' + price.toFixed(2);
-                    } else {
-                        var price = parseFloat(variant.price.EUR);
-                        price = price * (1 - parseInt(discount.amount) / 100);
-
-                        return price.toFixed(2) + ' €';
-                    }
-
-                },
                 variants: function() {
 
                     return variants;
@@ -494,15 +561,6 @@ Meteor.methods({
                 variantCheckoutLink: function(variant) {
 
                     var link = 'https://' + Integrations.findOne(brand.cartId).url + '?variant=' + variant._id;
-
-                    if (discount.useDiscount == true) {
-                        link += '&discount=' + discount.code;
-                    }
-
-                    if (query.origin) {
-                        link += '&origin=' + query.origin;
-                    }
-
                     return link;
 
                 },
@@ -614,18 +672,6 @@ Meteor.methods({
 
                     var link = 'https://' + Integrations.findOne(brand.cartId).url + '?product_id=' + productData._id;
 
-                    if (discount.useDiscount == true) {
-                        link += '&discount=' + discount.code;
-                    }
-
-                    if (query.origin) {
-                        link += '&origin=' + query.origin;
-                    }
-
-                    if (query.medium) {
-                        link += '&medium=' + query.medium;
-                    }
-
                     return link;
 
                 },
@@ -635,66 +681,7 @@ Meteor.methods({
                 meteorURL: function() {
                     return absoluteURL;
                 },
-                timerActive: function() {
-                    if (timer.useTimer) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                },
-                timerEnd: function() {
-                    return timer.expiryDate;
-                },
-                isAffiliateLink: function() {
-                    if (query.ref) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                },
-                affiliateLink: function() {
-                    if (query.ref) {
-                        return '&ref=' + query.ref;
-                    } else {
-                        return '';
-                    }
-                },
-                salesPrice: function() {
 
-                    if (variants.length > 0) {
-                        var productPrice = variants[0].price;
-                    } else {
-                        var productPrice = productData.price;
-                    }
-
-                    if (usdLocations.indexOf(location) != -1) {
-                        var price = parseFloat(productPrice.USD);
-                        price = price * (1 - parseInt(discount.amount) / 100);
-
-                        return '$' + price.toFixed(2);
-                    } else {
-                        var price = parseFloat(productPrice.EUR);
-                        price = price * (1 - parseInt(discount.amount) / 100);
-
-                        return price.toFixed(2) + ' €';
-                    }
-                },
-                baseSalesPrice: function() {
-
-                    if (variants.length > 0) {
-                        var productPrice = variants[0].price;
-                    } else {
-                        var productPrice = productData.price;
-                    }
-
-                    if (usdLocations.indexOf(location) != -1) {
-                        var price = parseFloat(productPrice.USD);
-                        return '$' + price.toFixed(2);
-                    } else {
-                        var price = parseFloat(productPrice.EUR);
-                        return price.toFixed(2) + ' €';
-                    }
-                },
                 productName: function() {
                     return productData.name;
                 },
@@ -797,19 +784,26 @@ Meteor.methods({
         var html = SSR.render('pageTemplate', page);
 
         // Save if no affiliate code
-        if (!(query.ref) && !(query.origin) && !(query.subscriber) && !(query.discount)) {
-            console.log('Caching page');
-            Pages.update(page._id, { $set: { cached: true, html: html } })
-        } else {
-            console.log('Saving html');
-            Pages.update(page._id, { $set: { cached: false, html: html } })
+        console.log('Caching page');
+        Pages.update(page._id, { $set: { cached: true, html: html } })
+
+        // Timer
+        if (page.model == 'salespage') {
+            page.html = html;
+            html = Meteor.call('renderTimer', page, query);
         }
+
+        // Process
+        var html = Meteor.call('processRendered', html, page, query);
+        Pages.update(page._id, { $set: { liveHtml: html } });
 
         return headerHtml + "<body>" + "<div class='container-fluid main-container'>" + html + "</div>" + "</body>";
 
 
     },
     renderPage: function(postUrl, query) {
+
+        var startDate = new Date();
 
         // Find post or page
         if (Pages.findOne({ url: postUrl })) {
@@ -840,14 +834,20 @@ Meteor.methods({
 
             Meteor.call('insertSession', session);
 
-            // Check if cached
-            if (page.cached == true && !(query.location) && !(query.ref) && !(query.origin) && !(query.subscriber) && !(query.discount)) {
+            console.log(query);
 
-                return Meteor.call('returnCachedPage', page);
+            // Check if cached
+            if (page.cached == true) {
+
+                var result = Meteor.call('returnCachedPage', page, query);
 
             } else {
-                return Meteor.call('processPage', page, query);
+                var result = Meteor.call('processPage', page, query);
             }
+
+            var endDate = new Date();
+            console.log('Time to render page: ' + (endDate.getTime() - startDate.getTime()) + ' ms');
+            return result;
 
         } else {
 
