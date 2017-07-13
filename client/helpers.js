@@ -1,8 +1,8 @@
-Template.registerHelper("truncate", function (number) {
+Template.registerHelper("truncate", function(number) {
     return number.toFixed(0);
 });
 
-Template.registerHelper("truncateTwo", function (number) {
+Template.registerHelper("truncateTwo", function(number) {
     return number.toFixed(2);
 });
 
@@ -20,17 +20,15 @@ Template.registerHelper("truncateTwo", function (number) {
 //     }
 // });
 
-Template.registerHelper("isAdmin", function () {
-  if (Meteor.user()) {
-  	if (Meteor.user().emails[0].address == 'marcolivier.schwartz@gmail.com') {
-      return true;
-	}
-	else {
-	  return false;
-	}
-  } 
-  else {
-	  return false;
-	}
-  
+Template.registerHelper("isAdmin", function() {
+    if (Meteor.user()) {
+        if (Meteor.user().emails[0].address == 'marcolivier.schwartz@gmail.com') {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+
 });

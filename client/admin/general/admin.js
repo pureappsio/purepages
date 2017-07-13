@@ -5,6 +5,11 @@ Template.admin.rendered = function() {
         Session.set('view', 'brand');
     }
 
+    // All brands
+    if (!Session.get('view')) {
+        Session.set('brandSelected', 'all');
+    }
+
     // Init lists
     Meteor.call('getCartIntegrations', function(err, integrations) {
 
@@ -161,6 +166,9 @@ Template.admin.events({
     },
     'click #save-pixel': function() {
         Meteor.call('saveFacebookPixel', $('#pixel-id').val());
+    },
+    'change #brand-select': function() {
+        Session.set('brandSelected', $('#brand-select :selected').val());
     }
 
 });

@@ -22,7 +22,6 @@
         <video class='video-js vjs-big-play-centered vjs-16-9' width="100%" preload="auto" controls autoplay="autoplay" data-setup="{}">
             <source src="{{videoLink}}" type="video/mp4">
         </video>
-        <!--    <video src="{{videoLink}}" width="100%" type="video/mp4" preload="auto" controls autoplay="autoplay"></video> -->
     </div>
 </div>
 {{/if}}
@@ -41,7 +40,9 @@
         <div class='tripwire-main-title'>{{main.title}}</div>
         <div class='tripwire-main-text'>{{{main.text}}}</div>
         <div class='tripwire-button-container'>
-            <a href="{{checkoutLink}}" id='purchase' class='action btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
+            <a href="{{checkoutLink}}" id='purchase' class='action btn btn-warning'>Add to Cart - Just 
+            <span class='tripwire-sales-price'>{{salesPrice}}</span>
+            </a>
         </div>
     </div>
 </div>
@@ -55,7 +56,7 @@
         <div class='tripwire-what-element-text'>{{element.content}}</div>
         {{/each}}
         <div class='tripwire-button-container'>
-            <a href="{{checkoutLink}}" id='purchase' class='btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
+            <a href="{{checkoutLink}}" id='purchase' class='btn btn-warning'>Add to Cart - Just <span class='tripwire-sales-price'>{{salesPrice}}</span></a>
         </div>
     </div>
 </div>
@@ -100,7 +101,7 @@
     <div class='col-md-10'>
         <div class='tripwire-title tripwire-title-center'>{{bottom.text}}</div>
         <div class='tripwire-button-container'>
-            <a href="{{checkoutLink}}" id='purchase' class='action btn btn-warning'>Add to Cart - Just {{salesPrice}}</a>
+            <a href="{{checkoutLink}}" id='purchase' class='action btn btn-warning'>Add to Cart - Just <span class='tripwire-sales-price'>{{salesPrice}}</span></a>
         </div>
     </div>
 </div>

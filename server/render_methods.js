@@ -80,6 +80,7 @@ Meteor.methods({
         var css = Assets.getText('style.css');
         css += Assets.getText('sales_page.css');
         css += Assets.getText('tripwire_page.css');
+        css += Assets.getText('webinar_page.css');
 
         console.log('Rendering header');
 
@@ -190,7 +191,7 @@ Meteor.methods({
 
         }
 
-        if (page.model == 'salespage' || page.model == 'leadgen' || page.model == 'closed') {
+        if (page.model == 'salespage' || page.model == 'leadgen' || page.model == 'webinar' || page.model == 'closed') {
 
             // Render header
             headerHtml = Meteor.call('renderHeader', {
@@ -235,6 +236,25 @@ Meteor.methods({
 
             // Get helpers
             helpers = Meteor.call('getLeadPageData', page, query);
+
+        }
+
+        if (page.model == 'webinar') {
+
+            // Render header
+            headerHtml = Meteor.call('renderHeader', {
+                brandId: page.brandId,
+                pageTitle: page.name,
+                pageId: page._id,
+                query: query
+            });
+
+            // Compile
+            SSR.compileTemplate('pageTemplate',
+                Assets.getText('webinar_template.html'));
+
+            // Get helpers
+            helpers = Meteor.call('getWebinarPageData', page, query);
 
         }
 
@@ -331,8 +351,22 @@ Meteor.methods({
             SSR.compileTemplate('pageTemplate',
                 Assets.getText('thanks_page_template.html'));
 
+            // Get URL
+            var absoluteURL = Meteor.absoluteUrl();
+
             // Helpers
             helpers = {
+
+                // buttonOneLink: function() {
+
+                //     return page.button.link;
+
+                // },
+                // buttonTwoLink: function() {
+
+                //     return page.buttonTwo.link;
+
+                // },
 
                 oneButton: function() {
 
@@ -812,6 +846,8 @@ Meteor.methods({
 
             // Query
             var page = Pages.findOne({ url: postUrl });
+
+            console.log(page);
 
             // Session
             session = {

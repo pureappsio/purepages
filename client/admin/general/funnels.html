@@ -1,0 +1,17 @@
+<template name='funnels'>
+    <h3>Funnels</h3>
+    <div class='row'>
+        <div class='col-md-2'>
+            <input id='funnel-name' type='text' class='form-control' placeholder="Funnel name ...">
+        </div>
+        <div class='col-md-2'>
+            <select class='form-control' id='brand-id'>
+                {{#each brands}} {{> brandSelect}} {{/each}}
+            </select>
+        </div>
+        <div class='col-md-2'>
+            <button id='create-funnel' class='btn btn-block btn-primary'>Create Funnel</button>
+        </div>
+    </div>
+    {{#each funnels}} {{> funnelListing}} {{/each}}
+</template>

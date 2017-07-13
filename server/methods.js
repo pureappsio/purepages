@@ -2,6 +2,11 @@ import Images from '../imports/api/files';
 
 Meteor.methods({
 
+    autoUpdatePage: function(page) {
+
+        console.log(page);
+
+    },
     removeTripwireVideo: function(pageId) {
 
         Pages.update(pageId, { $unset: { 'header.video': "" } });
@@ -662,7 +667,7 @@ Meteor.methods({
     },
     createPage: function(page) {
 
-        Pages.insert(page);
+        Pages.insert(page, { validate: false });
 
     },
     removePage: function(pageId) {

@@ -6,64 +6,116 @@
     </div>
 </div>
 <!-- Top heading row -->
-<div class='row lead-gen-top-row'>
-    <div class='col-md-1'></div>
-    <div class='col-md-4'>
-        <div class='lead-gen-top-row-title'>{{header.title}}</div>
-        <div class='lead-gen-top-row-subtitle'>{{header.subtitle}}</div>
+<div class='row webinar-top-row'>
+    <div class='col-md-3'></div>
+    <div class='col-md-6'>
+        <div class="webinar-top-container">
+            <div class='webinar-header-title'>{{header.title}}</div>
+            <div class='webinar-header-headline'>{{header.headline}}</div>
+            <div class='webinar-header-subheadline'>{{header.subheadline}}</div>
+            <div>
+                <button data-toggle="modal" data-target="#myModal" class="reserve btn btn-lg btn-primary">RESERVE YOUR SEAT TODAY</button>
+            </div>
+            <div class='webinar-header-disclaimer'>{{header.disclaimer}}</div>
+        </div>
     </div>
-    <div class='col-md-2'></div>
-    <div class='col-md-3'><img class='img-fluid' src='/lead_gen_document.png'></div>
 </div>
 <!-- Middle row -->
-<div class='row lead-gen-middle-row'>
-    <div class='col-md-1'></div>
-    <div class='col-md-5'>
-        <div class="col-md-12">
-            <div class='lead-gen-middle-main-text'>
-                {{{main.text}}}
+<div class='row webinar-middle-row'>
+    <div class='col-md-2'></div>
+    <div class='col-md-8'>
+        <div class='row justify-content-center'>
+            <div class='col-md-4'>
+                <div class='row'>
+                    <div class='col-md-4'><img class='author-pic img-fluid ' src='/perso.jpg'></div>
+                    <div class='col-md-8'>
+                        <div class='webinar-middle-title '>{{author.name}}</div>
+                        <div class='webinar-middle-content '>{{author.description}}</div>
+                    </div>
+                </div>
             </div>
-            {{#each element in elements}}
-                <div class='lead-gen-featured-title'>{{element.title}}</div>
-                <div class='lead-gen-featured-text'>{{element.content}}</div>
+            <div class='col-md-4'>
+                <div class='row'>
+                    <div class='col-md-4'>
+                        <i class="fa fa-calendar webinar-icon" aria-hidden="true"></i>
+                    </div>
+                    <div class='col-md-8'>
+                        <div class='webinar-middle-title '>Multiple Time Slots!</div>
+                        <div class='webinar-middle-content '>Click the Button above to pick your time</div>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-4'>
+                <div class='row'>
+                    <div class='col-md-4'>
+                        <i class="fa fa-users webinar-icon" aria-hidden="true"></i>
+                    </div>
+                    <div class='col-md-8'>
+                        <div class='webinar-middle-title '>Limited Spots!</div>
+                        <div class='webinar-middle-content '>Reserve yours now</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main row -->
+<div class='row webinar-main-row '>
+    <div class='col-md-2 '></div>
+    <div class='col-md-8 '>
+        <div class='webinar-main-headline '>
+            {{{main.headline}}}
+        </div>
+        <div class='row justify-content-center '>
+            {{#each secret in main.secrets}}
+            <div class='col-md-4 '>
+                <div class='webinar-secret-title '>{{secret.title}}</div>
+                <div class='webinar-secret-content '>{{secret.content}}</div>
+            </div>
             {{/each}}
         </div>
-    </div>
-    <div class='col-md-5'>
-        <div class="col-md-12">
-            <div class='lead-gen-middle-question'>{{main.emailMessage}}</div>
-            <div class='lead-gen-middle-email'>
-                <input id='email' type='text' class='form-control' placeholder="Your email...">
-            </div>
-            <div class='lead-gen-middle-button'>
-                <button id='submit' class='btn btn-block btn-warning'>DOWNLOAD NOW</button>
-            </div>
-            <div class='lead-gen-middle-disclaimer'>I will never send you spam. Unsubscribe at any time.</div>
+        <div class='webinar-main-message '>
+            {{{main.message}}}
         </div>
-    </div>
-</div>
-<!-- Message row -->
-<div class='row lead-gen-message-row'>
-    <div class='col-md-1'></div>
-    <div class='col-md-2'>
-        <img class='img-fluid' src='{{imageLink}}'>
-    </div>
-    <div class='col-md-8'>
-        <div class="col-md-12 lead-gen-message-main">
-            <div>{{{message.message}}}</div>
-            <br>
-            <div>{{{message.signature}}}</div>
-        </div>
-    </div>
-</div>
-<!-- Last row -->
-<div class='row lead-gen-last-row'>
-    <div class='col-md-1'></div>
-    <div class='col-md-10'>
-        <div class='lead-gen-last-text'>{{bottom.message}}</div>
         <div>
-        <div class='lead-gen-last-button'>
-            <button id='download' class='btn btn-warning'>{{bottom.button}}</button>
+            <button data-toggle="modal" data-target="#myModal" class="reserve btn btn-lg btn-primary">RESERVE YOUR SEAT TODAY</button>
+        </div>
+    </div>
+</div>
+<!-- Signup Modal -->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form accept-charset="utf-8" action="https://{{emailAppUrl}}/subscribe" method="POST">
+                    <h4>Webinar Schedule</h4>
+                    <div class='row webinar-element'>
+                        <div class='col-md-12'>
+                            <select id='date' class="form-control input-lg">
+                                <option value="">Thursday</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h4>Your Details</h4>
+                    <div class='row webinar-element'>
+                        <div class='col-md-12'>
+                            <input id='name' name='name' type="text" class="form-control input-lg" placeholder="{{#if langEN}}Your name{{else}}Votre nom{{/if}} ...">
+                        </div>
+                    </div>
+                    <div class='row webinar-element'>
+                        <div class='col-md-12'>
+                            <input id='email' name='email' type="text" class="form-control input-lg" placeholder="{{#if langEN}}Your email{{else}}Votre email{{/if}} ...">
+                        </div>
+                    </div>
+                    <div class='lead-gen-middle-button'>
+                        <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="action btn btn-block btn-warning btn-lg">
+                    </div>
+                    <input name="list" type="hidden" value="{{listId}}" />
+                    <input id='origin' name="origin" type="hidden" value="organic" />
+                    <input name="sequence" type="hidden" value="{{sequenceId}}" /> {{#each tag in tags}}
+                    <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
+                </form>
+                <div class='lead-gen-middle-disclaimer'>{{#if langEN}}I will never send you spam. Unsubscribe at any time.{{else}}Je ne vous enverrai jamais de spam. Vous pouvez vous désincrire à tout moment.{{/if}}</div>
             </div>
         </div>
     </div>

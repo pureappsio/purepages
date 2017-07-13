@@ -9,10 +9,10 @@ Meteor.methods({
 
         // Get URL
         var absoluteURL = Meteor.absoluteUrl();
-
+        
         // Helpers
         helpers = {
-            
+
             emailAppUrl: function() {
                 return Integrations.findOne({type: 'puremail'}).url;
             },

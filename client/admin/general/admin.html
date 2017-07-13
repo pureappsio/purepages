@@ -5,6 +5,7 @@
         <nav aria-label="...">
             <ul class="pager">
                 <li><a class='section-selector' id="brand">Brands</a></li>
+                <li><a class='section-selector' id="funnels">Funnels</a></li>
                 <li><a class='section-selector' id="pages">Pages</a></li>
                 <li><a class='section-selector' id="integrations">Integrations</a></li>
             </ul>
@@ -36,8 +37,8 @@
                 <button id='flush-cache' class='btn btn-block btn-primary'>Flush Cache</button>
             </div>
         </div>
-        {{/if}} {{#if showSection 'pages'}}
-        <h3>Pages</h3>
+        {{/if}} {{#if showSection 'funnels'}} {{> funnels}} {{/if}} {{#if showSection 'pages'}}
+        <h3>Create New Page</h3>
         <div class='row'>
             <div class='col-md-2'>
                 <input class='form-control' id='page-name' placeholder="Page name ...">
@@ -58,6 +59,7 @@
                     <option value='thankyou'>Thank You Page</option>
                     <option value='tripwire'>Tripwire Page</option>
                     <option value='closed'>Course Closed Page</option>
+                    <option value='webinar'>Webinar</option>
                 </select>
             </div>
             <div class='col-md-2'>
@@ -69,6 +71,15 @@
             </div>
         </div>
         <div class='voffset30'></div>
+        <div class='row'>
+            <div class='col-md-2'>
+                <label>Filter Pages</label>
+                <select class='form-control' id='brand-select'>
+                    <option value="all">All Brands</option>
+                    {{#each brands}} {{> brandSelect}} {{/each}}
+                </select>
+            </div>
+        </div>
         {{#each brands}} {{> brandPageListing}} {{/each}}
         <h3>Copy Page</h3>
         <div class='row'>

@@ -1,5 +1,8 @@
 var cheerio = Npm.require("cheerio");
 import Images from '../imports/api/files';
+const qs = require('query-string');
+// var URL = require('url');
+var parse = require('url-parse');
 
 Meteor.methods({
 
@@ -20,20 +23,36 @@ Meteor.methods({
             // Link
             var link = $(elem)[0].attribs.href;
 
+            console.log(link);
+
+            // Decode query
+            var linkUrl = parse(link, true);
+            parsedQuery = linkUrl.query;
+
+            console.log(linkUrl);
+
             if (discount.useDiscount == true) {
-                link += '&discount=' + discount.code;
+                parsedQuery.discount = discount.code;
             }
 
             if (query.origin) {
-                link += '&origin=' + query.origin;
+                parsedQuery.origin = query.origin;
             }
 
             if (query.medium) {
-                link += '&medium=' + query.medium;
+                parsedQuery.medium = query.medium;
             }
 
             if (query.ref) {
-                link += '&ref=' + query.ref;
+                parsedQuery.ref = query.ref;
+            }
+
+            if (linkUrl.origin != 'null') {
+                if (_.isEmpty(parsedQuery)) {
+                    link = linkUrl.origin + linkUrl.pathname;
+                } else {
+                    link = linkUrl.origin + linkUrl.pathname + '?' + qs.stringify(parsedQuery);
+                }
             }
 
             $(elem)[0].attribs.href = link;
@@ -46,6 +65,46 @@ Meteor.methods({
             if (query.origin) {
                 $('#origin').val(query.origin);
             }
+
+        }
+
+        if (page.model == 'tripwire') {
+
+            // Get location
+            if (query.location) {
+                var location = query.location;
+            } else {
+                var location = 'US';
+            }
+            var usdLocations = Meteor.call('getUSDLocations');
+
+            // Get product data
+            var productData = Meteor.call('getProductData', page._id);
+            console.log(productData);
+
+            // Sales price
+            if (usdLocations.indexOf(location) != -1) {
+                price = Meteor.call('calculateSalesPrice', productData, discount, 'USD');
+            } else {
+                price = Meteor.call('calculateSalesPrice', productData, discount, 'EUR');
+            }
+
+            $('.tripwire-sales-price').text(price);
+
+            // if (usdLocations.indexOf(location) != -1) {
+            //     price = Meteor.call('calculateBasePrice', productData, discount, 'USD');
+            // } else {
+            //     price = Meteor.call('calculateBasePrice', productData, discount, 'EUR');
+            // }
+
+            console.log(price);
+
+            // // Apply discount
+            // if (discount.useDiscount || productData.basePrice) {
+            //     $('.tripwire-sales-price').addClass('reduced-price');
+            // } else {
+            //     $('.tripwire-base-sales-price').css("display", "none");
+            // }
 
         }
 

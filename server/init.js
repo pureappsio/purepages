@@ -5,7 +5,6 @@ Meteor.startup(function() {
     // Policy
     BrowserPolicy.framing.allowAll();
 
-
     Meteor.call('flushCache');
 
 });

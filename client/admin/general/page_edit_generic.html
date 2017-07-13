@@ -1,0 +1,14 @@
+<template name="pageEditGeneric">
+    <h2>Editing Page {{name}}</h2> 
+
+    {{#autoForm collection="Pages" doc=this id="updatePageForm" type="update" autosave=true}}
+    <fieldset>
+        {{> afQuickField name='name'}}
+        {{> afQuickField name='url'}}
+        {{> afQuickField name='brandId' type='select' options=brandOptions}}
+        {{> afQuickField name='header'}}
+        {{> afQuickField name='author'}}
+        {{> afQuickField name='main'}}
+    </fieldset>
+{{/autoForm}}
+</template>

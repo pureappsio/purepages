@@ -8,6 +8,10 @@ Meteor.publish("userElements", function() {
     return Elements.find({});
 });
 
+Meteor.publish("userFunnels", function() {
+    return Funnels.find({});
+});
+
 Meteor.publish("userCaches", function() {
     return Caches.find({});
 });

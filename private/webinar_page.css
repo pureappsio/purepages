@@ -1,0 +1,96 @@
+.webinar-top-container {
+    background-color: black;
+    opacity: 0.85;
+    color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    padding-left: 40px;
+    padding-right: 40px;
+    text-align: center;
+}
+
+.webinar-top-row {
+    background-color: #EEEEEE;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("/bg8.jpeg");
+}
+
+.webinar-main-row {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    text-align: center;
+}
+
+.webinar-middle-row {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: #F5F5F5;
+}
+
+.webinar-header-title {
+    color: lightgray;
+    margin-bottom: 15px;
+}
+
+.webinar-header-headline {
+    font-size: 36px;
+    margin-bottom: 25px;
+}
+
+.webinar-header-subheadline {
+    margin-bottom: 15px;
+}
+
+.webinar-header-disclaimer {
+    color: lightgray;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+.webinar-main-headline {
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+.author-pic {
+    border-radius: 50%;
+}
+
+.webinar-main-message {
+    font-size: 28px;
+    margin-bottom: 30px;
+    margin-top: 50px;
+}
+
+.webinar-secret-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-decoration: underline;
+}
+
+.webinar-secret-content {
+    font-size: 22px;
+}
+
+.webinar-middle-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.webinar-icon {
+    font-size: 100px !important;
+    color: #666666;
+}
+
+.webinar-element {
+     margin-top: 15px;
+    margin-bottom: 15px;
+}
