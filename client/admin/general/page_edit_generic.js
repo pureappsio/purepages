@@ -15,5 +15,29 @@ Template.pageEditGeneric.helpers({
 
         return brandOptions;
 
+    },
+    webinarOptions: function() {
+
+        return Session.get('webinarOptions');
+
     }
+});
+
+Template.pageEditGeneric.onRendered(function() {
+
+    Meteor.call('getWebinars', function(err, data) {
+
+        var webinarOptions = [];
+
+        for (i in data) {
+            webinarOptions.push({
+                value: data[i]._id,
+                label: data[i].name
+            });
+        }
+
+        Session.set('webinarOptions', webinarOptions);
+
+    });
+
 });

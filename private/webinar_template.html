@@ -92,8 +92,11 @@
                     <div class='row webinar-element'>
                         <div class='col-md-12'>
                             <select id='date' class="form-control input-lg">
-                                <option value="">Thursday</option>
+                                {{#each instance in instances}}
+                                <option value="{{instance._id}}">{{instance.date}}</option>
+                                {{/each}}
                             </select>
+                            <div class='timezone'>Timezone: {{timezone}}</div>
                         </div>
                     </div>
                     <h4>Your Details</h4>
@@ -108,14 +111,14 @@
                         </div>
                     </div>
                     <div class='lead-gen-middle-button'>
-                        <input id='submit' value="{{#if langEN}}DOWNLOAD NOW{{else}}TELECHARGER MAINTENANT{{/if}}" type="submit" class="action btn btn-block btn-warning btn-lg">
+                        <input id='register' value="{{#if langEN}}REGISTER NOW{{else}}S'INSCRIRE MAINTENANT{{/if}}" type="submit" class="action btn btn-block btn-primary btn-lg">
                     </div>
                     <input name="list" type="hidden" value="{{listId}}" />
                     <input id='origin' name="origin" type="hidden" value="organic" />
                     <input name="sequence" type="hidden" value="{{sequenceId}}" /> {{#each tag in tags}}
                     <input name="tag" type="hidden" value="{{tag}}" /> {{/each}}
                 </form>
-                <div class='lead-gen-middle-disclaimer'>{{#if langEN}}I will never send you spam. Unsubscribe at any time.{{else}}Je ne vous enverrai jamais de spam. Vous pouvez vous désincrire à tout moment.{{/if}}</div>
+                <div class='lead-gen-middle-disclaimer'>{{#if langEN}}Your details will be forwarded to the webinar organizer, who might communicate with you regarding this event or their services.{{else}}Your details will be forwarded to the webinar organizer, who might communicate with you regarding this event or their services.{{/if}}</div>
             </div>
         </div>
     </div>

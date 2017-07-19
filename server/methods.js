@@ -2,6 +2,25 @@ import Images from '../imports/api/files';
 
 Meteor.methods({
 
+    getTimezone: function(headers) {
+
+        // Find IP
+        if (headers['cf-connecting-ip']) {
+            ip = headers['cf-connecting-ip'];
+        } else {
+            ip = headers['x-forwarded-for'];
+        }
+
+        var answer = HTTP.get('http://ip-api.com/json/' + ip);
+        
+        if (answer.data.timezone) {
+            return answer.data.timezone;
+        }
+        else {
+            return 'Europe/Paris';
+        }
+ 
+    },
     autoUpdatePage: function(page) {
 
         console.log(page);
@@ -196,7 +215,7 @@ Meteor.methods({
             country_code = httpHeaders['cf-ipcountry'];
         } else {
             // console.log('Using direct IP location')
-            country_code = 'US';
+            country_code = 'FR';
         }
 
         return country_code;
@@ -558,6 +577,41 @@ Meteor.methods({
 
         } else {
             return [];
+        }
+
+    },
+    getWebinars: function() {
+
+        // Get integration
+        var integration = Integrations.findOne({ type: 'purewebinar' });
+
+        // Get product data
+        var url = "https://" + integration.url + "/api/webinars?key=" + integration.key;
+
+        try {
+            var answer = HTTP.get(url);
+            return answer.data.webinars;
+        } catch (e) {
+            console.log(e);
+            return {};
+        }
+
+    },
+    getWebinarInstances: function(webinarId) {
+
+        // Get integration
+        var integration = Integrations.findOne({ type: 'purewebinar' });
+
+        // Get product data
+        var url = "https://" + integration.url + "/api/instances?key=" + integration.key;
+        url += '&webinar=' + webinarId;
+
+        try {
+            var answer = HTTP.get(url);
+            return answer.data.instances;
+        } catch (e) {
+            console.log(e);
+            return {};
         }
 
     },

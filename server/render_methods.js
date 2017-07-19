@@ -213,7 +213,7 @@ Meteor.methods({
         return headerHtml + "<body>" + "<div class='container-fluid main-container'>" + html + "</div>" + "</body>";
 
     },
-    processPage: function(page, query) {
+    processPage: function(page, query, headers) {
 
         // Get URL
         var absoluteURL = Meteor.absoluteUrl();
@@ -254,7 +254,7 @@ Meteor.methods({
                 Assets.getText('webinar_template.html'));
 
             // Get helpers
-            helpers = Meteor.call('getWebinarPageData', page, query);
+            helpers = Meteor.call('getWebinarPageData', page, query, headers);
 
         }
 
@@ -835,7 +835,7 @@ Meteor.methods({
 
 
     },
-    renderPage: function(postUrl, query) {
+    renderPage: function(postUrl, query, headers) {
 
         var startDate = new Date();
 
@@ -873,12 +873,12 @@ Meteor.methods({
             console.log(query);
 
             // Check if cached
-            if (page.cached == true) {
+            if (page.cached == true && page.model != 'webinar') {
 
-                var result = Meteor.call('returnCachedPage', page, query);
+                var result = Meteor.call('returnCachedPage', page, query, headers);
 
             } else {
-                var result = Meteor.call('processPage', page, query);
+                var result = Meteor.call('processPage', page, query, headers);
             }
 
             var endDate = new Date();
